@@ -16,11 +16,25 @@ function BestPage(props) {
   const navigate = useNavigate();
 
   console.log(tg)
-  const data = JSON.stringify({ is_visible: true });
+  // const data = JSON.stringify({ is_visible: true });
 
-window
-  .TelegramWebviewProxy
-  .postEvent('web_app_setup_back_button', data);
+
+  const BackButton = tg.BackButton;
+  BackButton.show();
+  BackButton.onClick(function() {
+    tg.showAlert("Нет пути назад!");
+    BackButton.hide();
+  });
+  tg.onEvent('backButtonClicked', function() {
+    /* код */
+    console.log('@!#@#@#')
+  });
+
+// window
+//   .TelegramWebviewProxy
+//   .postEvent('web_app_setup_back_button', data);
+
+  
 
   const placeUser = [
     {

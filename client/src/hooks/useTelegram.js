@@ -11,7 +11,7 @@ const useTelegram = url => {
     if(tg.MainButton.isVisible) {
       tg.MainButton.hide();
     } else {
-      tg.MainButton.show();
+      tg.MainButton.show(); 
     }
   }
 
@@ -21,7 +21,7 @@ const useTelegram = url => {
     onToggleButton,
     tg,
     usertg: tg.initDataUnsafe?.user,
-    // queryId: tg.initDataUnsafe?.query_id,
+    queryId: tg.initDataUnsafe?.query_id,
   }
 
 };

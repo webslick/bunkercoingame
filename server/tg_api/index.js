@@ -362,6 +362,7 @@ console.log(msg)
                 }; 
 
                 console.log(result)
+                
                 // const reflink = generatePartnerLink(result.privateKey, result.subKey,result.user_id,result.user_id);
                 // console.log(reflink)
 
