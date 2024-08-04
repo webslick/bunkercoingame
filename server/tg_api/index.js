@@ -20,7 +20,7 @@ const TGAPI = {
   initialBotListner: botStart
 }
  
-const WebAppUrl = 'https://master--candid-granita-dc7078.netlify.app/'
+const WebAppUrl = 'https://candid-granita-dc7078.netlify.app'
 // const WebAppUrl = 'https://t.me/BitBunker_bot/bitbunkercoin?mode=compact'
 
 
