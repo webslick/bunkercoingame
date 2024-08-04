@@ -1,7 +1,7 @@
 import React from 'react'; 
 import Title from '../../components/Title'  
 import images from '../../assets/images'
-import { Link, useNavigate, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './index.css';
 import GetButton from '../../components/GetButton';
 import LineInfoButton from '../../components/LineInfoButton';
@@ -10,15 +10,13 @@ function HalvingPage(props) {
   const { teher } = images;
   const { tg } = props;
 
-  const navigate = useNavigate();
-  const history = useHistory();
+  const navigate = useNavigate(); 
 
   const BackButton = tg.BackButton;
   BackButton.show();
 
   BackButton.onClick(function() { 
-    // navigate('/');
-    history.back();
+    navigate(-1); 
     BackButton.hide();
   });
 
