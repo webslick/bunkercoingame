@@ -10,9 +10,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import './index.css';
 
 function BestPage(props) { 
+  const { tg } = props;
   const { telega,teher,love, cool,rocket,arrow,selphi,prize } = images;
 
   const navigate = useNavigate();
+
+  console.log(tg)
+  const data = JSON.stringify({ is_visible: true });
+
+window
+  .TelegramWebviewProxy
+  .postEvent('web_app_setup_back_button', data);
 
   const placeUser = [
     {

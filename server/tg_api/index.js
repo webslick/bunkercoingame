@@ -20,6 +20,10 @@ const TGAPI = {
   initialBotListner: botStart
 }
  
+const WebAppUrl = 'https://master--candid-granita-dc7078.netlify.app/'
+// const WebAppUrl = 'https://t.me/BitBunker_bot/bitbunkercoin?mode=compact'
+
+
 Object.defineProperty(Array.prototype, 'chunk', {
   value: function(chunkSize) {
     var R = [];
@@ -234,7 +238,7 @@ async function checkSubscription(bot, Pages, msg, channel, first) {
 function toEscapeMSg(str) {
   return str
       .replace(/_/gi, "\\_")
-      // .replace(/-/gi, "\\-")
+      .replace(/-/gi, "\\-")
       // .replace("~", "\\~")
       // .replace(/`/gi, "\\`")
       // .replace(/\./g, "\\.");
@@ -318,7 +322,9 @@ console.log(msg)
                     [
                       {
                         text: 'Start mining', 
-                        url: 'https://t.me/BitBunker_bot/bitbunkercoin?mode=compact', 
+                        web_app:{
+                          url: WebAppUrl
+                        },
                       },
                     ]
                   ], 
@@ -338,7 +344,9 @@ console.log(msg)
                       [
                         {
                           text: 'Start mining', 
-                          url: 'https://t.me/BitBunker_bot/bitbunkercoin?mode=compact', 
+                          web_app:{
+                            url: WebAppUrl
+                          }, 
                         },
                       ]
                     ], 
