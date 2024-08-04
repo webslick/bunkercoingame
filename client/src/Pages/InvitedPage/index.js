@@ -5,10 +5,21 @@ import './index.css';
 import GetButton from '../../components/GetButton';
 import LineInfoButton from '../../components/LineInfoButton';
 import LineButton from '../../components/LineButton';
+import { useNavigate } from 'react-router-dom';
 
 function InvitedPage(props) { 
   const { cry, rocket, teher, cool, helpsmile, help, agry, arrowf } = images;
+  const { tg } = props;
+
+  const navigate = useNavigate();
  
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
   return(
     <div className='invitedScreen'>
       <Title title='Invited Buddies'/> 

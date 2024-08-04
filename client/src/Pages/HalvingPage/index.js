@@ -8,7 +8,17 @@ import LineInfoButton from '../../components/LineInfoButton';
 
 function HalvingPage(props) { 
   const { back, rocket, teher, cool, helpsmile, help, agry, arrowf } = images;
+  const { tg } = props;
+
   const navigate = useNavigate();
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
   return(
     <div className='halvingScreen'>
       <Title title='Halving Bcoin'/> 

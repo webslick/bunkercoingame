@@ -3,12 +3,23 @@ import Title from '../../components/Title'
 import TaskButton from '../../components/TaskButton'
 import TaskCartsContainer from '../../components/TaskCartsContainer/index'
 import images from '../../assets/images'
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 import GetButton from '../../components/GetButton';
 
 function EarnPage(props) { 
   const { back,rocket,teher, cool, helpsmile, help, agry } = images;
+  const { tg } = props;
 
+  const navigate = useNavigate();
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
 
   let carts = [
     [

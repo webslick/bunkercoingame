@@ -12,7 +12,17 @@ import './index.css';
 function RankPage(props) { 
   const { telega,teher,love, cool,rocket,arrow,selphi,prize } = images;
 
+  const { tg } = props;
+
   const navigate = useNavigate();
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
 
   const placeUser = [
     {

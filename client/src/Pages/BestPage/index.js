@@ -14,27 +14,20 @@ function BestPage(props) {
   const { telega,teher,love, cool,rocket,arrow,selphi,prize } = images;
 
   const navigate = useNavigate();
-
-  console.log(tg)
-  // const data = JSON.stringify({ is_visible: true });
-
-
+ 
   const BackButton = tg.BackButton;
   BackButton.show();
-  BackButton.onClick(function() {
-    tg.showAlert("Нет пути назад!");
+
+  BackButton.onClick(function() { 
+    navigate('/');
     BackButton.hide();
   });
-  tg.onEvent('backButtonClicked', function() {
-    /* код */
-    console.log('@!#@#@#')
-  });
 
-// window
-//   .TelegramWebviewProxy
-//   .postEvent('web_app_setup_back_button', data);
-
-  
+  // tg.onEvent('backButtonClicked', function() {
+  //   /* код */
+  //   console.log('@!#@#@#')
+  // });
+ 
 
   const placeUser = [
     {

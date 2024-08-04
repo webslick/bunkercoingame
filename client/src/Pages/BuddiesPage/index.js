@@ -10,7 +10,17 @@ import './index.css';
 function BuddiesPage(props) { 
   const { telega,teher,love, cool,rocket,arrow,selphi } = images;
 
+  const { tg } = props;
+
   const navigate = useNavigate();
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
 
   return(
     <div className='buddiesScreen'>

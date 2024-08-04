@@ -7,11 +7,23 @@ import Title from '../../components/Title'
 import Subtitle from '../../components/Subtitle'
 import RewardBox from '../../components/RewardBox'
 import images from '../../assets/images'
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 import GetButton from '../../components/GetButton';
 
 function BoosterPage(props) { 
   const { back,cross,arrowf, cool, } = images;
+  const { tg } = props;
+
+  const navigate = useNavigate();
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
   return(
     <div className='boosterScreen'>
       <Title title='Boosters'/> 

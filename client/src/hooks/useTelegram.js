@@ -1,8 +1,8 @@
-
-const tg = window.Telegram.WebApp
  
-const useTelegram = url => {
+const tg = window.Telegram.WebApp
 
+const useTelegram = url => {
+ 
   const onClose = () => {
     tg.close();
   }
@@ -14,8 +14,7 @@ const useTelegram = url => {
       tg.MainButton.show(); 
     }
   }
-
-
+  
   return {
     onClose,
     onToggleButton,

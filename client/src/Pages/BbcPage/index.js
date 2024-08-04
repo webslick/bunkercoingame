@@ -11,9 +11,18 @@ import {Input} from 'antd';
 import './index.css';
 
 function BbcPage(props) { 
+  const { tg } = props;
   const { telega,teher,love, cool,rocket,arrow,selphi,prize } = images;
 
   const navigate = useNavigate();
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
 
 
   const placeUser = [

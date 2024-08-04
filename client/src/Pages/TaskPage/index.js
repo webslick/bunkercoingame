@@ -8,7 +8,17 @@ import './index.css';
 function TaskPage(props) { 
   const { telega,teher,love, cool,rocket,arrow,selphi } = images;
 
+  const { tg } = props;
+
   const navigate = useNavigate();
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
 
   const task = ["Подпишись на канал JetTon Games! Следи за новостями проекта и раздачами!","Подпишись на канал токена JetTon! Не упусти еженедельные раздачи и airdrop!","Запусти приложение JetTon! Всем новичкам бонус до 2000$ внутри!"]
   return(
