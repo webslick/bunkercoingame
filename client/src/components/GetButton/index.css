@@ -1,0 +1,28 @@
+.getButtonContainer {
+  display: flex;
+  width: 98%;
+  height:50px; 
+  color: #38312b; 
+  font-weight: 600; 
+  border-radius: 23px;
+  align-items: center;
+  justify-content: center;
+
+}
+ 
+.getButtonImg {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+ 
+.getButtonTitle {
+  display: flex;  
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;  
+}
+ 

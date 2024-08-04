@@ -1,0 +1,76 @@
+.energyContainer {
+  display: flex;
+  width: 110px;
+  height: 27px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(42 47 60);
+  border-radius: 30px;
+  padding: 5px;
+  margin: 10px;
+  position: relative;
+}
+
+.enrgyimg {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.displayEnergy {
+  display: flex;
+  /* width: ;
+  height: ; */
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  margin: 0px 2px;
+}
+
+.displayEnergy {
+  display: flex;
+  /* width: ;
+  height: ; */
+  justify-content: center;
+  align-items: center;
+}
+
+.displayEnergy {
+  display: flex;
+  /* width: ;
+  height: ; */
+  justify-content: center;
+  align-items: center;
+}
+
+.timerContainer {
+  display: flex;
+  width: 80px ;
+  height: 15px;
+  background-color: rgb(101 100 255);
+  border-radius: 10px;
+  position: absolute;
+  bottom:  -8px; 
+  justify-content: center;
+  align-items: center;
+}
+
+.recikleImg {
+  display: flex;
+  width: 13px;
+  height: 13px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.time {
+  display: flex;
+  /* width: ;
+  height: ; */
+  font-size: 11px;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,168 @@
+.lineButtonContainer {
+  display: flex;
+  width: 98%;
+  height: 60px;
+  border-radius: 50px; 
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonLeftContainer {
+  display: flex;
+  width: 60%;
+  height: auto;
+  align-items: center;
+  justify-content: start;
+}
+
+.lineButtonSmileContainer {
+  display: flex;
+  width: 45px;
+  height: 45px;
+
+  border-radius: 50px;
+  margin: 0px 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonSmile {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonLeftTitleContainer {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.lineButtonRightImgContainer {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.lineButtonTitlebox {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.lineButtonTitle {
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  color: black;
+  padding-left: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonName {
+  display: flex;
+  font-size: 19px;
+  font-weight: 600;
+  color: rgb(110 95 95); 
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonLeftTitle {
+  display: flex; 
+  font-size: 16px;
+  color: black;
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonLeftSubTitle {
+  display: flex; 
+  height: 20px;
+  color: rgb(59, 57, 57);
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonRightContainer {
+  display: flex;
+  width: 40%;
+  height: auto;
+  align-items: center;
+  justify-content: end;
+}
+
+.lineButtonRightTitleContainer {
+  display: flex;
+  width: 100px;
+  height: 50px; 
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.lineButtonRightTitle {
+  display: flex; 
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonRightSubTitle {
+  display: flex; 
+  color: rgb(59, 57, 57);
+  font-size: 14px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonInviteContainer {
+  display: flex;
+  width: 75px;
+  height: 35px;
+  background-color: rgb(254 213 24);
+  color: #38312b;
+  border: 1px solid rgb(254 226 41);
+  font-weight: 600;
+  margin-right: 15px;
+  border-radius: 23px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonInviteTitle {
+  display: flex;
+  width: 100px;
+  height: auto;
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonArrowContainer {
+  display: flex;
+  width: auto;
+  height: 40px;
+  margin-right: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineButtonArrow {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}

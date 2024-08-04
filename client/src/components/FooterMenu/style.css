@@ -1,0 +1,11 @@
+.footerWrapper {
+  display: flex;
+  flex-direction: row;
+  background-color: #2a2f3a;
+  width: 98%;
+  height: 60px; 
+  align-items: center; 
+  justify-self: center;
+
+  border-radius: 8px; 
+} 

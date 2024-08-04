@@ -1,0 +1,29 @@
+.prizeButtonContainer {
+  display: flex;
+  width: 98%;
+  height:30px; 
+  color: #38312b; 
+  font-weight: 600; 
+  border-radius: 23px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(253 246 212)
+}
+ 
+.prizeButtonImg {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+ 
+.prizeButtonTitle {
+  display: flex;  
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;  
+  margin: 0px 10px;
+}
+ 

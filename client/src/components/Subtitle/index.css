@@ -1,0 +1,18 @@
+.subtitleContainer {
+  display: flex;
+  width: 100%; 
+  align-items: start;
+  justify-content: start;  
+  padding: 10px 10px 20px 10px;
+  box-sizing: border-box;
+}
+  
+.subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+}

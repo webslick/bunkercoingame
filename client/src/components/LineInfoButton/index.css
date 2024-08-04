@@ -1,0 +1,44 @@
+.lineInfoButtonContainer {
+  display: flex;
+  width: 98%;
+  height: 40px;
+  border-radius: 50px; 
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+} 
+
+.lineInfoButtonSmile {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.lineInfoButtonTitle {
+  display: flex;
+  font-size: 15px;
+  font-weight: 700;
+  color: black;
+  padding-left: 10px;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.lineInfoButtonArrowContainer {
+  display: flex;
+  width: auto;
+  height: 40px;
+  margin-right: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineInfoButtonArrow {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}

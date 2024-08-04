@@ -1,0 +1,10 @@
+.swichTimeWrapper {
+  display: flex;
+  width: 98%;
+  height: 40px; 
+  border-radius: 23px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(238 225 202);
+}
+ 

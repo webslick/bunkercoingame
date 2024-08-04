@@ -1,0 +1,120 @@
+.mainscreen {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  /* justify-content: center;  */
+  flex-direction: column;
+
+}
+
+.mainInfoBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%; 
+  height: 50%; 
+  background-color: rgb(248, 206, 156);  
+  border-radius: 25px;
+  margin: 10px; 
+  position: relative;
+  z-index: 3;
+}
+
+.mainSubInfoBlock {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+  border-radius: 25px;
+  height: 87%;
+  align-items: center;
+  justify-content: center;  
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: antiquewhite;
+}
+ 
+.energyTopContainer {
+  display: flex;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+  justify-content: end; 
+}
+ 
+.mainInfoLink {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  justify-content: center; 
+  font-size: 17px;
+  color: rgb(27, 27, 209);
+}
+
+.inviteContainer {
+  display: flex;
+  width: 100%;
+  height: 80px;
+  align-items: center;
+  justify-content: center; 
+  /* background-color: rgb(240, 117, 60); */
+}
+
+.buddiesContainer {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: center; 
+  /* background-color: rgb(240, 117, 60); */
+}
+
+.mainInfoBlockSliderContainer {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: center; 
+  margin-bottom: 20px;
+  /* background-color: rgb(240, 117, 60); */
+}
+
+.joinButtonBox {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: end; 
+}
+
+.mainHalwingLinkContainer {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.LineInfoButtonContainer {
+  display: flex;
+  width: 100%; 
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.mainHalwingLinkTitle {
+  display: flex;
+  width: 80%; 
+  font-weight: 600;
+    font-size: 17px;
+    color: #291904;
+}
+
+.mainHalwingLinkArrow {
+  display: flex;
+  width: 25px;
+  height: 25px;
+}

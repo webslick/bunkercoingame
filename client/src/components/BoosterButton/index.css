@@ -1,0 +1,53 @@
+.boosterButtonWrapper {
+  display: flex;
+  width: 98%;
+  height: 60px;
+  border-radius: 50px;
+  background-color: rgb(255 231 200);
+  align-items: center;
+  justify-content: start; 
+}
+
+.boosterButtonImgContainer {
+  display: flex;
+  width: 20%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.boosterButtonImg {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.boosterButtonTitleContainer {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+}
+ 
+
+.boosterButtonTitle {
+  display: flex;
+  font-size: 17px;
+  font-weight: 600;
+  color: black; 
+  align-items: center;
+  justify-content: center;
+}
+
+ 
+.boosterButtonSubTitle {
+  display: flex; 
+  height: 20px;
+  color: rgb(59, 57, 57);
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+}
+  

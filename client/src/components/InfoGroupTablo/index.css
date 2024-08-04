@@ -1,0 +1,66 @@
+.infoGroupPlaceWrapper {
+  display: flex;
+  width: 98%;
+  height: 60px;
+  border-radius: 50px;
+  background-color: rgb(250, 191, 113);
+  align-items: center;
+  justify-content: space-evenly; 
+  margin-top: 10px;
+}
+ 
+.infoGroupPlaceImgCount {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+ 
+
+.infoGroupPlaceTitleContainer {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.infoGroupPlaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: row;
+}
+ 
+
+.infoGroupPlaceName {
+  display: flex;
+  font-size: 14px;
+  color: rgb(59, 57, 57); 
+  align-items: center;
+  justify-content: center;
+}
+
+.groupDelimetr {
+  display: flex; 
+  width: 3px;
+  height: 50%;
+  background-color: rgb(131 125 88);
+  align-items: center;
+  justify-content: center;
+}
+
+ 
+.infoGroupPlaceCountMine {
+  display: flex; 
+  height: 20px;
+  color: black; 
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0px 5px;
+  align-items: center;
+  justify-content: center;
+}
+ 
+ 

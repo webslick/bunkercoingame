@@ -1,0 +1,120 @@
+.infoPlaceWrapper {
+  display: flex;
+  width: 98%;
+  height: 60px;
+  border-radius: 50px;
+  background-color: rgb(255 231 200);
+  align-items: center;
+  justify-content: start; 
+  margin-top: 10px;
+}
+
+.infoPlaceImgContainer {
+  display: flex;
+  width: 12%;
+  align-items: center;
+  justify-content: start;
+}
+
+.infoPlaceImgNameContainer {
+  display: flex;
+  width: 40px;
+  height: 40px; 
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #e9af47; 
+}
+ 
+.infoPlaceImg {
+  display: flex;
+  width: 35px;
+  height: 35px;
+  align-items: center;
+  justify-content: center; 
+}
+ 
+.infoPlaceImgCount {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+ 
+.infoPlaceImgMedal {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.infoPlaceTitleContainer {
+  display: flex; 
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+}
+
+.infoPlaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: row;
+}
+ 
+
+.infoPlaceName {
+  display: flex;
+  font-size: 17px;
+  font-weight: 600;
+  color: black; 
+  align-items: center;
+  justify-content: center;
+}
+
+ 
+.infoPlaceCountMine {
+  display: flex; 
+  height: 20px;
+  color: rgb(59, 57, 57);
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+}
+ 
+
+.infoPlaceNumContainer {
+  display: flex;  
+  width: 15%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoPlaceMedalContainer {
+  display: flex;
+  width: 15%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.infoPlaceNum {
+  display: flex;   
+  color: rgb(59, 57, 57);
+  font-size: 15px;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.nameSimbole {
+  display: flex;   
+  color: rgb(110 95 95);
+  font-size: 18px; 
+  font-weight: 600;
+}

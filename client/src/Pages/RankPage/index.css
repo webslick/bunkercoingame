@@ -1,0 +1,42 @@
+.rankPrizeScreen {
+  display: flex;
+  width: 100%; 
+  align-items: center; 
+  flex-direction: column; 
+}
+
+.rankPrizeContainer {
+  display: flex;
+  width: 100%; 
+  align-items: center; 
+  flex-direction: column; 
+}
+
+.rankPrizeSwitchContainer {
+  display: flex;
+  width: 100%;
+  height: 80px;
+  align-items: center; 
+  justify-content: space-evenly;
+  flex-direction: row; 
+  color: black;
+  font-size: 19px;
+}
+
+.rankPlaceContainer {
+  display: flex;
+  width: 100%; 
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.userPlaceContainer {
+  display: flex;
+  width: 100%; 
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column; 
+}
+ 

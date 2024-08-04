@@ -1,0 +1,73 @@
+.taskScreen {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center; 
+  flex-direction: column; 
+  margin-top: 20px;
+}
+
+.taskInfoBoxContainer {
+  display: flex;
+  width: 100%; 
+  align-items: center; 
+  justify-content: center;
+  flex-direction: column;  
+  margin-top: 10px;
+}
+ 
+.taskWrapper {
+  display: flex;
+  width: 100%;
+  height: 250px;
+  align-items: center; 
+  justify-content: center;   
+}
+
+.taskInviteButtonContainer {
+  display: flex;
+  width: 95%;
+  height: 100px;
+  align-items: center; 
+  justify-content: center;  
+
+}
+
+.taskContainer {
+  display: flex;
+  width: 95%;
+  height: 90%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: antiquewhite; 
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: border-box; 
+}
+ 
+.taskInfoTitle {
+  display: flex;   
+  align-items: center; 
+  justify-content: center; 
+  color: black;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 10px 0px;
+}
+
+.taskInfoSubTitle {
+  display: flex; 
+  text-align: center;
+  color: black;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+ 
+.taskInfoImg {
+  display: flex;
+  width: 60px;
+  height: 60px;   
+}
+ 

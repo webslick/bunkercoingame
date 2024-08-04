@@ -1,0 +1,28 @@
+.earnScreen {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center; 
+  flex-direction: column; 
+}
+ 
+.earnButtonContainer {
+  display: flex;
+  width: 95%; 
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+ 
+.earnTaskTitle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  color: #856d68;
+  font-size: 12px;
+  margin: 10px 0px;
+  font-weight: 600;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+  

@@ -1,0 +1,101 @@
+.slider {
+  user-select: none; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.slider_container {
+  position: relative;
+  width: 300px;
+  height: 60px; 
+}
+
+.slider_track {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color:  #f1f1f6;
+  border-radius: 7px;
+  box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.slider_label {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px; 
+  color: #7b8ab1;
+  font-weight: 800;
+  font-size: 12px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  cursor: default;
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.slider_mask {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 0;
+  height: 60px;
+  background-color: #efe2c1;
+  border-radius: 8px;
+  box-shadow: inset 0 0 20px 0 rgb(255 201 122);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+ 
+.slider_control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(150deg, rgb(248 190 7) 0%, rgb(255 141 50) 41%, rgb(246 197 34) 100%);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.slider_number {
+  display: flex;
+  font-size: 28px;
+  color: rgb(234, 221, 242);
+  font-weight: 700;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  }
+
+.slider_number_noactive {
+  display: flex;
+  font-size: 28px;
+  color: rgb(158, 142, 135);
+  font-weight: 700;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(150deg, rgb(199 195 181) 0%, rgb(225 172 81 / 44%) 41%, rgb(216 214 208) 100%);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+ 

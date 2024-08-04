@@ -1,0 +1,27 @@
+.JoinButtonContainer {
+  display: flex;
+  width: 100px;
+  height: 40px;
+  background-color:#2a2f3b;
+  border-radius: 25px;
+  margin-right: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.joinimg {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.JoinButtonTitle {
+  display: flex;
+  width: 40px;
+  height: auto;
+  font-size: 17px;
+  align-items: center;
+  justify-content: center;
+}

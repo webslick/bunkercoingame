@@ -1,0 +1,119 @@
+.buddiesScreen {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center; 
+  flex-direction: column; 
+}
+
+.rewardContainer {
+  display: flex;
+  width: 100%;
+  height: 150px;
+  align-items: center; 
+  justify-content: space-evenly;
+  flex-direction: row; 
+  color: black;
+  font-size: 19px;
+}
+
+.bonusContainerBottom {
+  display: flex;
+  width: 100%; 
+  align-items: center; 
+  justify-content: space-evenly;
+  flex-direction: row; 
+  color: black; 
+  font-size: 19px;
+}
+
+.bonusWrapper {
+  display: flex;
+  width: 100%;
+  height: 230px;
+  align-items: center; 
+  justify-content: center;  
+
+}
+
+.bonusInviteButtonContainer {
+  display: flex;
+  width: 95%;
+  height: 100px;
+  align-items: center; 
+  justify-content: center;  
+
+}
+
+.bonusContainer {
+  display: flex;
+  width: 95%;
+  height: 90%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: antiquewhite; 
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: border-box; 
+}
+
+
+.bonusContainerTop {
+  display: flex;
+  width: 98%;
+  height: 50%;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(154, 81, 12); 
+}
+
+.bonusContainerBottom {
+  display: flex;
+  width: 98%; 
+  height: 50%;
+  align-items: center;   
+  flex-direction: column;
+}
+
+.bonusEarnedTitle {
+  display: flex;
+  width: 100%; 
+  align-items: center;  
+  color: #856d68;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.bonusInfo {
+  display: flex; 
+  align-items: center; 
+  justify-content: start; 
+  flex-direction: row;  
+  align-items: center; 
+  justify-content: center; 
+  color: black;
+  font-size: 18px;
+  font-weight: 700;
+}
+ 
+.bonusInfoImg {
+  display: flex;
+  width: 25px;
+  height: 25px;  
+  margin-right: 10px;
+}
+
+.bonusTitle { 
+  font-size: 14px;
+  color: #856d68;
+  font-weight: 600;
+}
+
+.bonusSubTitle {
+  margin: 10px 0px;
+  font-size: 14px;
+  color: #15100f;
+  font-weight: 600;
+}

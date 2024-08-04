@@ -1,0 +1,19 @@
+.titleContainer {
+  display: flex;
+  width: 100%; 
+  align-items: start;
+  justify-content: start;
+  justify-self: flex-start;
+  padding-top: 20px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+  
+.title {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 30px;
+  font-weight: 700;
+}

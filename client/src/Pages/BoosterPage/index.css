@@ -1,0 +1,27 @@
+.boosterScreen {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center; 
+  flex-direction: column; 
+}
+ 
+.boosterButtonContainer {
+  display: flex;
+  width: 100%; 
+  height: 230px;
+  margin-bottom: 20px;
+  align-items: center; 
+  justify-content: space-evenly;   
+  flex-direction: column;
+}
+ 
+.boosterGetButtonContainer {
+  display: flex;
+  width: 93%;  
+  margin-bottom: 20px;
+  align-items: center; 
+  justify-content: center;   
+  flex-direction: column;
+}
+ 
