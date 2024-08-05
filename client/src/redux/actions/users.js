@@ -74,11 +74,22 @@ export async function getMe (dispatch) {
     }  
 } 
  
-export async function getUserInfo (dispatch) {
-
+export async function getUserInfo (userId) {
+  
   try {
-    const response = await axios.get(`${API_URL}/getUserInfo`, { withCredentials:true });
-    console.log(response)
+    const requestOptions = {
+      method: 'post',
+      headers: { 
+      'Content-Type': 'application/json',
+      }, 
+      body: {
+        userId
+      }
+     
+    }; 
+    const response = await axios.post(`${API_URL}/getUserInfo`, requestOptions);
+  
+    console.log(response, 'getuserinfo')
     const user = response.data; 
  
     return user

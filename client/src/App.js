@@ -43,7 +43,7 @@ function App() {
   useEffect(() => {    
     const fetchData = async () => {
       console.log(usertg,' TG WARNING USESTATE')
-      const user = await getUserInfo(dispatch);  
+      const user = await getUserInfo(usertg.id);  
       const appInfo = await getAppInfo(dispatch) 
       if(user !== 401) {  
         dispatch(set_user(user));  

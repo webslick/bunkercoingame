@@ -1,6 +1,6 @@
 import axios from 'axios'; 
-//  export const API_URL = 'https://inmemory-forever.com/api'; // RELEASE
-export const API_URL = 'http://localhost:4000/api'; 
+ export const API_URL = 'https://candid-granita-dc7078.netlify.app'; // RELEASE
+// export const API_URL = 'http://localhost:4000/api'; 
  
 const $api = axios.create({
   withCredentials: true,
