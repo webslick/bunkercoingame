@@ -35,6 +35,15 @@ class UserController  {
       next(e);
     }
   }
+ 
+  async getAppInfo(req,res,next) { 
+    try {    
+      const appData = await userService.getAppInfo(); 
+      return res.json(appData);
+    } catch (e) {
+      next(e);
+    }
+  }
 
   async setPageInfo(req,res,next) { 
     try { 

@@ -82,7 +82,7 @@ class DB {
         case 'admin':   
           const { 
             chanels,
-            halving,
+            halving_earn,halving_count,total_coin_mine,
             count_coin_all, 
             toogle_status_bot, 
             admin_tg_ids,  
@@ -93,7 +93,7 @@ class DB {
  
           const admin = await Admin_users.create({ 
             chanels,
-            halving,
+            halving_earn,halving_count,total_coin_mine,
             count_coin_all, 
             toogle_status_bot, 
             admin_tg_ids,  
@@ -119,9 +119,9 @@ class DB {
  
       const user_admin = await Admin_users.findOne({ 
           where: item , 
-          attributes: [ "chanels", "halving", "count_coin_all", "toogle_status_bot", "admin_tg_ids", "bonus","task_main","tasks" ],   
+          attributes: [ "id","chanels", "halving_earn","halving_count","total_coin_mine", "count_coin_all", "toogle_status_bot", "admin_tg_ids", "bonus","task_main","tasks" ],   
       }) 
- 
+    
       return user_admin;
        
       case 'user_id':  
@@ -267,7 +267,7 @@ class DB {
           ...serviceFunction.removeEmpty(condidate, 'Admin_users'),   
         };  
  
-        return { ...result }
+        return { ...result, condidate }
       }
    
     } catch(error) {

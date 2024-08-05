@@ -17,7 +17,7 @@ import GroupPage from '../Pages/GroupPage';
  
 const Main = (props) => {
  
-  const { user, tg } = props; 
+  const { user, tg, appInfo } = props; 
 
   return (
     <main>
@@ -26,7 +26,7 @@ const Main = (props) => {
         <Route path='/minepage' element={<MainPage tg={tg} user={user} />} /> 
         {/* <Route path='/minepage' element={<GroupPage user={user} />} />  */}
         <Route path='/historypage' element={<HistoryPage tg={tg} user={user} />} /> 
-        <Route path='/halvingpage' element={<HalvingPage tg={tg} user={user} />} /> 
+        <Route path='/halvingpage' element={<HalvingPage tg={tg} user={user} appInfo={appInfo} />} /> 
         <Route path='/taskpage' element={<TaskPage tg={tg} user={user} />} /> 
         <Route path='/bestpage' element={<BestPage tg={tg} user={user} />} /> 
         <Route path='/grouppage' element={<GroupPage tg={tg} user={user} />} /> 

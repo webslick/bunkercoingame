@@ -92,14 +92,12 @@ async function launchInTime(time, type, eventFunc, Schedule) { // включае
   });
 }
 
+  
 async function everyMinutsRun(eventFunc, Schedule) { // включается каждую минуту
-  Schedule.scheduleJob('*/40 * * * * *' , async () => {  
-    // await eventFunc()
+  Schedule.scheduleJob('*/1 * * * *' , async () => { 
+    console.log("@#$") 
+    await eventFunc()
   });
-}
- 
-async function sentLoserMsg() { // отсылает сообщения проигравшим
- 
 }
  
 async function sendSheduleMsg(id, bot, ADMINSETTINGS, Pages, getUserResult) {
@@ -264,6 +262,7 @@ async function botStart (ADMINSETTINGS) {
 
       const { text, chat: { id, username, last_name, first_name } } = msg;
 console.log(msg)
+
       const command = text.split(' ');
  
       if (command.length === 1) { // Ввод команды пользователем 
@@ -362,7 +361,7 @@ console.log(msg)
                 }; 
 
                 console.log(result)
-                
+
                 // const reflink = generatePartnerLink(result.privateKey, result.subKey,result.user_id,result.user_id);
                 // console.log(reflink)
 
@@ -695,6 +694,7 @@ console.log(msg)
       }
        
       if(msg?.web_app_data?.data) {
+        console.log('DATA COMPLITED!!!!')
         try {
             const data = JSON.parse(msg?.web_app_data?.data)
             console.log(data)

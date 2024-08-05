@@ -7,9 +7,9 @@ import Main from './routes/index';
 import useTelegram from './hooks/useTelegram';
 import useScript from './hooks/useScript';
 
-import { change_page, setMobileMod, visible_footer } from './redux/actions/app'; 
-import {  set_user, getUserInfo } from './redux/actions/users'; 
-import { pages, app, users, footer } from './redux/selectors'; 
+import { change_page, setMobileMod, set_appinfo } from './redux/actions/app'; 
+import {  set_user, getUserInfo, getAppInfo } from './redux/actions/users'; 
+import {  app, users,  } from './redux/selectors'; 
  
 // import PopapLogin from './components/PopapLogin';
 // import PopapReferal from './components/PopapReferal';
@@ -20,8 +20,9 @@ function App() {
 
   const dispatch = useDispatch();  
   const mobile = useSelector(app.mobile);  
+  const appInfo = useSelector(app.appInfo);  
 
-  const user = useSelector(users.user); 
+  const user = useSelector(users.user);  
 
   // const popup_visible = useSelector(popup_login.popup_visible);  
   // const popup_referal_visible = useSelector(popup_referal.popup_visible);  
@@ -30,19 +31,31 @@ function App() {
 
   const [loaddingdata,setLoadData] = useState(false);
  
+
+  const { tg, usertg, queryId } = useTelegram();
+
+  useEffect(()=>{
+    tg.ready();
+    tg.expand();
+  },[tg])
+
+
   useEffect(() => {    
     const fetchData = async () => {
-      const user = await getUserInfo(dispatch) 
+      console.log(usertg,' TG WARNING USESTATE')
+      const user = await getUserInfo(dispatch);  
+      const appInfo = await getAppInfo(dispatch) 
       if(user !== 401) {  
         dispatch(set_user(user));  
+      }   
+      if(appInfo !== 401) {  
+        dispatch(set_appinfo(appInfo));  
       }   
       setLoadData(true) 
     }; 
     fetchData(); 
   },[loaddingdata]);  
-
-  // useScript("https://telegram.org/js/telegram-web-app.js");
-
+ 
   useEffect(() => {   
 
     if(localStorage.getItem('page') === null) {  
@@ -51,23 +64,20 @@ function App() {
 
     dispatch(setMobileMod(isMobile));
     dispatch(change_page(localStorage.getItem('page'))); 
-    dispatch(visible_footer(false)); 
+ 
   },[]);  
  
-  const { tg,usertg } = useTelegram();
-
-  useEffect(()=>{
-    tg.ready() 
-  },[tg])
  
   console.log(tg)
   console.log(usertg)
   console.log(user)
+  console.log(queryId,'queryId')
+  console.log(appInfo,'appInfo')
   
   function stopSpin(e) {
     // let tg = window.Telegram.WebApp; //получаем объект webapp телеграма 
   
-    // tg.expand(); //расширяем на все окно 
+    // ; //расширяем на все окно 
     
     // tg.MainButton.text = "GUGA";
   
@@ -76,16 +86,14 @@ function App() {
     // },[])
     console.log("stoppppppppp")
  
-  }
-
- 
+  } 
 //  console.log(pages,'pagemain')
   return ( 
     <div className="App">  
         {
           mobile ?    
           <>  
-            <Main tg={tg} />  
+            <Main tg={ tg } user={ user } appInfo={ appInfo } />  
           </> 
         : 
           <div className='desktop_error'>

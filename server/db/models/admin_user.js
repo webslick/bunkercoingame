@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   };
   Admin_users.init({
     chanels: DataTypes.STRING,  
-    halving: DataTypes.STRING,
+    halving_earn: DataTypes.STRING,
+    halving_count: DataTypes.STRING,
     count_coin_all: DataTypes.STRING,
+    total_coin_mine: DataTypes.STRING,
     bonus: DataTypes.STRING,  
     toogle_status_bot: DataTypes.BOOLEAN, 
     admin_tg_ids: DataTypes.STRING,  

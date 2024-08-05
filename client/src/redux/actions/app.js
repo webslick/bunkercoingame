@@ -20,4 +20,11 @@ export function visible_footer(visible) {
     payload: visible
   }
 } 
+
+export function set_appinfo(app) {  
+  return {
+    type: ActionTypes.APP_INFO,
+    payload: app
+  }
+} 
  

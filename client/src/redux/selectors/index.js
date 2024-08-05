@@ -1,6 +1,7 @@
  
 export const app = {
-  mobile: (state) => state.app.mobile
+  mobile: (state) => state.app.mobile,
+  appInfo: (state) => state.app.appInfo,
 }
 
 export const pages = {

@@ -1,20 +1,24 @@
 const moment = require('moment'); 
 module.exports = class AdminDto { 
   id;
-  chanels;
-  halving;
+  chanels; 
   count_coin_all; 
   toogle_status_bot; 
   admin_tg_ids;  
   bonus;  
-  task_main;  
+  task_main;    
+  halving_earn;
+  halving_count; 
+  total_coin_mine; 
   tasks;   
   createdAt;    
 
   constructor(model) {   
     this.id = model?.id; 
     this.chanels = model?.chanels; 
-    this.halving = model?.halving; 
+    this.halving_earn = model?.halving_earn; 
+    this.halving_count = model?.halving_count; 
+    this.total_coin_mine = model?.total_coin_mine;   
     this.count_coin_all = model?.count_coin_all;   
     this.toogle_status_bot = model?.toogle_status_bot; 
     this.admin_tg_ids = model?.admin_tg_ids;   

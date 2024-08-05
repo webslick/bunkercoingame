@@ -88,3 +88,17 @@ export async function getUserInfo (dispatch) {
   }
 }
  
+export async function getAppInfo (dispatch) {
+
+  try {
+    const response = await axios.get(`${API_URL}/getAppInfo`, { withCredentials:true });
+    console.log(response)
+    const app = response.data; 
+ 
+    return app
+  } catch (error) {
+    console.log(error.response?.data?.message)
+    return error.response?.status;
+  }
+}
+ 

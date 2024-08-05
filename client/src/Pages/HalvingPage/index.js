@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import Title from '../../components/Title'  
 import images from '../../assets/images'
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,10 +7,11 @@ import GetButton from '../../components/GetButton';
 import LineInfoButton from '../../components/LineInfoButton';
 
 function HalvingPage(props) { 
+  const { tg, user, appInfo } = props;
   const { teher } = images;
-  const { tg } = props;
 
   const navigate = useNavigate(); 
+  const [w, setW] = useState(0);
 
   const BackButton = tg.BackButton;
   BackButton.show();
@@ -20,13 +21,16 @@ function HalvingPage(props) {
     BackButton.hide();
   });
 
+  useEffect(() => { 
+    setW(document.getElementsByClassName('halvingBottomContainer')[0].clientWidth/+appInfo.halving_count) 
+  },[appInfo])
   return(
     <div className='halvingScreen'>
       <Title title='Halving Bcoin'/> 
       <div className='halvingInfoWrapper'>
         <div className='halvingtitle'>{`Total tokens have been mined:`}</div>  
         <LineInfoButton 
-          title="6 237 520 M"  
+          title={`${appInfo.total_coin_mine} M`}  
           img={teher}  
           size={false} 
           noarr  
@@ -34,20 +38,20 @@ function HalvingPage(props) {
         /> 
         <div className='halvingProgressContainer'>
           <div className='halvingTopContainer'>
-            <div className='halvingProgress'></div>
-            <div className='halvingLable'>21 000 000 000 000</div>
+            <div style={{width: `${100/((appInfo.count_coin_all / 10000000) * (+appInfo.halving_count + 1) / appInfo.total_coin_mine )/+appInfo.halving_count}%`}} className='halvingProgress'></div>
+            <div className='halvingLable'>{appInfo.count_coin_all}</div>
           </div>
           <div className='halvingBottomContainer'>
-            <div className='halvingLine'></div>   
+            <div style={{left: `${w}px`}} className='halvingLine'></div>   
           </div> 
         </div>
-        <div className='halvingsubtitle'>{`3rd halving will be after 6 300 000 M`}</div>  
+        <div className='halvingsubtitle'>{`${+appInfo.halving_count + 1}rd halving will be after ${(appInfo.count_coin_all / 10000000) * (+appInfo.halving_count + 1)} M`}</div>  
         <div className='halvingImgTileContainer'>
           <div className='halvingImgNine'>2048</div>
           <div style={{ color: 'black',margin: '0px 10px'}}>
             = 
           </div>
-          <div style={{ color: 'black',fontWeight: '600',fontSize:'20px'}}>80000</div>
+          <div style={{ color: 'black',fontWeight: '600',fontSize:'20px'}}>{appInfo.halving_earn}</div>
           <img style={{ width: '20px', height: '20px',margin: '0px 10px'}} src={teher} />
         </div>  
         <div className='halvingButtonContainer'> 
@@ -55,8 +59,7 @@ function HalvingPage(props) {
             fill
             invite
             title="Start Bmine" 
-            onCLick={(e) => { 
-              tg.sendData(JSON.stringify({userinfo: tg?.initDataUnsafe?.user })); 
+            onCLick={(e) => {  
               navigate('/minepage');
             }} 
           />

@@ -13,17 +13,18 @@ import FooterMenu from '../../components/FooterMenu';
 import './index.css';
 
 function MainPage(props) { 
+  const { user } = props;
   const { telega,teher,love, cool,rocket,arrow,selphi } = images;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();  
 
   const page = useSelector(pages.page); 
- 
+ console.log(user)
   return(
     <div className='mainscreen'>
       <div className='energyTopContainer'>
-        <EnergyInfo energy={4} activeTimer={!false} time={'22:05:56'}/>
+        <EnergyInfo energy={4} activeTimer={false} time={'22:05:56'}/>
         <div className='joinButtonBox'>
           <JoinButton title="Join" img={ telega } />   
         </div>
