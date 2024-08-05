@@ -29,8 +29,11 @@ class UserController  {
  
   async getUserInfo(req,res,next) { 
     try {    
-      const userData = await userService.getUserInfo(); 
-      return res.json(userData.user);
+      const { body } = req.body; 
+      if(body !== undefined) {
+        const userData = await userService.getUserInfo(body.userId); 
+        return res.json(userData.user);
+      }
     } catch (e) {
       next(e);
     }

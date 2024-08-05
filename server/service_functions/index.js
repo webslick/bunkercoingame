@@ -54,6 +54,7 @@ const convertSeconds = (time) => { // Конвертирует секунды
 }
 
 const removeEmpty = (obj,dto) => { //удаляет все undefined обьекты   
+ 
 let objTmp = {}
   switch (dto) {
     case 'Admin_users':
@@ -62,7 +63,7 @@ let objTmp = {}
     case 'UsersDto':  
       objTmp = new UsersDto(obj)
       break;  
-    case 'ProfileDto':  
+    case 'Profiles':  
       objTmp = new ProfileDto(obj)
       break;  
   
@@ -71,11 +72,12 @@ let objTmp = {}
   }
  
   let newObj = {};
-
+ 
   Object.keys(objTmp).forEach((key) => {  
     if (objTmp[key] === Object(objTmp[key])) newObj[key] = removeEmpty(objTmp[key]);
     else if (objTmp[key] !== undefined) newObj[key] = objTmp[key];
   }); 
+
   return newObj;
 };
 

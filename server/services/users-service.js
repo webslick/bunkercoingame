@@ -287,26 +287,16 @@ class UserService {
     }
   } 
  
-  async getUserInfo() { 
+  async getUserInfo(userId) { 
  
     let result = {}
    
-    const user = await DB.searchInTables('user_info', userData.userId ); 
+    const user = await DB.searchInTables('user_id', userId ); 
  
     result = {  
-      ...serviceFunction.removeEmpty(user, 'AuthInfos'),  
-      ...serviceFunction.removeEmpty(serviceFunction.getObjkey(user,'Profiles',false), 'Profiles'),  
+      ...serviceFunction.removeEmpty(user, 'Profiles'),    
     };  
-
-    let pages = []
-
-    serviceFunction.getObjkey(serviceFunction.getObjkey(user,'Profiles',false),'Pages',false).map((item) => {
- 
-      pages.push(serviceFunction.removeEmpty(item, 'Pages'))
-    })
-
-    result.pages = pages;
- 
+    console.log(result,'&&&&&')
     return { user: result } 
   }
  

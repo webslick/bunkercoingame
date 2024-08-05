@@ -43,7 +43,8 @@ function App() {
   useEffect(() => {    
     const fetchData = async () => {
       console.log(usertg,' TG WARNING USESTATE')
-      const user = await getUserInfo(usertg.id);  
+    //  const user = await getUserInfo('6107507930');  
+       const user = await getUserInfo(usertg?.id);  
       const appInfo = await getAppInfo(dispatch) 
       if(user !== 401) {  
         dispatch(set_user(user));  
@@ -73,21 +74,7 @@ function App() {
   console.log(user)
   console.log(queryId,'queryId')
   console.log(appInfo,'appInfo')
-  
-  function stopSpin(e) {
-    // let tg = window.Telegram.WebApp; //получаем объект webapp телеграма 
-  
-    // ; //расширяем на все окно 
-    
-    // tg.MainButton.text = "GUGA";
-  
-    // useCallback(()=>{
-    //   tg.sendData(JSON.stringify({userinfo: tg.initDataUnsafe.user, prize: prizeNumber})); 
-    // },[])
-    console.log("stoppppppppp")
  
-  } 
-//  console.log(pages,'pagemain')
   return ( 
     <div className="App">  
         {

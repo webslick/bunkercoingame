@@ -15,7 +15,7 @@ module.exports = class ProfileDto {
   subKey;
   nastavnik; 
   bestGame; 
- 
+   
   constructor(model) { 
     this.user_id = model?.user_id;  
     this.user_name = model?.user_name;  

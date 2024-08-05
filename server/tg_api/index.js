@@ -20,8 +20,8 @@ const TGAPI = {
   initialBotListner: botStart
 }
  
-const WebAppUrl = 'https://candid-granita-dc7078.netlify.app'
-// const WebAppUrl = 'https://t.me/BitBunker_bot/bitbunkercoin?mode=compact'
+// const WebAppUrl = 'https://candid-granita-dc7078.netlify.app'
+const WebAppUrl = 'https://t.me/BitBunker_bot/bitbunkercoin?mode=compact'
 
 
 Object.defineProperty(Array.prototype, 'chunk', {
@@ -321,9 +321,9 @@ console.log(msg)
                     [
                       {
                         text: 'Start mining', 
-                        web_app:{
+                        // web_app:{
                           url: WebAppUrl
-                        },
+                        // },
                       },
                     ]
                   ], 
@@ -343,9 +343,9 @@ console.log(msg)
                       [
                         {
                           text: 'Start mining', 
-                          web_app:{
+                          // web_app:{
                             url: WebAppUrl
-                          }, 
+                          // }, 
                         },
                       ]
                     ], 
