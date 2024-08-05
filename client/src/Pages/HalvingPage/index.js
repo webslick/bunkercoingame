@@ -16,7 +16,7 @@ function HalvingPage(props) {
   BackButton.show();
 
   BackButton.onClick(function() { 
-    navigate(-1); 
+    navigate('/');
     BackButton.hide();
   });
 
@@ -56,7 +56,8 @@ function HalvingPage(props) {
             invite
             title="Start Bmine" 
             onCLick={(e) => { 
-              navigate('/minepage')
+              tg.sendData(JSON.stringify({userinfo: tg?.initDataUnsafe?.user })); 
+              navigate('/minepage');
             }} 
           />
         </div> 

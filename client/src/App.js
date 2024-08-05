@@ -6,7 +6,7 @@ import { isMobile } from 'react-device-detect';
 import Main from './routes/index';
 import useTelegram from './hooks/useTelegram';
 import useScript from './hooks/useScript';
-import FooterMenu from './components/FooterMenu';
+
 import { change_page, setMobileMod, visible_footer } from './redux/actions/app'; 
 import {  set_user, getUserInfo } from './redux/actions/users'; 
 import { pages, app, users, footer } from './redux/selectors'; 
@@ -20,9 +20,8 @@ function App() {
 
   const dispatch = useDispatch();  
   const mobile = useSelector(app.mobile);  
-  const page = useSelector(pages.page); 
-  const user = useSelector(users.user);
-  const hidden = useSelector(footer.hidden)
+
+  const user = useSelector(users.user); 
 
   // const popup_visible = useSelector(popup_login.popup_visible);  
   // const popup_referal_visible = useSelector(popup_referal.popup_visible);  
@@ -86,18 +85,7 @@ function App() {
         {
           mobile ?    
           <>  
-            <Main tg={tg} /> 
-            <div className='footerBox'> 
-              <FooterMenu
-                isHiden={hidden}
-                page={ page }
-                onClick={(e) => { 
-                  console.log(e)
-                  localStorage.setItem('page',e.target.id);
-                  dispatch(change_page(e.target.id))
-                }}  
-              /> 
-            </div> 
+            <Main tg={tg} />  
           </> 
         : 
           <div className='desktop_error'>

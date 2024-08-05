@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import EnergyInfo from '../../components/EnergyInfo'
 import JoinButton from '../../components/JoinButton'
+import { useDispatch, useSelector } from 'react-redux';
 import LineButton from '../../components/LineButton'
 import LineInfoButton from '../../components/LineInfoButton' 
 import Slider from '../../components/Sliders' 
 import { Link, useNavigate } from 'react-router-dom';
 import images from '../../assets/images'
+import { change_page, visible_footer } from '../../redux/actions/app' 
+import { pages } from '../../redux/selectors'; 
+import FooterMenu from '../../components/FooterMenu';
 import './index.css';
 
 function MainPage(props) { 
   const { telega,teher,love, cool,rocket,arrow,selphi } = images;
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();  
+
+  const page = useSelector(pages.page); 
+ 
   return(
     <div className='mainscreen'>
       <div className='energyTopContainer'>
@@ -22,7 +30,7 @@ function MainPage(props) {
       </div>
       <div className='inviteContainer'>
         <LineButton 
-          title="Get for invites"  
+          title="Get for invites"
           smile={love} 
           btn={true} 
           coin={teher} 
@@ -82,6 +90,16 @@ function MainPage(props) {
           }} 
         /> 
       </div>  */}
+      <div className='footerBox'> 
+        <FooterMenu 
+          page={ page }
+          onClick={(e) => { 
+            console.log(e)
+            localStorage.setItem('page',e.target.id);
+            dispatch(change_page(e.target.id)) 
+          }}  
+        /> 
+      </div> 
     </div>
   );
 }
