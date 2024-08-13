@@ -1,0 +1,14 @@
+ 
+.energyTimerContainer {
+  display: flex; 
+  height: 20px; 
+  border-radius: 23px; 
+  align-items: center;
+  justify-content: center; 
+  padding: 2px 8px;
+  font-size: 14px; 
+  height: 15px;
+  background-color: rgb(101 100 255);
+  border-radius: 10px;
+}
+ 

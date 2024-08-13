@@ -1,32 +1,33 @@
-import React, { useEffect } from 'react';
-import EnergyInfo from '../../components/EnergyInfo'
-import JoinButton from '../../components/JoinButton'
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import EnergyInfo from '../../components/EnergyInfo'
+import { Link, useNavigate } from 'react-router-dom';
+import JoinButton from '../../components/JoinButton'
 import LineButton from '../../components/LineButton'
 import LineInfoButton from '../../components/LineInfoButton' 
-import Slider from '../../components/Sliders' 
-import { Link, useNavigate } from 'react-router-dom';
-import images from '../../assets/images'
-import { change_page, visible_footer } from '../../redux/actions/app' 
-import { pages } from '../../redux/selectors'; 
 import FooterMenu from '../../components/FooterMenu';
+import Slider from '../../components/Sliders' 
+import { change_page, visible_footer , putHistoryInfo} from '../../redux/actions/app' 
+import { pages } from '../../redux/selectors'; 
+import { decimal } from '../../hooks/helpservice';
+import images from '../../assets/images'
+import moment from 'moment';
 import './index.css';
 
 function MainPage(props) { 
-  const { user } = props;
+  const { user, tg } = props;
   const { telega,teher,love, cool,rocket,arrow,selphi } = images;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();  
-
-  const page = useSelector(pages.page); 
- console.log(user)
+  
+ 
   return(
     <div className='mainscreen'>
       <div className='energyTopContainer'>
-        <EnergyInfo energy={4} activeTimer={false} time={'22:05:56'}/>
+        <EnergyInfo user={user} activeTimer={Number(user.energy) !== 4} />
         <div className='joinButtonBox'>
-          <JoinButton title="Join" img={ telega } />   
+          <JoinButton title="Join" img={ telega } onCLick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />   
         </div>
       </div>
       <div className='inviteContainer'>
@@ -35,30 +36,31 @@ function MainPage(props) {
           smile={love} 
           btn={true} 
           coin={teher} 
+          onCLick={()=>{tg.openTelegramLink(`${user.partnerLink} Play 2048 to earn Bcoin for free!💸`)}} 
         /> 
       </div>
       <div className='mainInfoBlock'>
         <div className='mainSubInfoBlock'> 
           <div className='LineInfoButtonContainer'> 
             <LineInfoButton 
-              title="30 K"  
+              title={decimal(Math.ceil(user.balance_count))}  
               img={teher}  
               size={true}   
-              onCLick={(e) => { 
+              onCLick={async(e) => {  
                 navigate('/historypage')
               }} 
             /> 
-            <LineInfoButton 
+            {/* <LineInfoButton 
               title="Play to get ranked"  
               img={selphi}  
               size={false} 
               onCLick={(e) => { 
                 navigate('/rankpage')
               }}  
-            /> 
+            />  */}
           </div>
           <div className='mainInfoBlockSliderContainer'> 
-            <Slider />
+            <Slider disabled={Number(user.energy) == 0} dateLoss={user.date_loss_game} />
           </div>  
           <LineButton 
             title=""  
@@ -67,7 +69,7 @@ function MainPage(props) {
             coin={teher}
             leftTitle="Best game" 
             leftSubTitle="B da winner" 
-            rightTitle="4560" 
+            rightTitle={user.score} 
             rightSubTitle="Ur dally score" 
             onCLick={(e) => { 
               navigate('/bestpage')
@@ -77,8 +79,9 @@ function MainPage(props) {
         </div>
         <Link className='mainHalwingLinkContainer' to="/halvingpage"> <div className='mainHalwingLinkContainer'>
           <div className='mainHalwingLinkTitle'>Bunkertoken halving</div>  
-          <img className='mainHalwingLinkArrow' src={arrow} />
-        </div>  </Link>
+            <img className='mainHalwingLinkArrow' src={arrow} />
+          </div>  
+        </Link>
       </div>
       {/* <div className='buddiesContainer'>
         <LineButton 
@@ -93,10 +96,8 @@ function MainPage(props) {
       </div>  */}
       <div className='footerBox'> 
         <FooterMenu 
-          page={ page }
-          onClick={(e) => { 
-            console.log(e)
-            localStorage.setItem('page',e.target.id);
+          // page={ page }
+          onClick={(e) => {  
             dispatch(change_page(e.target.id)) 
           }}  
         /> 

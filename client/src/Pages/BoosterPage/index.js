@@ -13,7 +13,7 @@ import GetButton from '../../components/GetButton';
 
 function BoosterPage(props) { 
   const { back,cross,arrowf, cool, } = images;
-  const { tg } = props;
+  const { tg, user } = props;
 
   const navigate = useNavigate();
  
@@ -24,14 +24,16 @@ function BoosterPage(props) {
     navigate('/');
     BackButton.hide();
   });
+ 
+
   return(
     <div className='boosterScreen'>
       <Title title='Boosters'/> 
       <Subtitle subtitle='Booster helps you to earn more Bunkercoins.Watch short video to get 1 random booster 4 free.'/> 
       <div className='boosterButtonContainer'>
-        <BoosterButton title="Move back" img={back} countBoost={1}   />
-        <BoosterButton title="Delete tile" img={cross} countBoost={1}   />
-        <BoosterButton title="Move without tile" img={arrowf} countBoost={1}   />
+        <BoosterButton title="Move back" img={back} countBoost={JSON.parse(user.hints).stepback ? JSON.parse(user.hints).stepback : 0}   />
+        <BoosterButton title="Delete tile" img={cross} countBoost={JSON.parse(user.hints).deletedtile ? JSON.parse(user.hints).deletedtile : 0}   />
+        <BoosterButton title="Move without tile" img={arrowf} countBoost={JSON.parse(user.hints).movetile ? JSON.parse(user.hints).movetile : 0}   />
       </div>  
       <div className='boosterGetButtonContainer'>
         <GetButton

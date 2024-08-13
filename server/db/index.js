@@ -113,7 +113,7 @@ class DB {
  
   async searchInTables(table, item) { 
  
-    const profileAttributes = ["user_id","bestGame", "user_name", "date_loss_game", "hints", "energy", "balance_count","score","partners", "partnerLink","partners_twolevel","history","privateKey","subKey","nastavnik"]
+    const profileAttributes = ["id","user_id","bestGame", "user_name", "date_loss_game", "hints", "energy", "balance_count","score","partners", "partnerLink","partners_twolevel","history","privateKey","subKey","nastavnik"]
     switch (table) {
       case 'user_admin': 
  
@@ -132,8 +132,8 @@ class DB {
  
      return users_by_id;
  
-     case 'users_all':  
-     const profile_by_id = await Users.findAll();
+     case 'all_users':  
+     const profile_by_id = await Profiles.findAll();
        
      return profile_by_id;
  

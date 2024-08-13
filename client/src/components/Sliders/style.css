@@ -63,7 +63,8 @@
   height: 60px;
   border-radius: 10px;
   cursor: pointer;
-  background: linear-gradient(150deg, rgb(248 190 7) 0%, rgb(255 141 50) 41%, rgb(246 197 34) 100%);
+  /* background: linear-gradient(139deg, #ffea00 -.13%, #f2a600 61.62%, #fe6819 100.83%); */
+  /* background: linear-gradient(150deg, rgb(248 190 7) 0%, rgb(255 141 50) 41%, rgb(246 197 34) 100%); */
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
@@ -95,7 +96,7 @@
   height: 60px;
   border-radius: 10px;
   cursor: pointer;
-  background: linear-gradient(150deg, rgb(199 195 181) 0%, rgb(225 172 81 / 44%) 41%, rgb(216 214 208) 100%);
+  /* background: linear-gradient(150deg, rgb(199 195 181) 0%, rgb(225 172 81 / 44%) 41%, rgb(216 214 208) 100%); */
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
  

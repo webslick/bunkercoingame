@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react'; 
 import Title from '../../components/Title'  
 import images from '../../assets/images'
-import { Link, useNavigate } from 'react-router-dom';
-import './index.css';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import GetButton from '../../components/GetButton';
 import LineInfoButton from '../../components/LineInfoButton';
+import { set_progress, getAppInfo, putMiningInfo, set_appinfo, set_mininginfo } from '../../redux/actions/app';
+import { app } from '../../redux/selectors';
+import './index.css';
+import { decimal } from '../../hooks/helpservice';
 
 function HalvingPage(props) { 
-  const { tg, user, appInfo } = props;
+  const { tg } = props;
   const { teher } = images;
 
   const navigate = useNavigate(); 
-  const [w, setW] = useState(0);
+  const dispatch = useDispatch();  
+
+  const miningInfo = useSelector(app.miningInfo); 
+  const appInfo = useSelector(app.appInfo); 
+  const progress = useSelector(app.progress); 
 
   const BackButton = tg.BackButton;
   BackButton.show();
@@ -21,16 +29,41 @@ function HalvingPage(props) {
     BackButton.hide();
   });
 
-  useEffect(() => { 
-    setW(document.getElementsByClassName('halvingBottomContainer')[0].clientWidth/+appInfo.halving_count) 
-  },[appInfo])
+  useEffect(() => {    
+    const fetchData = async () => { await getAppInfo(dispatch) }; 
+    fetchData(); 
+  },[miningInfo.tile_price]);  
+ 
+  useEffect(() => {  
+    console.log('AppInfo')
+    let allWidthProgressLine = +window.getComputedStyle(document.getElementsByClassName('halvingTopContainer')[0],null).getPropertyValue('width').split('px')[0];
+    console.log(allWidthProgressLine,'allwidthprogress')
+
+    let ratioPercent = (+appInfo.count_coin_all / +appInfo.total_coin_mine);
+    let percentToMine = 100 / ratioPercent ; // намайнено
+
+    console.log(percentToMine,'percentToMine')
+
+    let allWithLine = document.getElementsByClassName('halvingBottomContainer')[0].clientWidth;
+    let lineToMine = allWithLine * percentToMine; 
+ 
+    let allWithLineProgress = +window.getComputedStyle(document.getElementsByClassName('halvingLine')[0],null).getPropertyValue('left').split('px')[0];
+    let lineToMineProgress = (allWithLineProgress * +appInfo.total_coin_mine) / miningInfo.halving_to_mine;  
+ 
+    dispatch(set_progress({
+      line: lineToMine,
+      delimetr: lineToMineProgress, 
+    })); 
+
+  },[appInfo]) 
+  
   return(
     <div className='halvingScreen'>
       <Title title='Halving Bcoin'/> 
       <div className='halvingInfoWrapper'>
         <div className='halvingtitle'>{`Total tokens have been mined:`}</div>  
         <LineInfoButton 
-          title={`${appInfo.total_coin_mine} M`}  
+          title={`${decimal(Math.ceil(appInfo.total_coin_mine))}`}  
           img={teher}  
           size={false} 
           noarr  
@@ -38,14 +71,14 @@ function HalvingPage(props) {
         /> 
         <div className='halvingProgressContainer'>
           <div className='halvingTopContainer'>
-            <div style={{width: `${100/((appInfo.count_coin_all / 10000000) * (+appInfo.halving_count + 1) / appInfo.total_coin_mine )/+appInfo.halving_count}%`}} className='halvingProgress'></div>
+            <div style={{width: `${progress.line}px`}} className='halvingProgress'></div>
             <div className='halvingLable'>{appInfo.count_coin_all}</div>
           </div>
           <div className='halvingBottomContainer'>
-            <div style={{left: `${w}px`}} className='halvingLine'></div>   
+            <div style={{left: `${progress.delimetr}px`}} className='halvingLine'></div>   
           </div> 
         </div>
-        <div className='halvingsubtitle'>{`${+appInfo.halving_count + 1}rd halving will be after ${(appInfo.count_coin_all / 10000000) * (+appInfo.halving_count + 1)} M`}</div>  
+        <div className='halvingsubtitle'>{`${miningInfo.halving_to}rd halving will be after ${decimal(miningInfo.halving_to_mine)}`}</div>  
         <div className='halvingImgTileContainer'>
           <div className='halvingImgNine'>2048</div>
           <div style={{ color: 'black',margin: '0px 10px'}}>
@@ -60,7 +93,7 @@ function HalvingPage(props) {
             invite
             title="Start Bmine" 
             onCLick={(e) => {  
-              navigate('/minepage');
+              navigate('/');
             }} 
           />
         </div> 

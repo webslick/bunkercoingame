@@ -174,6 +174,7 @@ async function checkSubscription(bot, Pages, msg, channel, first) {
         },
         parse_mode: 'Markdown'
       })
+   
     } else {
       await bot.sendMessage(id, `*Ты все еще молодец, но подписки так и нет 🥺\n\nПодпишись на канал : @beauty_doctor_nsk *`,
       {
@@ -270,7 +271,7 @@ console.log(msg)
           text === '/start' || 
           text === '/profile' || 
           text === '/referral' || 
-          text === '/faq' || 
+          text === '/faq' ||  
           text === `/help` 
         ) { 
 
@@ -293,7 +294,9 @@ console.log(msg)
   
               let add_user = await SESSION.addInTables('users',{
                 user_id: id,
-                user_name: username,
+                user_name: username != null ? username :
+                last_name != null ? last_name :
+                first_name != null ? first_name : 'No name',
                 date_loss_game: null,
                 hints:JSON.stringify({ 
                   stepback: 0, 
@@ -308,7 +311,18 @@ console.log(msg)
                 nastavnik: JSON.stringify([]), 
                 privateKey, 
                 subKey, 
-                bestGame: JSON.stringify({ score: 14320, coins: 1233123 }), 
+                bestGame: JSON.stringify({ 
+                  daily_place: 0,
+                  all_place: 0,
+                  daily: {
+                    score: 14320, 
+                    coins: 1233123 
+                  },
+                  all_time: {
+                    score: 14320, 
+                    coins: 1233123 
+                  } 
+                }), 
                 first_name, 
                 last_name,
                 date_connection_channel: moment().format("MM-DD-YYYY HH:mm:ss"),  
@@ -394,7 +408,6 @@ console.log(msg)
                 })
               }
  
-         
               // // if(result.user_name == 'a_golowin' || result.user_name == 'iSergio54'){ await sendSheduleMsg(id, bot, ADMINSETTINGS, Pages, getUserResult) }   
               // infouse.raffle_number.map(element => { numbersRaffle.push(element) })
               // await bot.sendMessage(id, ` ${String(infouse.raffle_number[0])} (не потеряй)\n\n${ADMINSETTINGS.raffle_message_part_two.replace (/\/n\/n/gm,`\n\n`)}`)

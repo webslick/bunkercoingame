@@ -39,6 +39,27 @@ class UserController  {
     }
   }
  
+  async setUserInfo(req,res,next) { 
+    try {    
+      const { body } = req.body; 
+      if(body !== undefined) {
+        const userData = await userService.setUserInfo(body.user); 
+        return res.json(userData.user);
+      }
+    } catch (e) {
+      next(e);
+    }
+  }
+ 
+  async getAllUsers(req,res,next) { 
+    try {      
+      const userData = await userService.getAllUsers(); 
+      return res.json(userData.all_users); 
+    } catch (e) {
+      next(e);
+    }
+  }
+ 
   async getAppInfo(req,res,next) { 
     try {    
       const appData = await userService.getAppInfo(); 
@@ -118,39 +139,23 @@ class UserController  {
     }
   } 
   
-  async sendInfo(req, res, next) {
+  async putMiningInfo(req, res, next) {
     try {
-      const { body } = req.body
-      const {   
-        userId, 
-        initialDeath, 
-        deathdate,  
-        birthdate, 
-        nationality,
-        birthlocation,
-        deathlocation,
-        secondhalf, 
-        children,
-        career,
-        backgroundselect,
-        education, 
-        byer_files,   
-      } = body;  
-      const info = await userService.createPage({ 
-        initialDeath, 
-        deathdate,  
-        birthdate, 
-        nationality,
-        birthlocation,
-        deathlocation,
-        secondhalf, 
-        children,
-        backgroundselect,
-        career,
-        education, 
-        byer_files, 
-      },userId);
+      const { new_halving_earn, new_halving_coin } = req.body  
+      const info = await userService.putMiningInfo({ 
+        new_halving_earn,
+        new_halving_coin
+      });
      return res.json(info);
+    } catch (e) {
+      next(e);
+    }
+  } 
+  
+  async putHistoryInfo(req, res, next) {
+    try {   
+      const info = await userService.putHistoryInfo(req.body);
+     return res.json(info.user);
     } catch (e) {
       next(e);
     }

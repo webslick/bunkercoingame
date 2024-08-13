@@ -1,11 +1,12 @@
-import React from 'react'; 
-import BoardView from "../../components/Board"; 
+import React from "react"; 
+import BoardView from "../../components/Board";  
 import './index.css';
 
 function GamePage(props) {
-  const { text } = props; 
+  const { tg, appInfo, miningInfo } = props;   
+  
   return( 
-     <BoardView /> 
+     <BoardView tg={tg} appInfo={appInfo} miningInfo={miningInfo} /> 
   );
 }
 

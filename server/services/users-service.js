@@ -219,6 +219,120 @@ class UserService {
     } 
   }
  
+  async putHistoryInfo(historyInfo) {
+   
+    try {  
+   
+      const user = await DB.searchInTables('user_id', historyInfo.id ); 
+      let result = {}
+ 
+      if(!user) {
+        throw ApiErr.BadRequest(`Пользователь не найден`);
+      } else {
+       
+        var newUserInfo = await DB.updateModelTables(user, { history: JSON.stringify(historyInfo.history) }); 
+       
+        result = {  
+          ...serviceFunction.removeEmpty(newUserInfo, 'Profiles'),    
+        };  
+    
+        return { user: result } 
+      }
+   
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
+    } 
+  }
+ 
+  async setUserInfo(user) {
+   
+    try { 
+      const {
+        userId,
+        energy,
+        balance_count,
+        date_loss_game,
+        score,
+        history,
+        bestGame,
+      } = user
+ 
+      const userg = await DB.searchInTables('user_id', userId ); 
+ 
+      let result = {}
+ 
+      if(!userg) {
+        throw ApiErr.BadRequest(`Пользователь не найден`);
+      } else { 
+        var newUserInfo = await DB.updateModelTables(userg, { 
+          energy,
+          balance_count,
+          date_loss_game,
+          score,
+          history,
+          bestGame,
+        }); 
+      
+        result = {  
+          ...serviceFunction.removeEmpty(newUserInfo, 'Profiles'),    
+        };  
+         
+        return { user: result }  
+
+      }
+   
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
+    } 
+  }
+ 
+  async putMiningInfo(miningInfo) {
+   
+    try { 
+      const {
+        new_halving_earn,
+        new_halving_coin
+      } = miningInfo
+ 
+      const condidate = await DB.searchInTables('user_admin',{ id: 1 });
+     
+      let result = {}
+ 
+      if(!condidate) {
+        throw ApiErr.BadRequest(`Пользователь не найден`);
+      } else {
+        var newInfoMine = await DB.updateModelTables(condidate, { 
+          halving_earn: new_halving_earn,
+          halving_count: new_halving_coin 
+        }); 
+      
+        result = {  
+          ...serviceFunction.removeEmpty(newInfoMine, 'Admin_users'),   
+        };  
+ 
+        return { 
+          chanels: result.chanels,
+          halving_count: result.halving_count,
+          halving_earn: result.halving_earn,
+          count_coin_all: result.count_coin_all,
+          total_coin_mine: result.total_coin_mine,
+          bonus: result.bonus,
+          task_main: result.task_main,
+          tasks: result.tasks,
+        }
+      }
+   
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
+    } 
+  }
+
+
+
+ 
   async getPageInfo(pageId) {
    
     try { 
@@ -298,6 +412,20 @@ class UserService {
     };  
     console.log(result,'&&&&&')
     return { user: result } 
+  }
+ 
+  async getAllUsers() { 
+  
+    let usersArr = []
+    const all_users = await DB.searchInTables('all_users' ); 
+    
+    all_users.map((item) => {
+      usersArr.push({
+        ...serviceFunction.removeEmpty(item, 'Profiles'),
+      })
+    })
+ 
+    return { all_users: usersArr } 
   }
  
   async getAppInfo() { 

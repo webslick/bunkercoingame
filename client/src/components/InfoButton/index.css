@@ -1,0 +1,30 @@
+.infoButtonContainer {
+  display: flex;
+  width: auto;
+  height: 50px;
+  color: #000000;
+  font-weight: 600;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 20px;
+  border: 2px solid rgb(246, 169, 16);
+  margin: 5px;
+}
+ 
+.infoButtonImg {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+ 
+.infoButtonTitle {
+  display: flex;  
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;  
+}
+ 

@@ -17,27 +17,26 @@ import GroupPage from '../Pages/GroupPage';
  
 const Main = (props) => {
  
-  const { user, tg, appInfo } = props; 
+  const { user, tg, appInfo, miningInfo } = props; 
 
   return (
     <main>
       <Routes>
-        <Route exact path='/' element={<MainPage tg={tg} user={user} />} /> 
-        <Route path='/minepage' element={<MainPage tg={tg} user={user} />} /> 
+        <Route exact path='/' element={<MainPage tg={tg} user={user} />} />  
         {/* <Route path='/minepage' element={<GroupPage user={user} />} />  */}
         <Route path='/historypage' element={<HistoryPage tg={tg} user={user} />} /> 
-        <Route path='/halvingpage' element={<HalvingPage tg={tg} user={user} appInfo={appInfo} />} /> 
+        <Route path='/halvingpage' element={<HalvingPage tg={tg} />} /> 
         <Route path='/taskpage' element={<TaskPage tg={tg} user={user} />} /> 
         <Route path='/bestpage' element={<BestPage tg={tg} user={user} />} /> 
         <Route path='/grouppage' element={<GroupPage tg={tg} user={user} />} /> 
         <Route path='/bbcpage' element={<BbcPage tg={tg} user={user} />} /> 
         <Route path='/invitedpage' element={<InvitedPage tg={tg} user={user} />} /> 
-        <Route path='/howtoplay' element={<HowPlayPage tg={tg} user={user} />} /> 
+        <Route path='/howtoplay' element={<HowPlayPage tg={tg} />} /> 
         <Route path='/rankpage' element={<RankPage tg={tg} user={user} />} /> 
-        <Route path='/buddiespage' element={<BuddiesPage tg={tg} user={user} />} />  
+        <Route path='/buddiespage' element={<BuddiesPage tg={tg} user={user} appInfo={appInfo} />} />  
         <Route path='/boosterpage' element={<BoosterPage tg={tg} user={user} />} />  
         <Route path='/earnpage' element={<EarnPage tg={tg} user={user} />} />   
-        <Route path='/gamepage' element={<GamePage tg={tg} user={user} />} />   
+        <Route path='/gamepage' element={<GamePage tg={tg} user={user} miningInfo={miningInfo} appInfo={ appInfo } />} />   
       </Routes>
     </main>
   )

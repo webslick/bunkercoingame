@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import Title from '../../components/Title'
 import Subtitle from '../../components/Subtitle'
 import RewardBox from '../../components/RewardBox'
@@ -6,7 +8,9 @@ import images from '../../assets/images'
 import PlaceButton from '../../components/PlaceButton';
 import SwitcherTime from '../../components/SwitcherTime';
 import PrizeTitle from '../../components/PrizeTitle';
-import { Link, useNavigate } from 'react-router-dom';
+import { set_all_users, getAllUsers } from '../../redux/actions/users';
+import { users } from '../../redux/selectors';
+
 import './index.css';
 
 function BestPage(props) { 
@@ -14,7 +18,11 @@ function BestPage(props) {
   const { telega,teher,love, cool,rocket,arrow,selphi,prize } = images;
 
   const navigate = useNavigate();
- 
+  const dispatch = useDispatch();
+
+  const all_users = useSelector(users.all_users)
+  const user = useSelector(users.user)
+
   const BackButton = tg.BackButton;
   BackButton.show();
 
@@ -29,70 +37,55 @@ function BestPage(props) {
   // });
  
 
-  const placeUser = [
-    {
-      username: 'Alex',
-      count: '123',
-      imgprofile: love,
-    },
-    {
-      username: 'Alex',
-      count: '4563',
-      imgprofile: love,
-    },
-    {
-      username: 'Alex',
-      count: '1433',
-      imgprofile: love,
-    },
-    {
-      username: 'Alex',
-      count: '964',
-      imgprofile: love,
-    },
-    {
-      username: 'Alex',
-      count: '576453',
-      imgprofile: love,
-    },
-    {
-      username: 'Alex',
-      count: '35',
-      imgprofile: love,
-    },
-    {
-      username: 'Alex',
-      count: '65353',
-      imgprofile: love,
-    },
-  ] 
+  useEffect(() => {    
+    const fetchData = async () => { 
+      const allUsers = await getAllUsers();
+      if(allUsers !== 401) {  
+        dispatch(set_all_users(allUsers));  
+      }    
+    }; 
+    fetchData(); 
+  },[]); 
 
-  const userPlace = 100000;
+ 
 
-  return(
+  const allTimeUsers = all_users.slice(0);
+  const dailyUsers = all_users.slice(0);
+
+  let resultArrAllTime = allTimeUsers.sort((user1, user2) => Number(JSON.parse(user1["bestGame"])["all_time"]["coins"]) > Number(JSON.parse(user2["bestGame"])["all_time"]["coins"]) ? -1 : 1);
+  let resultArrDaily = dailyUsers.sort((user1, user2) => Number(JSON.parse(user1["bestGame"])["daily"]["coins"]) > Number(JSON.parse(user2["bestGame"])["daily"]["coins"]) ? -1 : 1);
+  
+  return(  
     <div className='bestScreen'>
       <Title title='B-B-Best game!'/>  
       <div className='bestSwitchContainer'>  
-        <SwitcherTime switcher={false} />
+        <SwitcherTime timer />
       </div> 
-      <div className='bestContainer'>
-        <PrizeTitle subimg={teher} img={prize} title="Daily prize pool 244M" />
-      </div>
       {
-        userPlace > 9 ? 
+        false ? 
+        <div className='bestContainer'>
+          <PrizeTitle subimg={teher} img={prize} title="Daily prize pool 244M" />
+        </div>
+        : <></>
+      } 
+      {
+        user?.bestGame.daily_place > 3 ? 
         <div className='userPlaceContainer'>
-        <PlaceButton userButton num={userPlace} name={"Alex"} countMine={4133} img={cool} />
+        <PlaceButton userButton num={ user.bestGame.daily_place} name={user.user_name} countMine={user.balance_count} />
       </div>
         : <></>
       } 
       <div className='rankPlaceContainer'>
         {
-          placeUser.map((item,i) => { 
-            if(i == userPlace) {
-              return <PlaceButton userButton key={i} num={userPlace} name={"Александр"} countMine={4133} img={cool} />
-            } else return (<PlaceButton key={i} num={i} name={item.username} countMine={item.count} img={item.imgprofile} />)
+          
+        }
+        {/* {
+          a.map((item,i) => { 
+            if(i + 1 == User?.place) {
+              return <PlaceButton userButton key={i} num={User?.place} name={User.user_name} countMine={User.balance_count} />
+            } else return (<PlaceButton key={i} num={item?.place} name={item.user_name} countMine={item.balance_count} />)
             })
-        } 
+        }  */}
       </div>
     </div>
   );

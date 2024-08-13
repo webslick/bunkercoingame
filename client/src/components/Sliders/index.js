@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toImg, slideSecond, stop } from '../utils'; 
 import { visible_footer } from '../../redux/actions/app'
+import TimerDaily from '../TimerDaily'
+import moment from 'moment'
 import './style.css'; 
   
 const slider = {
@@ -20,10 +22,8 @@ const slider = {
   },
  
 };
-
-
-
-const Slider = (props) => {
+ 
+const Slider = ({ disabled, dateLoss }) => {
  
   const [sliderVariant, setSliderVariant] = useState(slider.default);
   const [solving, setSolving] = useState(false); 
@@ -50,9 +50,10 @@ const Slider = (props) => {
     };
  
     if (move.x > 249 || move.x < 0) return; // Don't update if outside bounds of captcha
- 
-    setTrail(move.x);
-    
+
+    if(!disabled) {
+      setTrail(move.x);
+    }   
   };
 
   const handleEnd = async () => {
@@ -76,6 +77,31 @@ const Slider = (props) => {
     setSliderVariant(slider.default);
   };
 
+  function setmoment(count,time) {
+  
+    let t = '';
+    switch (time) {
+      case 'd':
+          t = 'day';
+        break;
+      case 'h':
+        t = 'hours';
+        break;
+      case 'm':
+        t = 'minutes';
+        break;
+      case 's':
+        t = 'seconds';
+        break; 
+      default:
+        t = 'day';
+        break;
+    }
+ 
+    return moment(dateLoss).add(count, t) 
+  }
+
+
   return (
     <div
       className='slider' 
@@ -88,18 +114,36 @@ const Slider = (props) => {
     > 
       <div className='slider_container'>
         <div className='slider_track' />
-        <div className='slider_number_noactive'>2</div>
+        <div
+        className='slider_number_noactive'
+        style={{ background: disabled ? '#c9c9c9' : 'linear-gradient(150deg, rgb(199 195 181) 0%, rgb(225 172 81 / 44%) 41%, rgb(216 214 208) 100%)'}}
+        >2</div>
         <div className='slider_label' style={{ opacity: solving ? 0 : 1 }} >
-          <span>merge tile and  start mining</span>
+          {
+            disabled ? 
+            <div>
+            <span>Ждите</span> 
+            <TimerDaily 
+              deadline={ setmoment(6,'h') } 
+              onTime={() => {
+                console.log('timer stoping!')
+              }} 
+            /> </div>
+
+
+
+
+            : <span>merge tile and  start mining</span>
+          } 
         </div>
         <div
           className={`slider_mask ${sliderVariant.className}`}
           style={{ width: `${trail + 60}px` }}
         />
         <div className='slider_container' draggable={false} />
-        <div
-          className={`slider_control ${sliderVariant.className}`}
-          style={{ left: `${trail}px` }}
+        <div 
+          style={{left: `${trail}px`,background: disabled ? '#c9c9c9' : 'linear-gradient(139deg, #ffea00 -.13%, #f2a600 61.62%, #fe6819 100.83%)'}}
+          className={`slider_control ${sliderVariant.className}`} 
           onMouseDown={handleStart}
           onTouchStart={handleStart}
           onMouseEnter={handleEnter}

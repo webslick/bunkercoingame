@@ -1,18 +1,93 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Tile from "../Tile";
 import Cell from "../Cell";
-import { Board } from "../../helper";
+import { Board } from "../../helper/index";
 import useEvent from "../../hooks/useEvent";
 import GameOverlay from "../GameOverlay";
 import GetButton from "../GetButton";
 import JoinButton from "../JoinButton";
 import images from "../../assets/images";
+import moment from "moment";
+import { app, loader, timer , users} from '../../redux/selectors'
+import { useSwipeable } from 'react-swipeable'
+import { putHistoryInfo, set_visibleLooser } from '../../redux/actions/app'
+import { set_user } from '../../redux/actions/users'
+import {set_info_user} from '../../redux/actions/users'
+import { useNavigate } from "react-router-dom";
+import { convertTimeBd, NowBDformat } from '../../hooks/helpservice'
 import './index.css';
 
-const BoardView = () => {
+const BoardView = (props) => {
 
-  const [board, setBoard] = useState(new Board());
+  const { tg, appInfo, miningInfo } = props;
   const {teher,telega,love} = images;
+
+  const user = useSelector(users.user); 
+const loading = useSelector(loader.loading)
+  const energy = useSelector(timer.energy);
+ 
+  const hours = energy.hours;
+  const minutes = energy.minutes;
+  const seconds = energy.seconds; 
+
+  const [board, setBoard] = useState(new Board({ appInfo, miningInfo }));
+  const [stopScroll, setStopScroll] = useState(false);
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+ 
+  const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  const handlers = useSwipeable({
+    onTap: (eventData) => { 
+      let dir = random(0,3);  
+
+      let boardClone = Object.assign(
+        Object.create(Object.getPrototypeOf(board)),
+        board
+      );
+      let newBoard = boardClone.move(dir);
+      setBoard(newBoard);
+
+    }, 
+
+    onSwiped: (eventData) => { 
+      setStopScroll(false)
+      let dir = 0; 
+      switch (eventData.dir) {
+        case 'Up':
+          dir = 1;
+          break;
+        case 'Down':
+          dir = 3;
+          break;
+        case 'Left':
+          dir = 0;
+          break;
+        case 'Right':
+          dir = 2;
+          break;
+      
+        default:
+          break;
+      } 
+
+      let boardClone = Object.assign(
+        Object.create(Object.getPrototypeOf(board)),
+        board
+      );
+      let newBoard = boardClone.move(dir);
+      setBoard(newBoard);
+
+    },  
+
+    onSwipeStart: () => setStopScroll(true), 
+
+  }); 
+ 
   const handleKeyDown = (event) => {
     if (board.hasWon()) {
       return;
@@ -47,53 +122,136 @@ const BoardView = () => {
       return <Tile tile={tile} key={index} />;
     });
 
-  const resetGame = () => {
-    setBoard(new Board());
-  };
+  // const resetGame = () => {
+  //   console.log('RESTART')
+  //   setBoard(new Board({ appInfo, miningInfo }));
+  // };
 
-  return (
+  function isEmpty(obj) {
+    for (const prop in obj) {
+      if (Object.hasOwn(obj, prop)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function isEmptyObject(value) {
+    if (value == null) {
+      // null or undefined
+      return false;
+    }
+    if (typeof value !== 'object') {
+      // boolean, number, string, function, etc.
+      return false;
+    }
+    const proto = Object.getPrototypeOf(value);
+    // consider `Object.create(null)`, commonly used as a safe map
+    // before `Map` support, an empty object as well as `{}`
+    if (proto !== null && proto !== Object.prototype) {
+      return false;
+    }
+    return isEmpty(value);
+  }
+    
+    useEffect(() => {
+      if(board.hasWon()) {
+       console.log('won true')
+      } else if (board.hasLost()) { 
+        console.log('won false',board.mine_coins)
+        console.log('won false',board.score)
+        console.log('user',user)   
+        // resetGame()  
+      
+        const fetchData = async () => {  
+ 
+        if(!isEmptyObject(user)) {  
+          let historyArr = JSON.parse(user?.history);    
+
+          if(typeof(historyArr) == 'string') { 
+            let arr = [...JSON.parse(historyArr)]
+            arr.push({ date_game: moment().format('D/M/Y'),total_coins: board.mine_coins })  
+            await putHistoryInfo({ 
+              id: user.user_id,
+              history: JSON.stringify(arr)  
+            })
+          } else {
+            historyArr.push({ date_game: moment().format('D/M/Y'),total_coins: board.mine_coins })  
+            await putHistoryInfo({ 
+              id: user.user_id,
+              history: JSON.stringify(historyArr)  
+            })
+          } 
+        } 
+  
+        let newuser =  await set_info_user({
+          userId: user.user_id,
+          energy: Number(user.energy) == 0 ? 0 : JSON.stringify(Number(user.energy) - 1),
+          balance_count: JSON.stringify(Number(user.balance_count) + board.mine_coins),
+          date_loss_game: user.date_loss_game == null ? NowBDformat : moment(moment(user.date_loss_game).add(7,'hours').format("YYYY-MM-DD HH:mm")),
+          score: JSON.stringify(Number(user.score) + board.score), 
+          bestGame: JSON.stringify({...JSON.parse(user?.bestGame),
+             daily: { score: board.score + JSON.parse(user?.bestGame).daily.score, coins: board.mine_coins + JSON.parse(user?.bestGame).daily.coins },
+             all_time: { score: board.score + JSON.parse(user?.bestGame).all_time.score, coins: board.mine_coins + JSON.parse(user?.bestGame).all_time.coins },
+          })
+        },dispatch);
+
+        dispatch(set_user(newuser)); 
+        dispatch(set_visibleLooser(true)) 
+
+      }
+      fetchData()
+      } 
+    },[stopScroll])
+
+
+    useEffect(()=>{
+      setBoard(new Board({ appInfo, miningInfo }));
+    },[loading])
+  
+    return (
     <div className="boardViewContainer">
       <div className='boardViewTopContainer'>  
-        <JoinButton title="Join" img={ telega } url="https://t.me/+79139169290" />    
+        <JoinButton title="Join" img={ telega } onCLick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />      
         <GetButton title="Invite Buddies"  fill={!false} invite={true} /> 
       </div>
-      <div className="details_box">
-        <div className="left_box" > 
-          <div className="infoButtonWrapper" >
-            <div className="resetButtonTop"> 
-                2048 
+      <div {...handlers} style={{ touchAction: stopScroll ? 'none' : 'auto' }} className="touchContainer">
+        <div className="details_box">
+          <div className="left_box" > 
+            <div className="infoButtonWrapper" >
+              <div className="resetButtonTop"> 
+                  2048 
+              </div>
+              <div className="resetButtonBottom"> 
+                  {appInfo?.halving_earn} 
+                <img style={{ width: '18px', height:' 18px', marginLeft: '5px'}} src={teher} />
+              </div> 
             </div>
-            <div className="resetButtonBottom"> 
-                40000 
+          </div>
+          <div className="rigth_box" >
+            <div className="score-box">
+              <div className="scoreBoxTop" >
+              Score:
+              </div>
+              <div className="scoreBoxBottom" >
+              {board.score}
+              </div>
+            </div>
+            <div className="score-box">
+              <div className="scoreBoxTop" >
+              Your mine:
+              </div>
+              <div className="scoreBoxBottom" >
+              {board.mine_coins}
               <img style={{ width: '18px', height:' 18px', marginLeft: '5px'}} src={teher} />
+              </div>
             </div> 
-          </div>
+          </div> 
         </div>
-        <div className="rigth_box" >
-          <div className="score-box">
-            <div className="scoreBoxTop" >
-             Score:
-            </div>
-            <div className="scoreBoxBottom" >
-             {board.score}
-            </div>
-          </div>
-          <div className="score-box">
-            <div className="scoreBoxTop" >
-             Your mine:
-            </div>
-            <div className="scoreBoxBottom" >
-            {board.score}
-            <img style={{ width: '18px', height:' 18px', marginLeft: '5px'}} src={teher} />
-            </div>
-          </div>
- 
-        </div> 
-      </div>
-      <div className="board">
-        {cells}
-        {tiles}
-        <GameOverlay onRestart={resetGame} board={board} />
+        <div className="board">
+          {cells}
+          {tiles}
+          {/* <GameOverlay onRestart={resetGame} board={board} /> */}
+        </div>
       </div>
     </div>
   );

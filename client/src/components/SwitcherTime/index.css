@@ -8,3 +8,34 @@
   background-color: rgb(238 225 202);
 }
  
+ 
+
+.switchButtonContainer {
+  display: flex;
+  width: 48%;
+  height: 30px; 
+  border-radius: 23px;
+  align-items: center;
+  justify-content: center; 
+}
+
+.switchButtonTitle {
+  display: flex;
+  color: #312a24;
+  font-weight: 600;
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;  
+  margin: 0px 10px;
+}
+ 
+.switchButtontime  {
+  display: flex;
+  color: #312a24;
+  font-weight: 600;
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;  
+  padding: 0px 10px;
+}
+ 

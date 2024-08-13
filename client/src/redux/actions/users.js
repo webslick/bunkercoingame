@@ -11,6 +11,13 @@ export function set_user(user) {
     payload: user
   }
 }
+
+export function set_all_users(users) {
+  return {
+    type: ActionTypes.USERS_PUT_ALL_USER,
+    payload: users
+  }
+}
  
  
 export function change_visible_popup(visible) {
@@ -87,9 +94,7 @@ export async function getUserInfo (userId) {
       }
      
     }; 
-    const response = await axios.post(`${API_URL}/getUserInfo`, requestOptions);
-  
-    console.log(response, 'getuserinfo')
+    const response = await axios.post(`${API_URL}/getUserInfo`, requestOptions); 
     const user = response.data; 
  
     return user
@@ -99,14 +104,41 @@ export async function getUserInfo (userId) {
   }
 }
  
-export async function getAppInfo (dispatch) {
+export async function set_info_user (user) {
+  
+  try {
+    const requestOptions = {
+      method: 'post',
+      headers: { 
+      'Content-Type': 'application/json',
+      }, 
+      body: {
+        user
+      }
+     
+    }; 
+ 
+console.log(user, 'REQ USERINFO')
+
+
+    const response = await axios.post(`${API_URL}/setUserInfo`, requestOptions); 
+    const userg = response.data;  
+    return userg
+
+  } catch (error) {
+    console.log(error.response?.data?.message)
+    return error.response?.status;
+  }
+}
+
+ 
+export async function getAllUsers (dispatch) {
 
   try {
-    const response = await axios.get(`${API_URL}/getAppInfo`, { withCredentials:true });
-    console.log(response)
-    const app = response.data; 
+    const response = await axios.get(`${API_URL}/getAllUsers`, { withCredentials:true }); 
+    const allUsers = response.data; 
  
-    return app
+    return allUsers
   } catch (error) {
     console.log(error.response?.data?.message)
     return error.response?.status;

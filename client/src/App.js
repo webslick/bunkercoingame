@@ -1,86 +1,100 @@
- 
-import React, { useEffect, useState } from 'react';
-import { QRCode } from 'antd'; 
+ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
+import { QRCode } from 'antd'; 
 import Main from './routes/index';
-import useTelegram from './hooks/useTelegram';
-import useScript from './hooks/useScript';
-
-import { change_page, setMobileMod, set_appinfo } from './redux/actions/app'; 
-import {  set_user, getUserInfo, getAppInfo } from './redux/actions/users'; 
-import {  app, users,  } from './redux/selectors'; 
- 
-// import PopapLogin from './components/PopapLogin';
-// import PopapReferal from './components/PopapReferal';
-
+import useTelegram from './hooks/useTelegram';  
+import { setMobileMod, set_appinfo, set_mininginfo, putMiningInfo, getAppInfo } from './redux/actions/app'; 
+import { setLoadding } from './redux/actions/loader'; 
+import {  set_user, getUserInfo } from './redux/actions/users'; 
+import {  app, users, popup_looser, popup_info, loader } from './redux/selectors';  
+import PopapInfo from './components/PopapInfo'; 
+import api from './http/index'
 import './App.css';
- 
+  
 function App() {
 
   const dispatch = useDispatch();  
+
   const mobile = useSelector(app.mobile);  
   const appInfo = useSelector(app.appInfo);  
-
-  const user = useSelector(users.user);  
-
-  // const popup_visible = useSelector(popup_login.popup_visible);  
-  // const popup_referal_visible = useSelector(popup_referal.popup_visible);  
+  const miningInfo = useSelector(app.miningInfo);  
+  const user = useSelector(users.user);   
+  const popup_visible_looser = useSelector(popup_looser.popup_visible_looser);   
+  const loading = useSelector(loader.loading);
  
-  // const loading = useSelector(loader.loading);
-
-  const [loaddingdata,setLoadData] = useState(false);
- 
-
   const { tg, usertg, queryId } = useTelegram();
 
   useEffect(()=>{
     tg.ready();
-    tg.expand();
+    tg.expand(); 
   },[tg])
-
+ 
+  useEffect(() => { dispatch(setMobileMod(isMobile));  console.log('1')},[]);  
 
   useEffect(() => {    
-    const fetchData = async () => {
-      console.log(usertg,' TG WARNING USESTATE')
-    //  const user = await getUserInfo('6107507930');  
-       const user = await getUserInfo(usertg?.id);  
-      const appInfo = await getAppInfo(dispatch) 
+    const fetchData = async () => {  
+      const user = await getUserInfo('6107507930'); 
+      //  const user = await getUserInfo(usertg?.id);  
       if(user !== 401) {  
-        dispatch(set_user(user));  
-      }   
-      if(appInfo !== 401) {  
-        dispatch(set_appinfo(appInfo));  
-      }   
-      setLoadData(true) 
+        dispatch(set_user(user)); 
+        console.log('2') 
+      }  
+
+      const app = await getAppInfo('6107507930'); 
+
+      if(app !== 401) {  
+        dispatch(set_appinfo(app)); 
+        console.log('3')  
+      }  
+       
+      const halving_ratio = 10;
+      const halving_ratio_coin = 1000000; 
+      const halving_to = +app.halving_count + 1; 
+      const halving_step = app.count_coin_all / (halving_ratio_coin * halving_ratio);
+      const halving_to_mine = halving_to * halving_step; 
+      const halving_ratio_price = (halving_step * halving_ratio) / (halving_step * 2);
+      const tile_price = (app.halving_earn / (2048 * halving_ratio_price));
+
+      if(app.total_coin_mine >= halving_to_mine) {
+        let new_halving_earn = app.halving_earn / 2; 
+        const response = await api.main_api.post('/putMiningInfo', { new_halving_earn, new_halving_coin: halving_to }) 
+      } 
+ 
+      dispatch(set_mininginfo({
+        halving_ratio, 
+        halving_ratio_coin, 
+        halving_to, 
+        halving_step, 
+        halving_to_mine, 
+        halving_ratio_price,
+        tile_price, 
+      }));  
+      
+
+
+      // dispatch(setLoadding(true)); 
     }; 
     fetchData(); 
-  },[loaddingdata]);  
- 
-  useEffect(() => {   
-
-    if(localStorage.getItem('page') === null) {  
-      localStorage.setItem('page','main'); 
-    }   
-
-    dispatch(setMobileMod(isMobile));
-    dispatch(change_page(localStorage.getItem('page'))); 
- 
-  },[]);  
- 
- 
-  console.log(tg)
-  console.log(usertg)
-  console.log(user)
-  console.log(queryId,'queryId')
-  console.log(appInfo,'appInfo')
+  },[]); 
+  
+  
+  // console.log(tg)
+  // console.log(usertg)
+  console.log(user,'user App')
+  console.log(miningInfo,'miningInfo App')
+  console.log(appInfo,'appInfo App') 
+  // console.log(queryId,'queryId')
  
   return ( 
     <div className="App">  
         {
           mobile ?    
           <>  
-            <Main tg={ tg } user={ user } appInfo={ appInfo } />  
+            <Main tg={ tg } user={ user } appInfo={appInfo} miningInfo={miningInfo} />  
+            {
+              popup_visible_looser ?  <PopapInfo tg={ tg } user={user} coin={user.balance_count} /> : <></>
+            }
           </> 
         : 
           <div className='desktop_error'>

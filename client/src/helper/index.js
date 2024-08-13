@@ -1,3 +1,5 @@
+import { Component } from "react";
+
 var rotateLeft = function (matrix) {
   var rows = matrix.length;
   var columns = matrix[0].length;
@@ -55,18 +57,22 @@ class Tile {
   }
 }
 
-class Board {
-  constructor() {
+class Board  extends Component {
+
+  constructor(props) {
+    super(props);
+
     this.tiles = [];
     this.cells = [];
     this.score = 0;
+    this.mine_coins = 0;
     this.size = 4;
     this.fourProbability = 0.1;
     this.deltaX = [-1, 0, 1, 0];
     this.deltaY = [0, -1, 0, 1];
     for (var i = 0; i < this.size; ++i) {
       this.cells[i] = [
-        this.addTile(),
+        this.addTile(), 
         this.addTile(),
         this.addTile(),
         this.addTile(),
@@ -75,8 +81,9 @@ class Board {
     this.addRandomTile();
     this.addRandomTile();
     this.setPositions();
-    this.won = false;
+    this.won = false; 
   }
+
   addTile(args) {
     var res = new Tile(args);
     this.tiles.push(res);
@@ -91,15 +98,16 @@ class Board {
       for (var target = 0; target < this.size; ++target) {
         var targetTile = currentRow.length
           ? currentRow.shift()
-          : this.addTile();
+          : this.addTile(); 
         if (currentRow.length > 0 && currentRow[0].value === targetTile.value) {
           var tile1 = targetTile;
           targetTile = this.addTile(targetTile.value);
           tile1.mergedInto = targetTile;
           var tile2 = currentRow.shift();
           tile2.mergedInto = targetTile;
-          targetTile.value += tile2.value;
-          this.score += tile1.value + tile2.value;
+          targetTile.value += tile2.value; 
+          this.score += tile1.value + tile2.value;  
+          this.mine_coins += (this.props.miningInfo.tile_price) * tile1.value; 
         }
         resultRow[target] = targetTile;
         this.won |= targetTile.value === 2048;
@@ -109,6 +117,7 @@ class Board {
     }
     return hasChanged;
   }
+
   setPositions() {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((tile, columnIndex) => {
@@ -120,6 +129,7 @@ class Board {
       });
     });
   }
+
   addRandomTile() {
     var emptyCells = [];
     for (var r = 0; r < this.size; ++r) {
@@ -134,8 +144,9 @@ class Board {
     var newValue = Math.random() < this.fourProbability ? 4 : 2;
     this.cells[cell.r][cell.c] = this.addTile(newValue);
   }
+
   move(direction) {
-    // 0 -> left, 1 -> up, 2 -> right, 3 -> down
+    // 0 -> left, 1 -> up, 2 -> right, 3 -> down 
     this.clearOldTiles();
     for (var i = 0; i < direction; ++i) {
       this.cells = rotateLeft(this.cells);
@@ -159,6 +170,7 @@ class Board {
   hasWon() {
     return this.won;
   }
+
   hasLost() {
     var canMove = false;
     for (var row = 0; row < this.size; ++row) {
@@ -180,7 +192,7 @@ class Board {
             this.cells[newRow][newColumn].value;
         }
       }
-    }
+    } 
     return !canMove;
   }
 }

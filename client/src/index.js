@@ -21,5 +21,4 @@ root.render(
     </BrowserRouter>
   </>
 );
-  
-//https://t.me/Bcoin2048bot/app?startapp=ref_pCH_7qM0tJFSrrN4lPGszKAz
+   

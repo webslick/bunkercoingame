@@ -1,33 +1,38 @@
 import React from 'react'; 
 import TaskButton from '../TaskButton';
 import { useNavigate } from 'react-router-dom';
+import images from '../../assets/images';
 import './index.css';
 
 function TaskCartsContainer(props) {
   const { title, carts } = props; 
+  const { rocket, teher } = images; 
+
  const navigate = useNavigate();
+
+console.log(title,'title')
+console.log(carts,'carts')
   return(
     <div className='taskCartsContainer'>
       <div className='taskCartsTitle'>{title}</div> 
       <div className='taskCartsButtonContainer'> 
         {
-          carts.map((item,key) => (
-          <TaskButton
-            title={item.title}
-            img={item.img}
-            count={item.count}
-            coin={item.coin}
-            subcoin={item.subcoin}
-            subcount={item.subcount}
-            margin={item.margin}
-            noarrow={item.noarrow} 
-            leftTitle={item.leftTitle}
-            leftSubTitle={item.leftSubTitle}
-            key={key}
-            onClick={(e) => {
-              navigate('/taskpage')
-            }}
-          />))
+          carts.map((item,key) => ( 
+            <TaskButton
+              title={''}
+              img={rocket}
+              count={item.total_coins}
+              coin={teher}
+              subcoin={''}
+              subcount={''}
+              margin={''}
+              noarrow={true} 
+              leftTitle={'You'}
+              leftSubTitle={'4 ur gamez'}
+              key={key}
+              onClick={(e) => {}}
+            />  
+          ))
         } 
       </div> 
     </div> 

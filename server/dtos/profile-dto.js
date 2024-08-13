@@ -17,9 +17,10 @@ module.exports = class ProfileDto {
   bestGame; 
    
   constructor(model) { 
+
     this.user_id = model?.user_id;  
     this.user_name = model?.user_name;  
-    this.date_loss_game = model?.date_loss_game == null ? null : moment(model?.date_loss_game).format("MM-DD-YYYY HH:mm:ss"); 
+    this.date_loss_game = model?.date_loss_game == null ? null : moment(model?.date_loss_game).subtract(7,'hours').format("YYYY-MM-DD HH:mm");  
     this.hints = model?.hints;   
     this.energy = model?.energy;  
     this.balance_count = model?.balance_count;  

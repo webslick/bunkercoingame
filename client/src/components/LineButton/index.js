@@ -13,9 +13,7 @@ function LineButton(props) {
       } 
       return <div key={key}>&nbsp;{item}</div>
     })
-  } else {
-    console.log('!@')
-  }
+  }  
  
   return(
     <div onClick={(e) => (onCLick(e))} style={{ border: `${title ? '0' : `1px solid #a08686`}`, backgroundColor: smile ? 'rgb(227, 181, 122)' : 'rgb(255, 231, 200)'}} className='lineButtonContainer'> 

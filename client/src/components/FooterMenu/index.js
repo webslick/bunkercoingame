@@ -7,24 +7,24 @@ import images from '../../assets/images';
 import './style.css'; 
 
 function FooterMenu(props) {
-  const { onClick, isHiden, page, } = props;
+  const { onClick, isHiden } = props;
   const { cringe, cry, cool, love, helpsmile }= images;
  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {    
-    dispatch(change_page(localStorage.getItem('page'))); 
-    // dispatch(setPopupMainMsg(''));
-  },[page]); 
+  // useEffect(() => {    
+  //   // dispatch(change_page(localStorage.getItem('page'))); 
+  //   // dispatch(setPopupMainMsg(''));
+  // },[page]); 
   
   const footers_tab = [
-    {
-      title: 'Mine', 
-      key:"main",
-      rout: '/minepage',
-      img: cringe
-    }, 
+    // {
+    //   title: 'Mine', 
+    //   key:"main",
+    //   rout: '/minepage',
+    //   img: cringe
+    // }, 
     {
       title: 'Buddies', 
       key:"buddies",
@@ -46,7 +46,7 @@ function FooterMenu(props) {
     {
       title: 'Support', 
       key:"support",
-      rout: '/minepage',
+      rout: '/',
       img: helpsmile
     }  
   ];
@@ -122,7 +122,8 @@ if(isHiden) {
   return ( <div className='footerWrapper'>   
     {
       footers_tab.map(({ key, rout, title, img }) => {  
-      return <Menubutton id={key} key={key} onClick={(e) => { onClick(e); }} active={key === page ? key == 'support' ? false : true : false} title={title} img={img} rout={rout} /> 
+      return <Menubutton id={key} key={key} onClick={(e) => { onClick(e); }} active={false} title={title} img={img} rout={rout} /> 
+      // return <Menubutton id={key} key={key} onClick={(e) => { onClick(e); }} active={key === page ? key == 'support' ? false : true : false} title={title} img={img} rout={rout} /> 
     })} 
   </div> 
 );

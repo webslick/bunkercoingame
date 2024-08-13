@@ -1,17 +1,21 @@
-import React from 'react'; 
-import Title from '../../components/Title' 
-import TaskCartsContainer from '../../components/TaskCartsContainer/index'
-import images from '../../assets/images'
+import React, { useEffect, useState } from 'react'; 
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment'; 
+import Title from '../../components/Title';
+import { users } from '../../redux/selectors';
+import TaskCartsContainer from '../../components/TaskCartsContainer/index';
 import './index.css';
-import GetButton from '../../components/GetButton';
 
-function HistoryPage(props) { 
-  const { back, rocket, teher, cool, helpsmile, help, agry } = images;
+function HistoryPage(props) {  
   const { tg } = props;
 
   const navigate = useNavigate();
- 
+  
+  const user = useSelector(users.user)
+  const [isSorted, setIsSorted] = useState(false);
+  const [sorted, setSorted] = useState([]);
+
   const BackButton = tg.BackButton;
   BackButton.show();
 
@@ -19,67 +23,48 @@ function HistoryPage(props) {
     navigate('/');
     BackButton.hide();
   });
-  let carts = [
-  [
-    {
-      title: "Ladesov Crypto",
-      img: cool,
-      count: '350',
-      coin: teher,
-      subcoin: rocket,
-      subcount: "",
-      margin: "",
-      leftTitle: 'You',
-      leftSubTitle: '4 ur games',
-      noarrow: true
-    },
-  ],
-  [
-    {
-      title: "Ladesov Crypto",
-      img: cool,
-      count: '2350',
-      coin: teher,
-      subcoin: rocket,
-      subcount: "",
-      margin: "",
-      leftTitle: 'You',
-      leftSubTitle: '4 ur games',
-      noarrow: true
-    },
-    {
-      title: "Ladesov Crypto",
-      img: cool,
-      count: '503',
-      coin: teher,
-      subcoin: rocket,
-      subcount: "",
-      margin: "",
-      leftTitle: 'You',
-      leftSubTitle: '4 ur games',
-      noarrow: true
-    },
-    {
-      title: "Ladesov Crypto",
-      img: cool,
-      count: '50',
-      coin: teher,
-      subcoin: rocket,
-      subcount: "",
-      margin: "",
-      leftTitle: 'You',
-      leftSubTitle: '4 ur games',
-      noarrow: true
-    },
-  ]]
 
-  let titles= ['03/07/2024','05/07/2024','04/08/2024','03/23/']
 
+  useEffect(()=> { 
+    let historyArr =  user?.history == undefined ? {} :JSON.parse(user?.history);   
+    if(typeof(historyArr) == 'string') { 
+      let arr = [...JSON.parse(historyArr)]
+      setSorted(arr.sort((user1, user2) => {console.log(user1); return compare(user1["date_game"],user2["date_game"])}));
+    }   
+    setIsSorted(true)
+  },[isSorted])
+
+
+  function compare(dateTimeA, dateTimeB) {
+      var momentA = moment(dateTimeA,"DD/MM/YYYY");
+      var momentB = moment(dateTimeB,"DD/MM/YYYY");
+      if (momentA > momentB) return 1;
+      else if (momentA < momentB) return -1;
+      else return 0;
+  }
+ 
+  let sortedArr = sorted.reduce((acc, elem) => {
+    (acc[elem.date_game] ??= []).push(elem); 
+    // acc[elem.date] = (acc[elem.date] || []).concat([elem])
+    return acc;
+  }, {});
+ 
   return(
     <div className='historyScreen'>
       <Title title='History Bcoin'/>  
-      {
-        carts.map((item,i) => (<TaskCartsContainer key={i} title={titles[i]} carts={item} /> ))
+      { 
+
+        Object.values(sortedArr).length != 0  ? 
+        Object
+        .values(
+          sortedArr 
+        ).map((item,i) => {   
+          return <TaskCartsContainer key={i} title={item[0].date_game} carts={item} />
+        } )  :
+
+          <div className='emptyContainer'>
+            <div className='emptyTitle'>You have never played. Start the game faster and reach a high level!</div>
+          </div> 
       }
 
     </div>

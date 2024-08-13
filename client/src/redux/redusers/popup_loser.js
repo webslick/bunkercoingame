@@ -1,15 +1,15 @@
 import ActionTypes from '../constants';
 
 const initialState = {
-  popup_visible: false
+  popup_visible_looser: false
 };
 
-export default function popup_loser(state = initialState, { type, payload }) {
+export default function popup_looser(state = initialState, { type, payload }) {
   switch (type) {
     case ActionTypes.POPUP_LOOSER_VISIBLE:
       return {
         ...state,
-        popup_visible: payload,
+        popup_visible_looser: payload,
       };   
     default:
       return state;

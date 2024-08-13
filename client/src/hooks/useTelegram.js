@@ -1,10 +1,15 @@
  
 const tg = window.Telegram.WebApp
 
+// https://t.me/share/url?url={url}&text={text}
 const useTelegram = url => {
  
   const onClose = () => {
     tg.close();
+  }
+ 
+  const openTelegramLink = (url) => {
+    tg.openTelegramLink(url)
   }
 
   const onToggleButton = () => {
@@ -21,6 +26,7 @@ const useTelegram = url => {
     tg,
     usertg: tg.initDataUnsafe?.user,
     queryId: tg.initDataUnsafe?.query_id,
+    openTelegramLink
   }
 
 };
