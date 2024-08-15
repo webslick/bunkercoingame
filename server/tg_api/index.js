@@ -21,7 +21,7 @@ const TGAPI = {
 }
  
 // const WebAppUrl = 'https://candid-granita-dc7078.netlify.app'
-const WebAppUrl = 'https://t.me/BitBunker_bot/bitbunkercoin?mode=compact'
+const WebAppUrl = 'https://t.me/BitBunker_bot/bitbunkercoin'
 
 
 Object.defineProperty(Array.prototype, 'chunk', {
@@ -91,8 +91,7 @@ async function launchInTime(time, type, eventFunc, Schedule) { // включае
     await eventFunc()
   });
 }
-
-  
+ 
 async function everyMinutsRun(eventFunc, Schedule) { // включается каждую минуту
   Schedule.scheduleJob('*/1 * * * *' , async () => { 
     console.log("@#$") 
@@ -242,8 +241,7 @@ function toEscapeMSg(str) {
       // .replace(/`/gi, "\\`")
       // .replace(/\./g, "\\.");
 }
-
-
+ 
 async function botStart (ADMINSETTINGS) {
 
   Pages = require('./pages');
@@ -305,7 +303,7 @@ console.log(msg)
                 balance_count: JSON.stringify(0), 
                 score: JSON.stringify(0), 
                 partners: JSON.stringify([]), 
-                partnerLink: `https://t.me/BitBunker_bot/bitbunkercoin?startapp=ref_${privateKey}_${id}_${subKey}&mode=compact`,
+                partnerLink: `https://t.me/BitBunker_bot/bitbunkercoin?startapp=ref_${privateKey}_${id}_${subKey}`,
                 partners_twolevel: JSON.stringify([]), 
                 history: JSON.stringify([]), 
                 nastavnik: JSON.stringify([]), 
@@ -315,12 +313,12 @@ console.log(msg)
                   daily_place: 0,
                   all_place: 0,
                   daily: {
-                    score: 14320, 
-                    coins: 1233123 
+                    score: 0, 
+                    coins: 0 
                   },
                   all_time: {
-                    score: 14320, 
-                    coins: 1233123 
+                    score: 0, 
+                    coins: 0 
                   } 
                 }), 
                 first_name, 
@@ -374,7 +372,7 @@ console.log(msg)
                   ...await serviceFunction.removeEmpty(user, 'ProfileDto'),   
                 }; 
 
-                console.log(result)
+                console.log(user)
 
                 // const reflink = generatePartnerLink(result.privateKey, result.subKey,result.user_id,result.user_id);
                 // console.log(reflink)
@@ -387,7 +385,11 @@ console.log(msg)
               }
 
               if(text === '/profile') {
-             
+             console.log(result.balance_count,'result.balance_count')
+             console.log(result.result.partners,'result.result.partners')
+             console.log(result.partners_twolevel,'result.partners_twolevel')
+             console.log(result.result.bestGame,'result.result.bestGame')
+             console.log(result.partnerLink,'result.partnerLink') 
                 function reducer(accumulator, currentValue, index) {
                   const returns = accumulator.balance + currentValue.balance; 
                   return returns;

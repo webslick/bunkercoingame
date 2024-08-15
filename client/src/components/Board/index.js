@@ -55,7 +55,7 @@ const loading = useSelector(loader.loading)
     }, 
 
     onSwiped: (eventData) => { 
-      setStopScroll(false)
+      // setStopScroll(false)
       let dir = 0; 
       switch (eventData.dir) {
         case 'Up':
@@ -83,8 +83,9 @@ const loading = useSelector(loader.loading)
       setBoard(newBoard);
 
     },  
-
-    onSwipeStart: () => setStopScroll(true), 
+    preventScrollOnSwipe: true,
+    trackTouch: true
+    // onSwipeStart: () => setStopScroll(true), 
 
   }); 
  
@@ -214,7 +215,8 @@ const loading = useSelector(loader.loading)
         <JoinButton title="Join" img={ telega } onCLick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />      
         <GetButton title="Invite Buddies"  fill={!false} invite={true} /> 
       </div>
-      <div {...handlers} style={{ touchAction: stopScroll ? 'none' : 'auto' }} className="touchContainer">
+      <div {...handlers} className="touchContainer">
+      {/* <div {...handlers} style={{ touchAction: stopScroll ? 'none' : 'auto' }} className="touchContainer"> */}
         <div className="details_box">
           <div className="left_box" > 
             <div className="infoButtonWrapper" >
