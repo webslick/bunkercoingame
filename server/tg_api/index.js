@@ -11,9 +11,7 @@ const serviceFunction = require("../service_functions")
 const ApiErr = require('../exeptions/api-error');  
  
 require('dotenv').config();
-
-var Pages = {};
-
+ 
 process.env.NTBA_FIX_319 = "1";
 
 const TGAPI = {
@@ -243,10 +241,6 @@ function toEscapeMSg(str) {
 }
  
 async function botStart (ADMINSETTINGS) {
-
-  Pages = require('./pages');
-
-  Pages.changePage(ADMINSETTINGS,'main',Pages.inline_main); // Главная 
   
   const bot = new TelegramBot(process.env.TGBOT_API_KEY, { polling: {
     interval: 300,
@@ -280,9 +274,10 @@ console.log(msg)
             var result = {}  
                    
             result = {
-              ...serviceFunction.removeEmpty(user, 'ProfileDto'),     
+              ...serviceFunction.removeEmpty(user, 'Profiles'),     
             } 
-          
+            console.log(result); 
+ 
             if(!user) { // Проверяем по базе если первый раз и его нет то сохраняем данные
               console.log('ПЕРВЫЙ РАЗ!'); 
  
@@ -367,17 +362,16 @@ console.log(msg)
                 }); 
               }
 
-              if(text === '/referral') {
-                result = {  
-                  ...await serviceFunction.removeEmpty(user, 'ProfileDto'),   
-                }; 
+              if(text === '/referral') { 
+                
+                let partnerLink = 'empty'; 
 
-                console.log(user)
+                if(!isEmptyObject(result)) { 
+                  console.log('$#@')
+                  partnerLink  =  toEscapeMSg(result.partnerLink);
+                }
 
-                // const reflink = generatePartnerLink(result.privateKey, result.subKey,result.user_id,result.user_id);
-                // console.log(reflink)
-
-                await bot.sendMessage(id, `Your personal referral link\n ${toEscapeMSg(result.partnerLink)} `,
+                await bot.sendMessage(id, `Your personal referral link\n ${partnerLink} `,
                 { 
                   parse_mode: 'Markdown'
                 });
@@ -385,18 +379,34 @@ console.log(msg)
               }
 
               if(text === '/profile') {
-             console.log(result.balance_count,'result.balance_count')
-             console.log(result.result.partners,'result.result.partners')
-             console.log(result.partners_twolevel,'result.partners_twolevel')
-             console.log(result.result.bestGame,'result.result.bestGame')
-             console.log(result.partnerLink,'result.partnerLink') 
+          
                 function reducer(accumulator, currentValue, index) {
-                  const returns = accumulator.balance + currentValue.balance; 
+                  const returns = { name: accumulator.name, total_coins: accumulator.total_coins + currentValue.total_coins }; 
                   return returns;
                 }
-                let link = result.partnerLink
+            
+                let balance_count = 'empty';
+                let partners = 'empty';
+                let partners_count = 'empty';
+                let partners_twolevel = 'empty';
+                let partners_twolevel_count = 'empty';
+                let bestGameScore = 'empty';
+                let bestGameCoins = 'empty';
+                let partnerLink = 'empty';
+
+                if(!isEmptyObject(result)) { 
+                  balance_count = JSON.parse(result.balance_count);
+                  partners = JSON.parse(result.partners).length; 
+                  partners_count = JSON.parse(result.partners).length == 0 ? '0.00' : JSON.parse(result.partners).reduce(reducer).total_coins / 2;
+                  partners_twolevel = JSON.parse(result.partners_twolevel).length;
+                  partners_twolevel_count = JSON.parse(result.partners_twolevel).length == 0 ? '0.00' : JSON.parse(result.partners_twolevel).reduce(reducer).total_coins / 4;
+                  bestGameScore = JSON.parse(result.bestGame).all_time.score;
+                  bestGameCoins = JSON.parse(result.bestGame).all_time.coins;
+                  partnerLink =  toEscapeMSg(result.partnerLink);
+                }
+ 
                 await bot.sendMessage(id, `
-                  🪙 *Balance: * ${JSON.parse(result.balance_count)} Bcoins\n\n⛏ *Mined:* ${JSON.parse(result.balance_count)} Bcoins\n\n👤 *Buddies (50%):* ${JSON.parse(result.partners).length} B - ${JSON.parse(result.partners).length == 0 ? '0.00' : JSON.parse(result.partners).reduce(reducer)} Bcoins\n\n👥 *Buddies (25%):* ${JSON.parse(result.partners_twolevel).length} B - ${JSON.parse(result.partners_twolevel).length == 0 ? '0.00' : JSON.parse(result.partners_twolevel).reduce(reducer)} Bcoins\n\n🏆 *Best game:* ${JSON.parse(result.bestGame).score} (${JSON.parse(result.bestGame).coins} Bcoins)\n\n🌐 *Referral link:* ${toEscapeMSg(result.partnerLink)} `,
+                  🪙 *Balance: * ${ balance_count + partners_count + partners_twolevel_count } Bcoins\n\n⛏ *Mined:* ${balance_count} Bcoins\n\n👤 *Buddies (50%):* ${partners} B - ${partners_count} Bcoins\n\n👥 *Buddies (25%):* ${partners_twolevel} B - ${partners_twolevel_count} Bcoins\n\n🏆 *Best game:* ${bestGameScore} (${bestGameCoins} Bcoins)\n\n🌐 *Referral link:* ${partnerLink} `,
                 {
                   parse_mode: 'Markdown'
                 })
@@ -408,19 +418,13 @@ console.log(msg)
                 {
                   parse_mode: 'Markdown'
                 })
-              }
- 
-              // // if(result.user_name == 'a_golowin' || result.user_name == 'iSergio54'){ await sendSheduleMsg(id, bot, ADMINSETTINGS, Pages, getUserResult) }   
-              // infouse.raffle_number.map(element => { numbersRaffle.push(element) })
-              // await bot.sendMessage(id, ` ${String(infouse.raffle_number[0])} (не потеряй)\n\n${ADMINSETTINGS.raffle_message_part_two.replace (/\/n\/n/gm,`\n\n`)}`)
-              // // await sendSheduleMsg(id, bot, ADMINSETTINGS, Pages, getUserResult); 
+              } 
             }
         
           } catch(error) {
             console.log(error)
             throw ApiErr.BadRequest(`Произошла ошибка в checkSubscription!`);
-          }  
-          // await checkSubscription(bot, Pages, msg, '@beauty_doctor_nsk',true); // проверка подписки на канал
+          }   
         } else { 
           console.log('СООБЩЕНИЕ', msg.chat.username)
         }
