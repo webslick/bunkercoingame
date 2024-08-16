@@ -28,6 +28,7 @@ function App() {
   useEffect(()=>{
     tg.ready();
     tg.expand(); 
+    tg.disableVerticalSwipes();
   },[tg])
  
   useEffect(() => { dispatch(setMobileMod(isMobile));  console.log('1')},[]);  

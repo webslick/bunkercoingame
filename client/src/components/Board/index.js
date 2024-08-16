@@ -55,7 +55,7 @@ const loading = useSelector(loader.loading)
     }, 
 
     onSwiped: (eventData) => { 
-      // setStopScroll(false)
+      setStopScroll(false)
       let dir = 0; 
       switch (eventData.dir) {
         case 'Up':
@@ -83,13 +83,14 @@ const loading = useSelector(loader.loading)
       setBoard(newBoard);
 
     },  
-    preventScrollOnSwipe: true,
-    trackTouch: true
-    // onSwipeStart: () => setStopScroll(true), 
+    // preventScrollOnSwipe: true,
+    // trackTouch: true
+    onSwipeStart: () => setStopScroll(true), 
 
   }); 
  
   const handleKeyDown = (event) => {
+    console.log(board,'board')
     if (board.hasWon()) {
       return;
     }
@@ -207,13 +208,13 @@ const loading = useSelector(loader.loading)
 
     useEffect(()=>{
       setBoard(new Board({ appInfo, miningInfo }));
-    },[loading])
+    },[])
   
     return (
     <div className="boardViewContainer">
       <div className='boardViewTopContainer'>  
         <JoinButton title="Join" img={ telega } onCLick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />      
-        <GetButton title="Invite Buddies"  fill={!false} invite={true} /> 
+        <GetButton title="Invite Buddies"  fill={!false} invite={true} onCLick={()=>{tg.openTelegramLink(`${user.partnerLink} Play 2048 to earn Bcoin for free!💸`)}}/>
       </div>
       <div {...handlers} className="touchContainer">
       {/* <div {...handlers} style={{ touchAction: stopScroll ? 'none' : 'auto' }} className="touchContainer"> */}

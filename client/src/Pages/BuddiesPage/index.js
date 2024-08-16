@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './index.css';
 
 function BuddiesPage(props) { 
+
   const { telega,teher,love, cool,rocket,arrow,selphi } = images;
 
   const { tg, user, appInfo } = props;
@@ -22,11 +23,38 @@ function BuddiesPage(props) {
     navigate('/');
     BackButton.hide();
   });
+
+
+  const isEmptyObject = (obj) => {
+    for (var i in obj) { 
+        if (obj.hasOwnProperty(i)) {
+            return false;
+        }
+    }
+    return true;
+  }
+
+
   function reducer(accumulator, currentValue, index) {
-    const returns = accumulator.total_coins + currentValue.total_coins; 
-    console.log(accumulator,'accumulator')
-    console.log(currentValue,'currentValue')
+    const returns = { name: accumulator.name, total_coins: accumulator.total_coins + currentValue.total_coins }; 
     return returns;
+  }
+
+  let balance_count = 'empty';
+  let partners = 'empty';
+  let partners_count = 'empty';
+  let partners_twolevel = 'empty';
+  let partners_twolevel_count = 'empty';
+  let bestGameScore = 'empty';
+  let bestGameCoins = 'empty'; 
+
+  if(!isEmptyObject(user)) { 
+    partners = JSON.parse(user.partners).length; 
+    partners_count = JSON.parse(user.partners).length == 0 ? '0.00' : JSON.parse(user.partners).reduce(reducer).total_coins / 2;
+    partners_twolevel = JSON.parse(user.partners_twolevel).length;
+    partners_twolevel_count = JSON.parse(user.partners_twolevel).length == 0 ? '0.00' : JSON.parse(user.partners_twolevel).reduce(reducer).total_coins / 4;
+    balance_count = partners_count + partners_twolevel_count;
+   console.log()
   }
   return(
     <div className='buddiesScreen'>
@@ -35,13 +63,13 @@ function BuddiesPage(props) {
       <div className='rewardContainer'> 
           <RewardBox
             title={`Reward for $ invited buddies`}
-            count={JSON.parse(user?.partners_twolevel).reduce(reducer)}
-            countbuddies={JSON.parse(user?.partners).length}
+            count={partners_count}
+            countbuddies={partners}
             onCLick={(e) => { 
               navigate('/invitedpage')
             }}
           /> 
-        <RewardBox title={`Reward for $ invited buddies of buddies`} count={JSON.parse(user?.partners_twolevel).reduce(reducer)} countbuddies={JSON.parse(user?.partners_twolevel).length} noarrow={true} />
+        <RewardBox title={`Reward for $ invited buddies of buddies`} count={partners_twolevel_count} countbuddies={partners_twolevel} noarrow={true} />
       </div>
       <div className='bonusWrapper'>
         <div className='bonusContainer'>
@@ -50,11 +78,11 @@ function BuddiesPage(props) {
             <div className='bonusSubTitle'>Earn additional Bunkercoin</div>
             <div className='bonusInfo'>
               <img className='bonusInfoImg' src={teher} />  
-              <div className='bonusInfo'>{`${decimal(user.balance_count)} / 1000 M`}</div>
+              <div className='bonusInfo'>{`${decimal(+user?.balance_count + balance_count)} / 1000 M`}</div>
             </div>
           </div>
           <div className='bonusContainerBottom'>
-            <div className='bonusEarnedTitle'>{`You earned `}&nbsp;<span style={{color: 'black', fontWeight:'700'}}>{decimal(user.balance_count)}</span> &nbsp;<div>Reward for all friends:</div>&nbsp;<span style={{color: 'black', fontWeight:'700'}}>{JSON.parse(user?.partners_twolevel).reduce(reducer)}</span></div>
+            <div className='bonusEarnedTitle'>{`You earned `}&nbsp;<span style={{color: 'black', fontWeight:'700'}}>{decimal(balance_count)}</span> &nbsp;<div>Reward for all friends:</div>&nbsp;<span style={{color: 'black', fontWeight:'700'}}>{partners + partners_twolevel}</span></div>
             <GetButton title="Get 100 000 000" img={teher} fill={false} onCLick={()=>{}} />
           </div> 
         </div> 
