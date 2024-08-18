@@ -40,7 +40,7 @@ function BoosterPage(props) {
           title="Get booster"
           fill={true}
           img={cool}
-          onCLick={(e) => {
+          onClick={(e) => {
             
           }}
         />

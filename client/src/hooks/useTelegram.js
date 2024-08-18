@@ -25,7 +25,7 @@ const useTelegram = url => {
     onToggleButton,
     tg,
     usertg: tg.initDataUnsafe?.user,
-    queryId: tg.initDataUnsafe?.query_id,
+    queryId: tg.initDataUnsafe?.query_id, 
     openTelegramLink
   }
 

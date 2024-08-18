@@ -11,9 +11,8 @@ import images from "../../assets/images";
 import moment from "moment";
 import { app, loader, timer , users} from '../../redux/selectors'
 import { useSwipeable } from 'react-swipeable'
-import { putHistoryInfo, set_visibleLooser } from '../../redux/actions/app'
-import { set_user } from '../../redux/actions/users'
-import {set_info_user} from '../../redux/actions/users'
+import { putHistoryInfo, set_visibleLooser, putTotalCoin, set_appinfo } from '../../redux/actions/app'
+import { set_user,set_info_user } from '../../redux/actions/users' 
 import { useNavigate } from "react-router-dom";
 import { convertTimeBd, NowBDformat } from '../../hooks/helpservice'
 import './index.css';
@@ -83,14 +82,13 @@ const loading = useSelector(loader.loading)
       setBoard(newBoard);
 
     },  
-    // preventScrollOnSwipe: true,
-    // trackTouch: true
+    preventScrollOnSwipe: true,
+    trackTouch: true,
     onSwipeStart: () => setStopScroll(true), 
-
+    
   }); 
  
-  const handleKeyDown = (event) => {
-    console.log(board,'board')
+  const handleKeyDown = (event) => { 
     if (board.hasWon()) {
       return;
     }
@@ -196,8 +194,13 @@ const loading = useSelector(loader.loading)
              all_time: { score: board.score + JSON.parse(user?.bestGame).all_time.score, coins: board.mine_coins + JSON.parse(user?.bestGame).all_time.coins },
           })
         },dispatch);
+  
+        let newAppInfo =  await putTotalCoin({
+          total_coin_mine: JSON.stringify(Number(appInfo.total_coin_mine) + board.mine_coins)
+        },dispatch);
 
         dispatch(set_user(newuser)); 
+        dispatch(set_appinfo(newAppInfo)); 
         dispatch(set_visibleLooser(true)) 
 
       }
@@ -208,13 +211,13 @@ const loading = useSelector(loader.loading)
 
     useEffect(()=>{
       setBoard(new Board({ appInfo, miningInfo }));
-    },[])
+    },[loading])
   
     return (
     <div className="boardViewContainer">
       <div className='boardViewTopContainer'>  
-        <JoinButton title="Join" img={ telega } onCLick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />      
-        <GetButton title="Invite Buddies"  fill={!false} invite={true} onCLick={()=>{tg.openTelegramLink(`${user.partnerLink} Play 2048 to earn Bcoin for free!💸`)}}/>
+        <JoinButton title="Join" img={ telega } onClick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />      
+        <GetButton title="Invite Buddies"  fill={!false} invite={true} onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`)}}/>
       </div>
       <div {...handlers} className="touchContainer">
       {/* <div {...handlers} style={{ touchAction: stopScroll ? 'none' : 'auto' }} className="touchContainer"> */}
@@ -252,8 +255,7 @@ const loading = useSelector(loader.loading)
         </div>
         <div className="board">
           {cells}
-          {tiles}
-          {/* <GameOverlay onRestart={resetGame} board={board} /> */}
+          {tiles} 
         </div>
       </div>
     </div>

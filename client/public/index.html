@@ -25,6 +25,14 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          if (window.Telegram && window.Telegram.WebApp) {
+              window.Telegram.WebApp.expand();
+              window.Telegram.WebApp.disableVerticalSwipes()
+          }
+      });
+  </script>
     <title>React App</title>
   </head>
   <body>

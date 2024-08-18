@@ -67,7 +67,7 @@
 
 .rigth_box {
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   flex-direction: column; 
   width: 70%;

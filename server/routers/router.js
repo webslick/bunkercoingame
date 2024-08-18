@@ -4,7 +4,10 @@ const router = Router()
   
 router.post('/getUserInfo',userController.getUserInfo);  
 router.post('/setUserInfo',userController.setUserInfo);  
+router.post('/setPartners',userController.setPartners);  
 router.post('/putMiningInfo',userController.putMiningInfo);  
+router.post('/putTotalCoin',userController.putTotalCoin);  
+router.post('/putHistoryInfo',userController.putHistoryInfo);  
 router.post('/putHistoryInfo',userController.putHistoryInfo);  
 router.get('/getAppInfo',userController.getAppInfo);  
 router.get('/getAllUsers',userController.getAllUsers);  

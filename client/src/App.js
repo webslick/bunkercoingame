@@ -4,7 +4,7 @@ import { isMobile } from 'react-device-detect';
 import { QRCode } from 'antd'; 
 import Main from './routes/index';
 import useTelegram from './hooks/useTelegram';  
-import { setMobileMod, set_appinfo, set_mininginfo, putMiningInfo, getAppInfo } from './redux/actions/app'; 
+import { setMobileMod, set_appinfo, set_mininginfo, setPartners, getAppInfo } from './redux/actions/app'; 
 import { setLoadding } from './redux/actions/loader'; 
 import {  set_user, getUserInfo } from './redux/actions/users'; 
 import {  app, users, popup_looser, popup_info, loader } from './redux/selectors';  
@@ -28,17 +28,41 @@ function App() {
   useEffect(()=>{
     tg.ready();
     tg.expand(); 
-    tg.disableVerticalSwipes();
+    tg.disableVerticalSwipes();   
   },[tg])
  
-  useEffect(() => { dispatch(setMobileMod(isMobile));  console.log('1')},[]);  
+  useEffect(() => { dispatch(setMobileMod(isMobile)); },[]);  
 
   useEffect(() => {    
     const fetchData = async () => {  
+
+      var refInfo = tg.initDataUnsafe?.start_param;
+      var refIdBoss = ''; 
+      var refSubkeyBoss = '';
+      var refPrivatekeyBoss = ''; 
+ 
       const user = await getUserInfo('6107507930'); 
       //  const user = await getUserInfo(usertg?.id);  
-      if(user !== 401) {  
+      if(user !== 401) { 
+
+        if(refInfo !== undefined) {
+          refInfo = refInfo.split('_') 
+          refIdBoss = refInfo[2]; 
+          refSubkeyBoss = refInfo[3];
+          refPrivatekeyBoss = refInfo[1]; 
+        
+          let newPartnerArrs = JSON.parse(user.partners); 
+
+          const newuser =  await setPartners({
+            bossId: refIdBoss,
+            partners: JSON.stringify({ id: user.user_id, name: tg.initDataUnsafe.user.username ??= tg.initDataUnsafe.user.first_name, total_coins : user.balance_count }),
+            partners_twolevel: JSON.stringify([...newPartnerArrs]) 
+          })  
+ 
+          dispatch(set_user(newuser)); 
+      } else {
         dispatch(set_user(user)); 
+      }
         console.log('2') 
       }  
 
@@ -79,7 +103,13 @@ function App() {
     fetchData(); 
   },[]); 
   
-  
+  useEffect(() => {
+    if (window.Telegram && window.Telegram.WebApp) {
+        // Alternatively to what can be set with react-telegram-web-app, you can directly set the following properties:
+        window.Telegram.WebApp.expand();
+        window.Telegram.WebApp.disableVerticalSwipes()
+    }
+}, []);
   // console.log(tg)
   // console.log(usertg)
   console.log(user,'user App')

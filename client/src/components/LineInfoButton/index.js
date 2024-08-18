@@ -3,11 +3,11 @@ import images from '../../assets/images';
 import './index.css';
 
 function LineInfoButton(props) {
-  const { title, img, size, onCLick, noarr } = props;
+  const { title, img, size, onClick, noarr } = props;
   const { arrow } = images;
   
   return(
-    <div className='lineInfoButtonContainer' onClick={(e) => (onCLick(e))}>  
+    <div className='lineInfoButtonContainer' onClick={(e) => (onClick(e))}>  
       <img style={{
            width: `${size ? '40px' : '25px'}`,
            height: `${size ? '40px' : '25px'}`, 

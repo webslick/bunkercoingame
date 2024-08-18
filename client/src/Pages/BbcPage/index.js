@@ -97,7 +97,7 @@ function BbcPage(props) {
             leftSubTitle={item.count}
             // rightSubTitle={}
             // coin={}
-            // onCLick={}
+            // onClick={}
             key={i} />
           })
         } 

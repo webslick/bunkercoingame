@@ -60,7 +60,7 @@ function HowPlayPage(props) {
             fill
             invite
             title="Ok, I Blieve u!" 
-            onCLick={(e) => { 
+            onClick={(e) => { 
               navigate('/')
             }} 
           />

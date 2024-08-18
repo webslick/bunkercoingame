@@ -329,6 +329,111 @@ class UserService {
       throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
     } 
   }
+ 
+  async putTotalCoin(coinInfo) {
+   
+    try { 
+      const {
+        total_coin_mine
+      } = coinInfo
+ 
+      const condidate = await DB.searchInTables('user_admin',{ id: 1 });
+     
+      let result = {}
+ 
+      if(!condidate) {
+        throw ApiErr.BadRequest(`Пользователь не найден`);
+      } else {
+        var newInfoMine = await DB.updateModelTables(condidate, { 
+          total_coin_mine, 
+        }); 
+      
+        result = {  
+          ...serviceFunction.removeEmpty(newInfoMine, 'Admin_users'),   
+        };  
+ 
+        return { 
+          chanels: result.chanels,
+          halving_count: result.halving_count,
+          halving_earn: result.halving_earn,
+          count_coin_all: result.count_coin_all,
+          total_coin_mine: result.total_coin_mine,
+          bonus: result.bonus,
+          task_main: result.task_main,
+          tasks: result.tasks,
+        }
+      }
+   
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
+    } 
+  }
+ 
+  async setPartners({ bossId, partners, partners_twolevel }) {
+    
+    try {  
+ 
+        const userBoss = await DB.searchInTables('user_id', bossId ); 
+   
+        var result = {}
+   
+        if(!userBoss) {
+          throw ApiErr.BadRequest(`Пользователь не найден`);
+        } else { 
+ 
+          result = {  
+            ...serviceFunction.removeEmpty(userBoss, 'Profiles'),    
+          }; 
+ 
+          let newPartnerArr = JSON.parse(result.partners); 
+          newPartnerArr.push(JSON.parse(partners))
+
+          let unicNewPartnerArr = newPartnerArr.filter((value, index) => {
+            const _value = JSON.stringify(value);
+            return index === newPartnerArr.findIndex(obj => {
+              return JSON.stringify(obj) === _value;
+            });
+          });
+ 
+          var newUserInfo = await DB.updateModelTables(userBoss, { 
+            partners: JSON.stringify([...unicNewPartnerArr]),
+            partners_twolevel, 
+          }); 
+ 
+
+          const userPartner = await DB.searchInTables('user_id', JSON.parse(partners).id ); 
+
+          result = {  
+            ...serviceFunction.removeEmpty(userPartner, 'Profiles'),    
+          }; 
+
+          let newNastavnikArr = JSON.parse(result.nastavnik)
+          newNastavnikArr.push({ id: bossId })
+
+          let uniqNewNastavnikArr = newNastavnikArr.filter((value, index) => {
+            const _value = JSON.stringify(value);
+            return index === newNastavnikArr.findIndex(obj => {
+              return JSON.stringify(obj) === _value;
+            });
+          });
+
+          var newUserPartner = await DB.updateModelTables(userPartner, { 
+            nastavnik: JSON.stringify([...uniqNewNastavnikArr]), 
+          }); 
+ 
+          result = {  
+            ...serviceFunction.removeEmpty(newUserPartner, 'Profiles'),    
+          }; 
+   
+          return { user: result } 
+        } 
+   
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден `);
+    } 
+  }
 
 
 

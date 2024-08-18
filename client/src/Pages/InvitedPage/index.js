@@ -1,15 +1,16 @@
-import React from 'react'; 
+import React, { useEffect } from 'react'; 
+import { useNavigate } from 'react-router-dom';
 import Title from '../../components/Title'  
 import images from '../../assets/images'
-import './index.css';
 import GetButton from '../../components/GetButton';
 import LineInfoButton from '../../components/LineInfoButton';
 import LineButton from '../../components/LineButton';
-import { useNavigate } from 'react-router-dom';
+import { decimal } from '../../hooks/helpservice';
+import './index.css';
 
 function InvitedPage(props) { 
-  const { cry, rocket, teher, cool, helpsmile, help, agry, arrowf } = images;
-  const { tg } = props;
+  const { cry, teher  } = images;
+  const { tg, user } = props;
 
   const navigate = useNavigate();
  
@@ -20,33 +21,37 @@ function InvitedPage(props) {
     navigate('/');
     BackButton.hide();
   });
+   
   return(
     <div className='invitedScreen'>
-      <Title title='Invited Buddies'/> 
-      <div className='invitedUserButtonContainer'>
-        <LineButton 
-          title="Alex"  
-          // smile={rocket} 
-          btn={false}  
-          coin={teher}
-          leftTitle="Best game" 
-          leftSubTitle="B da winner" 
-          rightTitle="4560" 
-          rightSubTitle="Daily result" 
-        />  
-      </div> 
-      <div className='invitedInfoWrapper'>
-        <div className='invitedImgTileContainer'>
-          <div className='invitedImgNine'>
-            <img style={{ width: '40px', height: '40px'}} src={cry} />
+      <Title title='Invited Buddies'/>  
+      {
+       JSON.parse(user?.partners).length > 0 ? JSON.parse(user?.partners).map((item,i) => (
+            <LineButton 
+            title={item.name}  
+            // smile={rocket} 
+            btn={false}  
+            coin={teher}
+            leftTitle="" 
+            leftSubTitle="" 
+            rightTitle={decimal(Math.ceil(item.total_coins))} 
+            rightSubTitle="Balance" 
+            onClick={()=>{}}
+          />  
+        )) : 
+        <div className='invitedInfoWrapper'>
+          <div className='invitedImgTileContainer'>
+            <div className='invitedImgNine'>
+              <img style={{ width: '40px', height: '40px'}} src={cry} />
+            </div> 
+          </div>  
+          <div className='invitedtitle'>{`No buddies yet ;(`}</div>   
+          <div className='invitedsubtitle'>{`Kinda sad, btw. Invite some and multiply your Bcoin in da future!`}</div>  
+          <div className='invitedButtonContainer'> 
+            <GetButton title="Invite Buddies" fill invite onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`)}}/>
           </div> 
         </div>  
-        <div className='invitedtitle'>{`No buddies yet ;(`}</div>   
-        <div className='invitedsubtitle'>{`Kinda sad, btw. Invite some and multiply your Bcoin in da future!`}</div>  
-        <div className='invitedButtonContainer'>
-          <GetButton fill invite title="Invite Buddies" />
-        </div> 
-      </div>  
+      }
     </div>
   );
 }

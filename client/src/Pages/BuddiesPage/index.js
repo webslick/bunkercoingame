@@ -53,23 +53,23 @@ function BuddiesPage(props) {
     partners_count = JSON.parse(user.partners).length == 0 ? '0.00' : JSON.parse(user.partners).reduce(reducer).total_coins / 2;
     partners_twolevel = JSON.parse(user.partners_twolevel).length;
     partners_twolevel_count = JSON.parse(user.partners_twolevel).length == 0 ? '0.00' : JSON.parse(user.partners_twolevel).reduce(reducer).total_coins / 4;
-    balance_count = partners_count + partners_twolevel_count;
-   console.log()
+    balance_count = Number(partners_count) + Number(partners_twolevel_count);
+  
   }
   return(
     <div className='buddiesScreen'>
       <Title title='Buddy Party!'/> 
       <Subtitle subtitle='Get 50% of all B ur buddies earn, get 25% of all coins the buddies of ur buddies earn'/> 
       <div className='rewardContainer'> 
-          <RewardBox
+          <RewardBox 
             title={`Reward for $ invited buddies`}
-            count={partners_count}
+            count={decimal(partners_count)}
             countbuddies={partners}
-            onCLick={(e) => { 
+            onClick={(e) => { 
               navigate('/invitedpage')
             }}
           /> 
-        <RewardBox title={`Reward for $ invited buddies of buddies`} count={partners_twolevel_count} countbuddies={partners_twolevel} noarrow={true} />
+        <RewardBox onClick={(e) => {}} title={`Reward for $ invited buddies of buddies`} count={decimal(partners_twolevel_count)} countbuddies={partners_twolevel} noarrow={true} />
       </div>
       <div className='bonusWrapper'>
         <div className='bonusContainer'>
@@ -83,12 +83,12 @@ function BuddiesPage(props) {
           </div>
           <div className='bonusContainerBottom'>
             <div className='bonusEarnedTitle'>{`You earned `}&nbsp;<span style={{color: 'black', fontWeight:'700'}}>{decimal(balance_count)}</span> &nbsp;<div>Reward for all friends:</div>&nbsp;<span style={{color: 'black', fontWeight:'700'}}>{partners + partners_twolevel}</span></div>
-            <GetButton title="Get 100 000 000" img={teher} fill={false} onCLick={()=>{}} />
+            <GetButton title="Get 100 000 000" img={teher} fill={false} onClick={()=>{}} />
           </div> 
         </div> 
       </div>
       <div className='bonusInviteButtonContainer'>
-        <GetButton title="Invite Buddies"  fill={!false} invite={true} onCLick={()=>{tg.openTelegramLink(`${user.partnerLink} Play 2048 to earn Bcoin for free!💸`)}}/>
+        <GetButton title="Invite Buddies"  fill={!false} invite={true} onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`);}}/>
       </div> 
     </div>
   );

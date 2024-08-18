@@ -27,7 +27,7 @@ function MainPage(props) {
       <div className='energyTopContainer'>
         <EnergyInfo user={user} activeTimer={Number(user.energy) !== 4} />
         <div className='joinButtonBox'>
-          <JoinButton title="Join" img={ telega } onCLick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />   
+          <JoinButton title="Join" img={ telega } onClick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />   
         </div>
       </div>
       <div className='inviteContainer'>
@@ -36,7 +36,7 @@ function MainPage(props) {
           smile={love} 
           btn={true} 
           coin={teher} 
-          onCLick={()=>{tg.openTelegramLink(`${user.partnerLink} Play 2048 to earn Bcoin for free!💸`)}} 
+          onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`)}} 
         /> 
       </div>
       <div className='mainInfoBlock'>
@@ -46,7 +46,7 @@ function MainPage(props) {
               title={decimal(Math.ceil(user.balance_count))}  
               img={teher}  
               size={true}   
-              onCLick={async(e) => {  
+              onClick={async(e) => {  
                 navigate('/historypage')
               }} 
             /> 
@@ -54,7 +54,7 @@ function MainPage(props) {
               title="Play to get ranked"  
               img={selphi}  
               size={false} 
-              onCLick={(e) => { 
+              onClick={(e) => { 
                 navigate('/rankpage')
               }}  
             />  */}
@@ -69,11 +69,9 @@ function MainPage(props) {
             coin={teher}
             leftTitle="Best game" 
             leftSubTitle="B da winner" 
-            rightTitle={user.score} 
+            rightTitle={decimal(Math.ceil(user.score))} 
             rightSubTitle="Ur dally score" 
-            onCLick={(e) => { 
-              navigate('/bestpage')
-            }} 
+            onClick={() => {  navigate('/bestpage') }} 
           />  
           <Link className='mainInfoLink' to="/howtoplay"><div>How to play?</div></Link>
         </div>
@@ -89,7 +87,7 @@ function MainPage(props) {
           smile={cool} 
           btn={false} 
           coin={teher} 
-          onCLick={(e) => { 
+          onClick={(e) => { 
             navigate('/bbcpage')
           }} 
         /> 

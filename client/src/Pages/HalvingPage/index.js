@@ -67,7 +67,7 @@ function HalvingPage(props) {
           img={teher}  
           size={false} 
           noarr  
-          onCLick={()=>{}} 
+          onClick={()=>{}} 
         /> 
         <div className='halvingProgressContainer'>
           <div className='halvingTopContainer'>
@@ -92,7 +92,7 @@ function HalvingPage(props) {
             fill
             invite
             title="Start Bmine" 
-            onCLick={(e) => {  
+            onClick={(e) => {  
               navigate('/');
             }} 
           />

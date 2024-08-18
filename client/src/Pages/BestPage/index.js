@@ -46,9 +46,7 @@ function BestPage(props) {
     }; 
     fetchData(); 
   },[]); 
-
  
-
   const allTimeUsers = all_users.slice(0);
   const dailyUsers = all_users.slice(0);
 

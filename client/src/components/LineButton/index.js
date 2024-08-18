@@ -3,7 +3,7 @@ import images from '../../assets/images';
 import './index.css';
 
 function LineButton(props) {
-  const { title, smile, btn, leftTitle, rightTitle, leftSubTitle, rightSubTitle, coin, onCLick } = props;
+  const { title, smile, btn, leftTitle, rightTitle, leftSubTitle, rightSubTitle, coin, onClick } = props;
   const { energy_img, around, arrow } = images;
  
   if(title) {
@@ -16,11 +16,11 @@ function LineButton(props) {
   }  
  
   return(
-    <div onClick={(e) => (onCLick(e))} style={{ border: `${title ? '0' : `1px solid #a08686`}`, backgroundColor: smile ? 'rgb(227, 181, 122)' : 'rgb(255, 231, 200)'}} className='lineButtonContainer'> 
+    <div onClick={() => { onClick() }} style={{ border: `${title ? '0' : `1px solid #a08686`}`, backgroundColor: smile ? 'rgb(227, 181, 122)' : 'rgb(255, 231, 200)'}} className='lineButtonContainer'> 
       <div className='lineButtonLeftContainer'>
         <div  style={{ border: `${title ? '0' : `1px solid #a08686`}`, backgroundColor: smile ? '#faebd7' : '#e9af47'}} className='lineButtonSmileContainer'>
           {
-            smile ? <img className='lineButtonSmile' src={smile} /> : <div className='lineButtonName'>{title[0]}</div>
+            smile ? <img className='lineButtonSmile' src={smile} /> : <div className='lineButtonName'>{title[0] ??= 'noname'}</div>
           } 
         </div>
         <div className='lineButtonLeftTitleContainer'>

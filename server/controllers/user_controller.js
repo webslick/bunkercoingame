@@ -152,6 +152,28 @@ class UserController  {
     }
   } 
   
+  async putTotalCoin(req, res, next) {
+    try {
+      const { total_coin_mine } = req.body  
+      const info = await userService.putTotalCoin({ 
+        total_coin_mine
+      });
+     return res.json(info);
+    } catch (e) {
+      next(e);
+    }
+  } 
+  
+  async setPartners(req, res, next) {
+    try {
+      const { bossId, partners, partners_twolevel } = req.body   
+      const partInfo = await userService.setPartners({ bossId, partners, partners_twolevel });
+     return res.json(partInfo.user);
+    } catch (e) {
+      next(e);
+    }
+  } 
+  
   async putHistoryInfo(req, res, next) {
     try {   
       const info = await userService.putHistoryInfo(req.body);

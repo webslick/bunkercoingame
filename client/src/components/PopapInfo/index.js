@@ -39,8 +39,8 @@ console .log(tg)
         </div>
         <div className='popapInfoButtonContainerDown'>
           <InfoButton title={'Поделиться результатом 📩'} onClick={() => {
-              tg.openTelegramLink(`${user.partnerLink} I earned ${coin} bunkercoins. Join us quickly and start earning money.!💸`)
-            }}  />
+            tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=I earned ${coin} bunkercoins. Join us quickly and start earning money.!💸`);
+          }}  />
         </div> 
       </div>
     </div>

@@ -75,6 +75,37 @@ export async function putHistoryInfo(body,dispatch) {
     return error.response?.status;
   }
 }
+ 
+export async function putTotalCoin(body,dispatch) { 
+  try { 
+   
+    const response = await api.main_api.post('/putTotalCoin', body)
+ 
+    if(response.status === 200) {   
+      console.log(response.data)
+      // dispatch(set_appinfo(response.data)); 
+    }  
+    return response.data
+  } catch (error) {
+    console.log(error)
+    return error.response?.status;
+  }
+}
+ 
+export async function setPartners(body) { 
+  try { 
+   
+    const response = await api.main_api.post('/setPartners', body)
+ 
+    if(response.status === 200) {   
+      console.log(response.data) 
+    }  
+    return response.data
+  } catch (error) {
+    console.log(error)
+    return error.response?.status;
+  }
+}
 
  
 export async function getAppInfo (dispatch) {
