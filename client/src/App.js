@@ -41,8 +41,8 @@ function App() {
       var refSubkeyBoss = '';
       var refPrivatekeyBoss = ''; 
  
-      const user = await getUserInfo('6107507930'); 
-      //  const user = await getUserInfo(usertg?.id);  
+      // const user = await getUserInfo('6107507930'); 
+       const user = await getUserInfo(usertg?.id);  
       if(user !== 401) { 
 
         if(refInfo !== undefined) {
@@ -62,15 +62,13 @@ function App() {
           dispatch(set_user(newuser)); 
       } else {
         dispatch(set_user(user)); 
-      }
-        console.log('2') 
+      } 
       }  
 
       const app = await getAppInfo('6107507930'); 
 
       if(app !== 401) {  
-        dispatch(set_appinfo(app)); 
-        console.log('3')  
+        dispatch(set_appinfo(app));  
       }  
        
       const halving_ratio = 10;
@@ -110,12 +108,6 @@ function App() {
         window.Telegram.WebApp.disableVerticalSwipes()
     }
 }, []);
-  // console.log(tg)
-  // console.log(usertg)
-  console.log(user,'user App')
-  console.log(miningInfo,'miningInfo App')
-  console.log(appInfo,'appInfo App') 
-  // console.log(queryId,'queryId')
  
   return ( 
     <div className="App">  

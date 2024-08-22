@@ -126,12 +126,14 @@ export const sortStatusCards = (cards) => {
 
 
 export const getIOSSaveDateObj = (dateString) => {
- 
+  console.log('@!',dateString )
 
-  if(dateString.indexOf('-') > 0){
+  if(dateString.indexOf('-') > 0) {
+   
       var arr = dateString.split(/[- :]/); 
       var date = new Date(arr[0], arr[1]-1, arr[2]);  
   } else {
+  
       var arr = dateString.split(/[. :]/);
       var date = new Date(arr[0], arr[1]-1, arr[2]);   
   }

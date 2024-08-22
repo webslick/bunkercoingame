@@ -35,15 +35,12 @@ function HalvingPage(props) {
   },[miningInfo.tile_price]);  
  
   useEffect(() => {  
-    console.log('AppInfo')
+    
     let allWidthProgressLine = +window.getComputedStyle(document.getElementsByClassName('halvingTopContainer')[0],null).getPropertyValue('width').split('px')[0];
-    console.log(allWidthProgressLine,'allwidthprogress')
-
+   
     let ratioPercent = (+appInfo.count_coin_all / +appInfo.total_coin_mine);
     let percentToMine = 100 / ratioPercent ; // намайнено
-
-    console.log(percentToMine,'percentToMine')
-
+ 
     let allWithLine = document.getElementsByClassName('halvingBottomContainer')[0].clientWidth;
     let lineToMine = allWithLine * percentToMine; 
  

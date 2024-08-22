@@ -17,8 +17,8 @@ app.use(bodyParser.json({limit: '500mb'}));
 
 app.use(cors({
     credentials: true, 
-      // origin: 'https://bitbunkercoin.ru/', // RELEASE
-    origin: 'http://localhost:3000',
+      origin: 'https://bitbunkercoin.ru/', // RELEASE
+    // origin: 'http://localhost:3000',
     methods: "GET, POST, PATCH, DELETE, OPTIONS",
   },
   {

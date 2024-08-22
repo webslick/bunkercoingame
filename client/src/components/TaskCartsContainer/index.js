@@ -9,9 +9,7 @@ function TaskCartsContainer(props) {
   const { rocket, teher } = images; 
 
  const navigate = useNavigate();
-
-console.log(title,'title')
-console.log(carts,'carts')
+ 
   return(
     <div className='taskCartsContainer'>
       <div className='taskCartsTitle'>{title}</div> 

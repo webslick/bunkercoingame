@@ -9,7 +9,7 @@ import PlaceButton from '../../components/PlaceButton';
 import SwitcherTime from '../../components/SwitcherTime';
 import PrizeTitle from '../../components/PrizeTitle';
 import { set_all_users, getAllUsers } from '../../redux/actions/users';
-import { users } from '../../redux/selectors';
+import { users,app } from '../../redux/selectors';
 
 import './index.css';
 
@@ -22,6 +22,7 @@ function BestPage(props) {
 
   const all_users = useSelector(users.all_users)
   const user = useSelector(users.user)
+  const best_switch = useSelector(app.best_switch);
 
   const BackButton = tg.BackButton;
   BackButton.show();
@@ -46,18 +47,35 @@ function BestPage(props) {
     }; 
     fetchData(); 
   },[]); 
- 
+  
   const allTimeUsers = all_users.slice(0);
   const dailyUsers = all_users.slice(0);
-
+ 
   let resultArrAllTime = allTimeUsers.sort((user1, user2) => Number(JSON.parse(user1["bestGame"])["all_time"]["coins"]) > Number(JSON.parse(user2["bestGame"])["all_time"]["coins"]) ? -1 : 1);
+  resultArrAllTime = resultArrAllTime.map((item, i) => {  
+    return {...item, bestGame: { ...JSON.parse(item?.bestGame), all_place : i }} 
+  })
+ 
   let resultArrDaily = dailyUsers.sort((user1, user2) => Number(JSON.parse(user1["bestGame"])["daily"]["coins"]) > Number(JSON.parse(user2["bestGame"])["daily"]["coins"]) ? -1 : 1);
+  resultArrDaily = resultArrDaily.map((item, i) => {  
+    return {...item, bestGame: { ...JSON.parse(item?.bestGame), daily_place : i }} 
+  })
+ 
+  const result = best_switch ? resultArrDaily : resultArrAllTime;
+  var itemres = 0;
+ 
+  result.map((item,i) => {
+    if (item.user_id == user.user_id) {
+      itemres = i
+    }
+    return false;
+  }) 
   
   return(  
     <div className='bestScreen'>
       <Title title='B-B-Best game!'/>  
       <div className='bestSwitchContainer'>  
-        <SwitcherTime timer />
+        <SwitcherTime best_switch={best_switch} timer />
       </div> 
       {
         false ? 
@@ -67,23 +85,28 @@ function BestPage(props) {
         : <></>
       } 
       {
-        user?.bestGame.daily_place > 3 ? 
+        result[itemres]?.bestGame.daily_place >= 11 ? 
         <div className='userPlaceContainer'>
-        <PlaceButton userButton num={ user.bestGame.daily_place} name={user.user_name} countMine={user.balance_count} />
-      </div>
+         <PlaceButton userButton num={best_switch ? result[itemres]?.bestGame.daily_place + 1 : result[itemres]?.bestGame.all_place + 1} name={result[itemres]?.user_name} countMine={result[itemres]?.balance_count} />
+        </div>
         : <></>
       } 
       <div className='rankPlaceContainer'>
-        {
-          
+        {  
+          result.map((item,i) => { 
+            
+            if(best_switch) {  
+              if(i == result[itemres]?.bestGame.daily_place) { 
+                return <PlaceButton userButton key={i} num={item?.bestGame.daily_place + 1} name={item.user_name} countMine={item.balance_count} />
+              } else return <PlaceButton key={i} num={item?.bestGame.daily_place + 1 } name={item.user_name} countMine={item.balance_count} />
+            } else {  
+              if(i == result[itemres]?.bestGame.all_place ) {
+                return <PlaceButton userButton key={i} num={item?.bestGame.all_place + 1} name={item.user_name} countMine={item.balance_count} />
+              } else return (<PlaceButton key={i} num={item?.bestGame.all_place + 1} name={item.user_name} countMine={item.balance_count} />)
+            }
+
+          })   
         }
-        {/* {
-          a.map((item,i) => { 
-            if(i + 1 == User?.place) {
-              return <PlaceButton userButton key={i} num={User?.place} name={User.user_name} countMine={User.balance_count} />
-            } else return (<PlaceButton key={i} num={item?.place} name={item.user_name} countMine={item.balance_count} />)
-            })
-        }  */}
       </div>
     </div>
   );

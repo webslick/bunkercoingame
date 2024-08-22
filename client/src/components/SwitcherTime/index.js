@@ -7,10 +7,10 @@ import TimerDaily from '../TimerDaily'
 import './index.css';
 
 function SwitcherTime(props) {
-  const { timer } = props; 
+  const { timer, best_switch } = props; 
   const dispatch = useDispatch();
 
-  const best_switch = useSelector(app.best_switch);
+
 
   function setmoment(count,time) {
     let t = '';
@@ -33,7 +33,7 @@ function SwitcherTime(props) {
     }
     return moment().add(count, t)
   }
- console.log(moment())
+ 
   return( 
     <div onClick={() => {  dispatch(set_switch(!best_switch)) }}  className='swichTimeWrapper'> 
       <div style={{backgroundColor: `${best_switch ? 'rgb(255 255 255)' : 'rgb(238 225 202)'}`}} className='switchButtonContainer'>

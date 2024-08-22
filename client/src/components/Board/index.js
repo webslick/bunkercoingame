@@ -14,7 +14,8 @@ import { useSwipeable } from 'react-swipeable'
 import { putHistoryInfo, set_visibleLooser, putTotalCoin, set_appinfo } from '../../redux/actions/app'
 import { set_user,set_info_user } from '../../redux/actions/users' 
 import { useNavigate } from "react-router-dom";
-import { convertTimeBd, NowBDformat } from '../../hooks/helpservice'
+import { convertTimeBd, NowBDformat } from '../../hooks/helpservice';
+import { getIOSSaveDateObj } from '../../hooks/helpservice'
 import './index.css';
 
 const BoardView = (props) => {
@@ -42,6 +43,7 @@ const loading = useSelector(loader.loading)
 
   const handlers = useSwipeable({
     onTap: (eventData) => { 
+      setStopScroll(false)
       let dir = random(0,3);  
 
       let boardClone = Object.assign(
@@ -85,6 +87,7 @@ const loading = useSelector(loader.loading)
     preventScrollOnSwipe: true,
     trackTouch: true,
     onSwipeStart: () => setStopScroll(true), 
+    onTouchStartOrOnMouseDown: () => setStopScroll(true), 
     
   }); 
  
@@ -169,13 +172,13 @@ const loading = useSelector(loader.loading)
 
           if(typeof(historyArr) == 'string') { 
             let arr = [...JSON.parse(historyArr)]
-            arr.push({ date_game: moment().format('D/M/Y'),total_coins: board.mine_coins })  
+            arr.push({ date_game: moment().format('DD/MM/YYYY'),total_coins: board.mine_coins })  
             await putHistoryInfo({ 
               id: user.user_id,
               history: JSON.stringify(arr)  
             })
           } else {
-            historyArr.push({ date_game: moment().format('D/M/Y'),total_coins: board.mine_coins })  
+            historyArr.push({ date_game: moment().format('DD/MM/YYYY'),total_coins: board.mine_coins })  
             await putHistoryInfo({ 
               id: user.user_id,
               history: JSON.stringify(historyArr)  
@@ -187,7 +190,8 @@ const loading = useSelector(loader.loading)
           userId: user.user_id,
           energy: Number(user.energy) == 0 ? 0 : JSON.stringify(Number(user.energy) - 1),
           balance_count: JSON.stringify(Number(user.balance_count) + board.mine_coins),
-          date_loss_game: user.date_loss_game == null ? NowBDformat : moment(moment(user.date_loss_game).add(7,'hours').format("YYYY-MM-DD HH:mm")),
+          // date_loss_game: user.date_loss_game == null ? NowBDformat : moment(moment(user.date_loss_game).add(7,'hours').format("YYYY-MM-DD HH:mm")),
+          date_loss_game: user.date_loss_game == null ? moment().format("YYYY-MM-DD HH:mm") : moment(user.date_loss_game).format("YYYY-MM-DD HH:mm"),
           score: JSON.stringify(Number(user.score) + board.score), 
           bestGame: JSON.stringify({...JSON.parse(user?.bestGame),
              daily: { score: board.score + JSON.parse(user?.bestGame).daily.score, coins: board.mine_coins + JSON.parse(user?.bestGame).daily.coins },
@@ -212,7 +216,9 @@ const loading = useSelector(loader.loading)
     useEffect(()=>{
       setBoard(new Board({ appInfo, miningInfo }));
     },[loading])
-  
+   
+    console.log(moment.utc())
+
     return (
     <div className="boardViewContainer">
       <div className='boardViewTopContainer'>  

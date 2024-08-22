@@ -104,8 +104,7 @@ console.log(msg)
             result = {
               ...serviceFunction.removeEmpty(user, 'Profiles'),     
             } 
-            
- 
+             
             if(!user) { // Проверяем по базе если первый раз и его нет то сохраняем данные
               console.log('ПЕРВЫЙ РАЗ!'); 
  
@@ -146,7 +145,7 @@ console.log(msg)
                 }), 
                 first_name, 
                 last_name,
-                date_connection_channel: moment().format("MM-DD-YYYY HH:mm:ss"),  
+                date_connection_channel: moment().format("YYYY-MM-DD HH:mm"),  
               });
  
               await bot.sendMessage(id, ` Hello, ${String(first_name)}!\n\n Play 2048. Merge tiles. Mine Bcoin. The more tilesyou merge, the more Bcoins you get.\n\n invite Buddies and get 50% from Bcoins they mine and 25% from Bcoins their Buddies mine.\n\n Hurry up the 4rd Halving will be soon`,
