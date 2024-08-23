@@ -12,7 +12,7 @@ import PopapInfo from './components/PopapInfo';
 import api from './http/index'
 import './App.css';
   
-function App() {
+function App() {  
 
   const dispatch = useDispatch();  
 
@@ -41,8 +41,8 @@ function App() {
       var refSubkeyBoss = '';
       var refPrivatekeyBoss = ''; 
  
-      // const user = await getUserInfo('6107507930'); 
-       const user = await getUserInfo(usertg?.id);  
+      const user =  process.env.NODE_ENV == 'development' ? await getUserInfo('6107507930') : await getUserInfo(usertg?.id);
+      //  const user = await getUserInfo(usertg?.id);  
       if(user !== 401) { 
 
         if(refInfo !== undefined) {

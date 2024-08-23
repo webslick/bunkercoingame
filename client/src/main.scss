@@ -201,23 +201,23 @@ body {
   display: inline;
 }
 
-.tile.new,
-.overlay {
-  animation-duration: 0.2s;
-  animation-name: newTile;
-  animation-fill-mode: forwards;
-  animation-delay: 0.15s;
-  transform: scale(1);
-}
+// .tile.new,
+// .overlay {
+//   animation-duration: 0.2s;
+//   animation-name: newTile;
+//   animation-fill-mode: forwards;
+//   animation-delay: 0.15s;
+//   transform: scale(1);
+// }
 
-@keyframes newTile {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1);
-  }
-}
+// @keyframes newTile {
+//   from {
+//     transform: scale(1);
+//   }
+//   to {
+//     transform: scale(1);
+//   }
+// }
 
 .overlay {
   position: absolute;

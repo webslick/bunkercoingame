@@ -40,6 +40,16 @@ const loading = useSelector(loader.loading)
   const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+ 
+  const BackButton = tg.BackButton;
+  BackButton.show();
+
+  BackButton.onClick(function() { 
+    navigate('/');
+    BackButton.hide();
+  });
+
+
 
   const handlers = useSwipeable({
     onTap: (eventData) => { 
@@ -217,10 +227,12 @@ const loading = useSelector(loader.loading)
       setBoard(new Board({ appInfo, miningInfo }));
     },[loading])
    
-    console.log(moment.utc())
-
+ 
     return (
     <div className="boardViewContainer">
+      {
+       board.hasLost() && <div className="disabletouch"></div>
+      }
       <div className='boardViewTopContainer'>  
         <JoinButton title="Join" img={ telega } onClick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />      
         <GetButton title="Invite Buddies"  fill={!false} invite={true} onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`)}}/>
