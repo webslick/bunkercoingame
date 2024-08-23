@@ -29,7 +29,7 @@ function HistoryPage(props) {
     let historyArr =  user?.history == undefined ? {} :JSON.parse(user?.history);   
     if(typeof(historyArr) == 'string') { 
       let arr = [...JSON.parse(historyArr)]
-      setSorted(arr.sort((user1, user2) => {console.log(user1); return compare(user1["date_game"],user2["date_game"])}));
+      setSorted(arr.sort((user1, user2) => { return compare(user1["date_game"],user2["date_game"])}));
     }   
     setIsSorted(true)
   },[isSorted])

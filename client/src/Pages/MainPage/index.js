@@ -20,8 +20,28 @@ function MainPage(props) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();  
-  
- 
+
+  const isEmptyObject = (obj) => {
+    for (var i in obj) { 
+        if (obj.hasOwnProperty(i)) {
+            return false;
+        }
+    }
+    return true;
+  }
+
+
+  function reducer(accumulator, currentValue, index) {
+    const returns = { name: accumulator.name, total_coins: accumulator.total_coins + currentValue.total_coins }; 
+    return returns;
+  }
+
+  let daily_score = 0; 
+
+  if(!isEmptyObject(user)) {  
+    daily_score = JSON.parse(user?.bestGame).daily.score;   
+  }
+   
   return(
     <div className='mainscreen'>
       <div className='energyTopContainer'>
@@ -69,7 +89,7 @@ function MainPage(props) {
             coin={teher}
             leftTitle="Best game" 
             leftSubTitle="B da winner" 
-            rightTitle={decimal(Math.ceil(user.score))} 
+            rightTitle={decimal(Math.ceil(daily_score))} 
             rightSubTitle="Ur dally score" 
             onClick={() => {  navigate('/bestpage') }} 
           />  

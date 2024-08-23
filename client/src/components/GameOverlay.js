@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import TryAgainLogo from "../assets/images/try-again.gif";
+import TryAgainLogo from "../assets/images/1024tile.png";
 
 const GameOverlay = ({ onRestart, board }) => {
  

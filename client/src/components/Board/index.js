@@ -169,10 +169,7 @@ const loading = useSelector(loader.loading)
     useEffect(() => {
       if(board.hasWon()) {
        console.log('won true')
-      } else if (board.hasLost()) { 
-        console.log('won false',board.mine_coins)
-        console.log('won false',board.score)
-        console.log('user',user)   
+      } else if (board.hasLost()) {   
         // resetGame()  
       
         const fetchData = async () => {  
@@ -182,20 +179,44 @@ const loading = useSelector(loader.loading)
 
           if(typeof(historyArr) == 'string') { 
             let arr = [...JSON.parse(historyArr)]
-            arr.push({ date_game: moment().format('DD/MM/YYYY'),total_coins: board.mine_coins })  
+            arr.push({ date_game: moment().format('DD/MM/YYYY'),total_coins: board.mine_coins, total_score: board.score })  
             await putHistoryInfo({ 
               id: user.user_id,
               history: JSON.stringify(arr)  
             })
           } else {
-            historyArr.push({ date_game: moment().format('DD/MM/YYYY'),total_coins: board.mine_coins })  
+            historyArr.push({ date_game: moment().format('DD/MM/YYYY'),total_coins: board.mine_coins, total_score: board.score })  
             await putHistoryInfo({ 
               id: user.user_id,
               history: JSON.stringify(historyArr)  
             })
           } 
         } 
+     
+        let userHistoryDays =  user?.history == undefined ? {} :JSON.parse(user?.history); 
+
+        if(typeof(userHistoryDays) == 'string') {
+    
+          userHistoryDays = [...JSON.parse(userHistoryDays)]
+          let nowDay = moment().format('DD/MM/YYYY')
+         
+          function isBigEnough(value) { 
+            return  value.date_game == nowDay;
+          }
+   
+          let resultFilter = userHistoryDays.filter(isBigEnough)
+          var sumCountDayCoins = resultFilter.reduce((acc, cur) =>{ return acc + cur.total_coins }, 0); 
+          var allCountDaysCoins = userHistoryDays.reduce((acc, cur) => { return acc + cur.total_coins }, 0); 
+          var sumCountDayScore = resultFilter.reduce((acc, cur) => { return acc + cur.total_score }, 0); 
+          var allCountDaysScore = userHistoryDays.reduce((acc, cur) => { return acc + cur.total_score }, 0); 
   
+        } else {
+          var sumCountDayCoins = 0; 
+          var allCountDaysCoins = 0; 
+          var sumCountDayScore = 0; 
+          var allCountDaysScore = 0; 
+        }
+ 
         let newuser =  await set_info_user({
           userId: user.user_id,
           energy: Number(user.energy) == 0 ? 0 : JSON.stringify(Number(user.energy) - 1),
@@ -204,8 +225,8 @@ const loading = useSelector(loader.loading)
           date_loss_game: user.date_loss_game == null ? moment().format("YYYY-MM-DD HH:mm") : moment(user.date_loss_game).format("YYYY-MM-DD HH:mm"),
           score: JSON.stringify(Number(user.score) + board.score), 
           bestGame: JSON.stringify({...JSON.parse(user?.bestGame),
-             daily: { score: board.score + JSON.parse(user?.bestGame).daily.score, coins: board.mine_coins + JSON.parse(user?.bestGame).daily.coins },
-             all_time: { score: board.score + JSON.parse(user?.bestGame).all_time.score, coins: board.mine_coins + JSON.parse(user?.bestGame).all_time.coins },
+             daily: { score: sumCountDayScore + board.score, coins: sumCountDayCoins + board.mine_coins },
+             all_time: { score: allCountDaysScore + board.score, coins: allCountDaysCoins + board.mine_coins },
           })
         },dispatch);
   

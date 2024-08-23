@@ -60,7 +60,7 @@ function BestPage(props) {
   resultArrDaily = resultArrDaily.map((item, i) => {  
     return {...item, bestGame: { ...JSON.parse(item?.bestGame), daily_place : i }} 
   })
- 
+  
   const result = best_switch ? resultArrDaily : resultArrAllTime;
   var itemres = 0;
  
@@ -87,7 +87,7 @@ function BestPage(props) {
       {
         result[itemres]?.bestGame.daily_place >= 11 ? 
         <div className='userPlaceContainer'>
-         <PlaceButton userButton num={best_switch ? result[itemres]?.bestGame.daily_place + 1 : result[itemres]?.bestGame.all_place + 1} name={result[itemres]?.user_name} countMine={result[itemres]?.balance_count} />
+         <PlaceButton userButton num={best_switch ? result[itemres]?.bestGame.daily_place + 1 : result[itemres]?.bestGame.all_place + 1} name={result[itemres]?.user_name} countMine={best_switch ? result[itemres]?.bestGame.daily.coins : result[itemres]?.bestGame.all_time.coins} />
         </div>
         : <></>
       } 
@@ -97,12 +97,12 @@ function BestPage(props) {
             
             if(best_switch) {  
               if(i == result[itemres]?.bestGame.daily_place) { 
-                return <PlaceButton userButton key={i} num={item?.bestGame.daily_place + 1} name={item.user_name} countMine={item.balance_count} />
-              } else return <PlaceButton key={i} num={item?.bestGame.daily_place + 1 } name={item.user_name} countMine={item.balance_count} />
+                return <PlaceButton userButton key={i} num={item?.bestGame.daily_place + 1} name={item.user_name} countMine={item.bestGame.daily.coins} />
+              } else return <PlaceButton key={i} num={item?.bestGame.daily_place + 1 } name={item.user_name} countMine={item.bestGame.daily.coins} />
             } else {  
               if(i == result[itemres]?.bestGame.all_place ) {
-                return <PlaceButton userButton key={i} num={item?.bestGame.all_place + 1} name={item.user_name} countMine={item.balance_count} />
-              } else return (<PlaceButton key={i} num={item?.bestGame.all_place + 1} name={item.user_name} countMine={item.balance_count} />)
+                return <PlaceButton userButton key={i} num={item?.bestGame.all_place + 1} name={item.user_name} countMine={item.bestGame.all_time.coins} />
+              } else return (<PlaceButton key={i} num={item?.bestGame.all_place + 1} name={item.user_name} countMine={item.bestGame.all_time.coins} />)
             }
 
           })   

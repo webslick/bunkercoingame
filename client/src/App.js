@@ -9,7 +9,8 @@ import { setLoadding } from './redux/actions/loader';
 import {  set_user, getUserInfo } from './redux/actions/users'; 
 import {  app, users, popup_looser, popup_info, loader } from './redux/selectors';  
 import PopapInfo from './components/PopapInfo'; 
-import api from './http/index'
+import api from './http/index';
+import moment from 'moment'
 import './App.css';
   
 function App() {  
@@ -93,9 +94,7 @@ function App() {
         halving_ratio_price,
         tile_price, 
       }));  
-      
-
-
+       
       // dispatch(setLoadding(true)); 
     }; 
     fetchData(); 
@@ -106,7 +105,7 @@ function App() {
         // Alternatively to what can be set with react-telegram-web-app, you can directly set the following properties:
         window.Telegram.WebApp.expand();
         window.Telegram.WebApp.disableVerticalSwipes()
-    }
+    } 
 }, []);
  
   return ( 

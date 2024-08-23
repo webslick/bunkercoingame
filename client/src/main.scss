@@ -186,7 +186,7 @@ body {
   z-index: 10;
   height: 100px;
   width: 100px;
-  background-image: url(./assets/images/try-again.gif);
+  // background-image: url(./assets/images/try-again.gif);
 }
 
 .tile {
@@ -250,7 +250,7 @@ body {
 
 .gameOver {
   background-size: contain;
-  background-image: url(./assets/images/game-over.gif);
+  // background-image: url(./assets/images/game-over.gif);
   position: absolute;
   top: 0;
   right: 0;
