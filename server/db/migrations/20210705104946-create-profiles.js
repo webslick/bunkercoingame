@@ -41,6 +41,9 @@ module.exports = {
       history: {
         type: Sequelize.TEXT('long')
       },   
+      boardstate: {
+        type: Sequelize.TEXT('long')
+      },   
       nastavnik: {
         type: Sequelize.TEXT('long')
       },   

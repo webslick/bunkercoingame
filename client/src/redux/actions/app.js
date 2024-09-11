@@ -58,12 +58,42 @@ export function set_visibleLooser(visible) {
     payload: visible
   }
 } 
+
+export function set_wait(wait) {  
+  return {
+    type: ActionTypes.APP_WAIT,
+    payload: wait
+  }
+} 
+
+export function set_wait_count(wait) {  
+  return {
+    type: ActionTypes.APP_WAIT_COUNT,
+    payload: wait
+  }
+} 
  
  
 export async function putHistoryInfo(body,dispatch) { 
   try { 
    
     const response = await api.main_api.post('/putHistoryInfo', body)
+ 
+    if(response.status === 200) {   
+      console.log(response.data)
+      // dispatch(set_appinfo(response.data)); 
+    }  
+    return response.data
+  } catch (error) {
+    console.log(error)
+    return error.response?.status;
+  }
+}
+ 
+export async function putBoardState(body,dispatch) { 
+  try { 
+   
+    const response = await api.main_api.post('/putBoardState', body)
  
     if(response.status === 200) {   
       console.log(response.data)

@@ -1,11 +1,13 @@
-import ActionTypes from '../constants';
-
+import ActionTypes from '../constants'; 
+ 
 const initialState = {
   mobile: false,
   appInfo: {}, 
   miningInfo: {},
   progress: {},
-  best_switch: true
+  best_switch: true,
+  wait: false,  
+  wait_count: 10,  
 };
 
 export default function app(state = initialState, { type, payload }) {
@@ -36,6 +38,16 @@ export default function app(state = initialState, { type, payload }) {
         ...state,
         best_switch: payload
       }; 
+    case ActionTypes.APP_WAIT:
+      return {
+        ...state,
+        wait: payload
+      };  
+    case ActionTypes.APP_WAIT_COUNT:
+      return {
+        ...state,
+        wait_count: payload
+      };  
     default:
       return state;
   }

@@ -11,6 +11,7 @@ module.exports = class ProfileDto {
   partners;
   partners_twolevel; 
   history;
+  boardstate;
   privateKey; 
   subKey;
   nastavnik; 
@@ -29,6 +30,7 @@ module.exports = class ProfileDto {
     this.partners_twolevel = model?.partners_twolevel;   
     this.partners = model?.partners;   
     this.history = model?.history;   
+    this.boardstate = model?.boardstate;   
     this.privateKey = model?.privateKey;  
     this.subKey = model?.subKey;  
     this.nastavnik = model?.nastavnik;    

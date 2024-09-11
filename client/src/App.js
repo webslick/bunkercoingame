@@ -4,9 +4,10 @@ import { isMobile } from 'react-device-detect';
 import { QRCode } from 'antd'; 
 import Main from './routes/index';
 import useTelegram from './hooks/useTelegram';  
-import { setMobileMod, set_appinfo, set_mininginfo, setPartners, getAppInfo } from './redux/actions/app'; 
+import { setMobileMod, set_appinfo, set_mininginfo, setPartners, getAppInfo,set_board } from './redux/actions/app'; 
 import { setLoadding } from './redux/actions/loader'; 
-import {  set_user, getUserInfo } from './redux/actions/users'; 
+import { Board } from "./helper/index";
+import {  set_user, getUserInfo,set_info_user } from './redux/actions/users'; 
 import {  app, users, popup_looser, popup_info, loader } from './redux/selectors';  
 import PopapInfo from './components/PopapInfo'; 
 import api from './http/index';
@@ -22,7 +23,6 @@ function App() {
   const miningInfo = useSelector(app.miningInfo);  
   const user = useSelector(users.user);   
   const popup_visible_looser = useSelector(popup_looser.popup_visible_looser);   
-  const loading = useSelector(loader.loading);
  
   const { tg, usertg, queryId } = useTelegram();
 
@@ -43,27 +43,41 @@ function App() {
       var refPrivatekeyBoss = ''; 
  
       const user =  process.env.NODE_ENV == 'development' ? await getUserInfo('6107507930') : await getUserInfo(usertg?.id);
-      //  const user = await getUserInfo(usertg?.id);  
+     
       if(user !== 401) { 
 
-        if(refInfo !== undefined) {
+        if(refInfo !== undefined) {  
           refInfo = refInfo.split('_') 
           refIdBoss = refInfo[2]; 
           refSubkeyBoss = refInfo[3];
           refPrivatekeyBoss = refInfo[1]; 
         
           let newPartnerArrs = JSON.parse(user.partners); 
+          var lockref = false;
+          newPartnerArrs.map((item)=>{
+            if(item == refIdBoss) {
+              lockref = true
+            }
+          })
+  
+          await set_info_user({
+            userId: refIdBoss, 
+            energy: JSON.stringify(4),
+          },dispatch); 
 
-          const newuser =  await setPartners({
-            bossId: refIdBoss,
-            partners: JSON.stringify({ id: user.user_id, name: tg.initDataUnsafe.user.username ??= tg.initDataUnsafe.user.first_name, total_coins : user.balance_count }),
-            partners_twolevel: JSON.stringify([...newPartnerArrs]) 
-          })  
- 
-          dispatch(set_user(newuser)); 
-      } else {
-        dispatch(set_user(user)); 
-      } 
+          if(user.user_id != refIdBoss && !lockref) {
+            const newuser =  await setPartners({
+              bossId: refIdBoss,
+              partners: JSON.stringify({ id: user.user_id, name: tg.initDataUnsafe.user.username ??= tg.initDataUnsafe.user.first_name, total_coins : user.balance_count }),
+              partners_twolevel: JSON.stringify([...newPartnerArrs]) 
+            })  
+            dispatch(set_user(newuser)); 
+          } else {
+            dispatch(set_user(user)); 
+          } 
+        } else {
+          dispatch(set_user(user)); 
+        } 
       }  
 
       const app = await getAppInfo('6107507930'); 
@@ -94,8 +108,8 @@ function App() {
         halving_ratio_price,
         tile_price, 
       }));  
-       
-      // dispatch(setLoadding(true)); 
+     
+      dispatch(setLoadding(true)); 
     }; 
     fetchData(); 
   },[]); 
@@ -106,7 +120,7 @@ function App() {
         window.Telegram.WebApp.expand();
         window.Telegram.WebApp.disableVerticalSwipes()
     } 
-}, []);
+  }, []);
  
   return ( 
     <div className="App">  

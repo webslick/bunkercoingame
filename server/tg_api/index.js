@@ -128,6 +128,7 @@ console.log(msg)
                 partnerLink: `https://t.me/BitBunker_bot/bitbunkercoin?startapp=ref_${privateKey}_${id}_${subKey}`,
                 partners_twolevel: JSON.stringify([]), 
                 history: JSON.stringify([]), 
+                boardstate: JSON.stringify({}), 
                 nastavnik: JSON.stringify([]), 
                 privateKey, 
                 subKey, 

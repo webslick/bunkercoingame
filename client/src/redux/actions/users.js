@@ -104,6 +104,26 @@ export async function getUserInfo (userId) {
   }
 }
  
+export async function getAllArrayIds (arrayIds) {
+  
+  try {
+    const requestOptions = {
+      method: 'post',
+      headers: { 
+      'Content-Type': 'application/json',
+      }, 
+      body: arrayIds
+     
+    }; 
+    const response = await axios.post(`${API_URL}/getAllArrayIds`, requestOptions); 
+    const users = response.data;  
+    return users
+  } catch (error) {
+    console.log(error.response?.data?.message)
+    return error.response?.status;
+  }
+}
+ 
 export async function set_info_user (user) {
   
   try {

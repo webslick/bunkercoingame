@@ -14,7 +14,7 @@ const root = createRoot(doc);
 
 root.render(
   <>
-   <BrowserRouter>
+    <BrowserRouter>
       <Provider store={store}> 
         <App /> 
       </Provider>

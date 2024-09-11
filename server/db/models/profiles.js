@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     partners: DataTypes.STRING,
     partners_twolevel: DataTypes.STRING,
     history: DataTypes.STRING, 
+    boardstate: DataTypes.STRING, 
     nastavnik: DataTypes.STRING,  
     privateKey: DataTypes.STRING,  
     subKey: DataTypes.STRING,  

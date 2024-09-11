@@ -16,16 +16,7 @@ const url_client = config.get('Server.URL.CLIENT');
 const random = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
-
-const isEmptyObject = (obj) => {
-  for (var i in obj) { 
-      if (obj.hasOwnProperty(i)) {
-          return false;
-      }
-  }
-  return true;
-}
-
+ 
 class UserService {
 
   async registration (login, password,res, cookies) {
@@ -245,6 +236,32 @@ class UserService {
     } 
   }
  
+  async putBoardState(boardstateInfo) {
+   
+    try {  
+   
+      const user = await DB.searchInTables('user_id', boardstateInfo.id ); 
+      let result = {}
+ 
+      if(!user) {
+        throw ApiErr.BadRequest(`Пользователь не найден`);
+      } else {
+       
+        var newUserInfo = await DB.updateModelTables(user, { boardstate: JSON.stringify(boardstateInfo.boardstate) }); 
+       
+        result = {  
+          ...serviceFunction.removeEmpty(newUserInfo, 'Profiles'),    
+        };  
+    
+        return { user: result } 
+      }
+   
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
+    } 
+  }
+ 
   async setUserInfo(user) {
    
     try { 
@@ -255,6 +272,7 @@ class UserService {
         date_loss_game,
         score,
         history,
+        boardstate,
         bestGame,
       } = user
  
@@ -271,6 +289,7 @@ class UserService {
           date_loss_game,
           score,
           history,
+          boardstate,
           bestGame,
         }); 
       
@@ -386,11 +405,16 @@ class UserService {
             ...serviceFunction.removeEmpty(userBoss, 'Profiles'),    
           }; 
  
+
           let newPartnerArr = JSON.parse(result.partners); 
           newPartnerArr.push(JSON.parse(partners))
 
           let unicNewPartnerArr = newPartnerArr.filter((value, index) => {
             const _value = JSON.stringify(value);
+
+            console.log(value,'value')
+            console.log(index,'index')
+
             return index === newPartnerArr.findIndex(obj => {
               return JSON.stringify(obj) === _value;
             });
@@ -413,6 +437,8 @@ class UserService {
 
           let uniqNewNastavnikArr = newNastavnikArr.filter((value, index) => {
             const _value = JSON.stringify(value);
+            console.log(value,'value nastavnik')
+            console.log(index,'index nastavnik')
             return index === newNastavnikArr.findIndex(obj => {
               return JSON.stringify(obj) === _value;
             });
@@ -515,8 +541,21 @@ class UserService {
     result = {  
       ...serviceFunction.removeEmpty(user, 'Profiles'),    
     };  
-    console.log(result,'&&&&&')
+    
     return { user: result } 
+  }
+ 
+  async getAllArrayIds(arrayIds) {  
+    let usersArr = []
+    const all_users = await DB.searchInTables('users_aray_id',arrayIds ); 
+   
+    all_users.map((item) => {
+      usersArr.push({
+        ...serviceFunction.removeEmpty(item, 'Profiles'),
+      })
+    })
+ 
+    return { all_users: usersArr } 
   }
  
   async getAllUsers() { 

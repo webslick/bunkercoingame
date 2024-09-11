@@ -4,7 +4,7 @@ import Subtitle from '../../components/Subtitle'
 import RewardBox from '../../components/RewardBox'
 import images from '../../assets/images'
 import GetButton from '../../components/GetButton';
-import { decimal } from '../../hooks/helpservice'
+import { decimal, isEmptyObject } from '../../hooks/helpservice'
 import { Link, useNavigate } from 'react-router-dom';
 import './index.css';
 
@@ -23,18 +23,7 @@ function BuddiesPage(props) {
     navigate('/');
     BackButton.hide();
   });
-
-
-  const isEmptyObject = (obj) => {
-    for (var i in obj) { 
-        if (obj.hasOwnProperty(i)) {
-            return false;
-        }
-    }
-    return true;
-  }
-
-
+ 
   function reducer(accumulator, currentValue, index) {
     const returns = { name: accumulator.name, total_coins: accumulator.total_coins + currentValue.total_coins }; 
     return returns;
@@ -88,7 +77,7 @@ function BuddiesPage(props) {
         </div> 
       </div>
       <div className='bonusInviteButtonContainer'>
-        <GetButton title="Invite Buddies"  fill={!false} invite={true} onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`);}}/>
+        <GetButton title="Invite Buddies"  fill={!false} invite={true} onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}&text=Play 2048 to earn Bcoin for free!💸`);}}/>
       </div> 
     </div>
   );

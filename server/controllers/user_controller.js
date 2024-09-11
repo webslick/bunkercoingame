@@ -51,6 +51,18 @@ class UserController  {
     }
   }
  
+  async getAllArrayIds(req,res,next) { 
+    try {      
+      const { body } = req.body; 
+      if(body !== undefined) {
+        const userData = await userService.getAllArrayIds(body); 
+        return res.json(userData.all_users); 
+      } 
+    } catch (e) {
+      next(e);
+    }
+  }
+ 
   async getAllUsers(req,res,next) { 
     try {      
       const userData = await userService.getAllUsers(); 
@@ -169,6 +181,15 @@ class UserController  {
       const { bossId, partners, partners_twolevel } = req.body   
       const partInfo = await userService.setPartners({ bossId, partners, partners_twolevel });
      return res.json(partInfo.user);
+    } catch (e) {
+      next(e);
+    }
+  } 
+  
+  async putBoardState(req, res, next) {
+    try {   
+      const info = await userService.putBoardState(req.body);
+     return res.json(info.user);
     } catch (e) {
       next(e);
     }

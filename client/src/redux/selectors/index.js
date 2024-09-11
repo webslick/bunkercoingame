@@ -5,6 +5,9 @@ export const app = {
   miningInfo: (state) => state.app.miningInfo,
   progress: (state) => state.app.progress,
   best_switch: (state) => state.app.best_switch,
+  wait: (state) => state.app.wait,
+  board: (state) => state.app.board,
+  wait_count: (state) => state.app.wait_count,
 }
 
 export const pages = {

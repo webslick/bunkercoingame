@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { toImg, slideSecond, stop } from '../utils'; 
-import { visible_footer } from '../../redux/actions/app'
+import { visible_footer,set_wait, set_wait_count } from '../../redux/actions/app'
 import TimerDaily from '../TimerDaily'
 import moment from 'moment'
+import { app } from '../../redux/selectors'; 
 import './style.css'; 
   
 const slider = {
@@ -29,10 +30,20 @@ const Slider = ({ disabled, dateLoss }) => {
   const [solving, setSolving] = useState(false); 
   const [origin, setOrigin] = useState(0);
   const [trail, setTrail] = useState(0);
- 
+
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
  
+  const wait = useSelector(app.wait)
+  const wait_count = useSelector(app.wait_count)
+  
+  if(wait) { 
+    setTimeout(()=>{ 
+      dispatch(set_wait_count(0))
+    },5000)
+  }
+
   const handleStart = (e) => {
     // stop(e); 
     setOrigin(e.clientX || e.touches[0].clientX);
@@ -100,8 +111,7 @@ const Slider = ({ disabled, dateLoss }) => {
  
     return moment(dateLoss).add(count, t) 
   }
-
-
+  
   return (
     <div
       className='slider' 
@@ -114,6 +124,16 @@ const Slider = ({ disabled, dateLoss }) => {
     > 
       <div className='slider_container'>
         <div className='slider_track' />
+        {
+          wait && <div style={{ background: wait_count > 0 ? '#c9c9c9' : 'linear-gradient(150deg, rgb(248 190 7) 0%, rgb(255 141 50) 41%, rgb(246 197 34) 100%)'}} className='slider_button_wait_container' onClick={()=>{
+               if(wait_count == 0) {
+                 dispatch(set_wait(false));
+                 navigate('/gamepage'); 
+               }
+          }}>
+            <div className='slider_button_wait_title'>{`Продолжить${wait_count > 0 ?  ` через 5 сек` :''}`}</div> 
+          </div> 
+        }
         <div
         className='slider_number_noactive'
         style={{ background: disabled ? '#c9c9c9' : 'linear-gradient(150deg, rgb(199 195 181) 0%, rgb(225 172 81 / 44%) 41%, rgb(216 214 208) 100%)'}}
@@ -129,10 +149,7 @@ const Slider = ({ disabled, dateLoss }) => {
                 console.log('timer stoping!')
               }} 
             /> </div>
-
-
-
-
+ 
             : <span>merge tile and  start mining</span>
           } 
         </div>

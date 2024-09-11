@@ -28,7 +28,9 @@ function InvitedPage(props) {
       {
        JSON.parse(user?.partners).length > 0 ? JSON.parse(user?.partners).map((item,i) => (
             <LineButton 
+            noarrow
             title={item.name}  
+            key={i}
             // smile={rocket} 
             btn={false}  
             coin={teher}
@@ -37,6 +39,7 @@ function InvitedPage(props) {
             rightTitle={decimal(Math.ceil(item.total_coins))} 
             rightSubTitle="Balance" 
             onClick={()=>{}}
+            margin={'10px 0px 0px 0px'}
           />  
         )) : 
         <div className='invitedInfoWrapper'>
@@ -48,7 +51,7 @@ function InvitedPage(props) {
           <div className='invitedtitle'>{`No buddies yet ;(`}</div>   
           <div className='invitedsubtitle'>{`Kinda sad, btw. Invite some and multiply your Bcoin in da future!`}</div>  
           <div className='invitedButtonContainer'> 
-            <GetButton title="Invite Buddies" fill invite onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`)}}/>
+            <GetButton title="Invite Buddies" fill invite onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}&text=Play 2048 to earn Bcoin for free!💸`)}}/>
           </div> 
         </div>  
       }

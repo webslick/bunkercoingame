@@ -33,6 +33,7 @@ class DB {
             partners, 
             partners_twolevel, 
             history, 
+            boardstate,
             nastavnik, 
             privateKey, 
             partnerLink,
@@ -52,6 +53,7 @@ class DB {
               energy, 
               balance_count, 
               score, 
+              boardstate,
               partners, 
               partnerLink,
               partners_twolevel, 
@@ -113,7 +115,7 @@ class DB {
  
   async searchInTables(table, item) { 
  
-    const profileAttributes = ["id","user_id","bestGame", "user_name", "date_loss_game", "hints", "energy", "balance_count","score","partners", "partnerLink","partners_twolevel","history","privateKey","subKey","nastavnik"]
+    const profileAttributes = ["id","user_id","bestGame", "user_name", "date_loss_game", "hints", "energy", "balance_count","score","partners", "partnerLink","partners_twolevel","history","boardstate","privateKey","subKey","nastavnik"]
     switch (table) {
       case 'user_admin': 
  
@@ -131,6 +133,15 @@ class DB {
      })  
  
      return users_by_id;
+       
+      case 'users_aray_id':  
+  
+      const users_aray_id = await Profiles.findAll({
+       where: { user_id: item },  
+       attributes: profileAttributes,  
+     })  
+ 
+     return users_aray_id;
  
      case 'all_users':  
      const profile_by_id = await Profiles.findAll();

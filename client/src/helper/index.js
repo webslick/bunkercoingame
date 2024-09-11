@@ -59,34 +59,61 @@ class Tile {
 
 class Board  extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor(props) { 
+    super(props); 
 
     this.tiles = [];
     this.cells = [];
-    this.score = 0;
-    this.mine_coins = 0;
+    this.score = this.props?.score || 0;
+    this.mine_coins = this.props?.mine_coins || 0;
     this.size = 4;
     this.fourProbability = 0.1;
     this.deltaX = [-1, 0, 1, 0];
     this.deltaY = [0, -1, 0, 1];
-    for (var i = 0; i < this.size; ++i) {
-      this.cells[i] = [
-        this.addTile(), 
+  
+    for (var i = 0; i < this.size; ++i) {  
+      this.cells[i] = [ 
         this.addTile(),
         this.addTile(),
         this.addTile(),
-      ];
+        this.addTile(),
+      ];  
+    } 
+    if(this.props.cells == undefined) { 
+      this.addRandomTile();
+      this.addRandomTile();
     }
-    this.addRandomTile();
-    this.addRandomTile();
-    this.setPositions();
+    this.setPositions(); 
+     
+    if(this.props.cells !== undefined) { 
+      for (var l = 0; l < this.size; ++l) {
+        this.cells[l].map((elem,k) => {
+          elem.value = this.props.cells[l][k].value
+          elem.row = this.props.cells[l][k].row
+          elem.column = this.props.cells[l][k].column
+          elem.oldRow = this.props.cells[l][k].oldRow
+          elem.oldColumn = this.props.cells[l][k].oldColumn 
+          return false;
+        }) 
+      }   
+ 
+      this.props.tiles.map((elem,a) => {
+        elem.value = this.props.tiles[a].value
+        elem.row = this.props.tiles[a].row
+        elem.column = this.props.tiles[a].column
+        elem.oldRow = this.props.tiles[a].oldRow
+        elem.oldColumn = this.props.tiles[a].oldColumn 
+        return false;
+      })  
+ 
+    }
+
     this.won = false; 
   }
 
-  addTile(args) {
-    var res = new Tile(args);
-    this.tiles.push(res);
+  addTile(args) { 
+    var res = new Tile(args);   
+    this.tiles.push(res); 
     return res;
   }
 
@@ -147,7 +174,8 @@ class Board  extends Component {
 
   move(direction) {
     // 0 -> left, 1 -> up, 2 -> right, 3 -> down 
-    this.clearOldTiles();
+ 
+    this.clearOldTiles(); 
     for (var i = 0; i < direction; ++i) {
       this.cells = rotateLeft(this.cells);
     }
@@ -161,40 +189,51 @@ class Board  extends Component {
     this.setPositions();
     return this;
   }
-  clearOldTiles() {
-    this.tiles = this.tiles.filter((tile) => tile.markForDeletion === false);
-    this.tiles.forEach((tile) => {
+
+  clearOldTiles() { 
+    this.tiles = this.tiles.filter((tile) =>  tile.markForDeletion === false );  
+    this.tiles.forEach((tile) => {  
       tile.markForDeletion = true;
     });
+    this.cells.forEach((row, rowIndex) => {
+      row.forEach((tile, columnIndex) => { 
+        tile.markForDeletion = true;
+      });
+    });
   }
+
   hasWon() {
     return this.won;
   }
 
   hasLost() {
     var canMove = false;
-    for (var row = 0; row < this.size; ++row) {
-      for (var column = 0; column < this.size; ++column) {
-        canMove |= this.cells[row][column].value === 0;
-        for (var dir = 0; dir < 4; ++dir) {
-          var newRow = row + this.deltaX[dir];
-          var newColumn = column + this.deltaY[dir];
-          if (
-            newRow < 0 ||
-            newRow >= this.size ||
-            newColumn < 0 ||
-            newColumn >= this.size
-          ) {
-            continue;
+    if(this.cells.length > 0) {
+      for (var row = 0; row < this.size; ++row) {
+        for (var column = 0; column < this.size; ++column) {
+          canMove |= this.cells[row][column].value === 0;
+          for (var dir = 0; dir < 4; ++dir) {
+            var newRow = row + this.deltaX[dir];
+            var newColumn = column + this.deltaY[dir];
+            if (
+              newRow < 0 ||
+              newRow >= this.size ||
+              newColumn < 0 ||
+              newColumn >= this.size
+            ) {
+              continue;
+            }
+            canMove |=
+              this.cells[row][column].value ===
+              this.cells[newRow][newColumn].value;
           }
-          canMove |=
-            this.cells[row][column].value ===
-            this.cells[newRow][newColumn].value;
         }
-      }
-    } 
+      } 
+    } else {
+      canMove = true
+    }
     return !canMove;
   }
 }
 
-export { Board };
+export { Board, Tile };

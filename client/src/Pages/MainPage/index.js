@@ -7,12 +7,12 @@ import LineButton from '../../components/LineButton'
 import LineInfoButton from '../../components/LineInfoButton' 
 import FooterMenu from '../../components/FooterMenu';
 import Slider from '../../components/Sliders' 
-import { change_page, visible_footer , putHistoryInfo} from '../../redux/actions/app' 
-import { pages } from '../../redux/selectors'; 
-import { decimal } from '../../hooks/helpservice';
+import { change_page,set_wait,set_wait_count } from '../../redux/actions/app'  
+import { app } from '../../redux/selectors'; 
+import { decimal, isEmptyObject } from '../../hooks/helpservice';
 import images from '../../assets/images'
 import moment from 'moment';
-import './index.css';
+import './index.css'; 
 
 function MainPage(props) { 
   const { user, tg } = props;
@@ -20,28 +20,13 @@ function MainPage(props) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();  
-
-  const isEmptyObject = (obj) => {
-    for (var i in obj) { 
-        if (obj.hasOwnProperty(i)) {
-            return false;
-        }
-    }
-    return true;
-  }
-
-
-  function reducer(accumulator, currentValue, index) {
-    const returns = { name: accumulator.name, total_coins: accumulator.total_coins + currentValue.total_coins }; 
-    return returns;
-  }
-
+ 
   let daily_score = 0; 
 
   if(!isEmptyObject(user)) {  
     daily_score = JSON.parse(user?.bestGame).daily.score;   
   }
-   
+ 
   return(
     <div className='mainscreen'>
       <div className='energyTopContainer'>
@@ -56,7 +41,9 @@ function MainPage(props) {
           smile={love} 
           btn={true} 
           coin={teher} 
-          onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}}&text=Play 2048 to earn Bcoin for free!💸`)}} 
+          onClick={()=>{ 
+            tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}&text=Play 2048 to earn Bcoin for free!💸`)
+          }} 
         /> 
       </div>
       <div className='mainInfoBlock'>
