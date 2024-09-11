@@ -4,15 +4,16 @@ import { isMobile } from 'react-device-detect';
 import { QRCode } from 'antd'; 
 import Main from './routes/index';
 import useTelegram from './hooks/useTelegram';  
-import { setMobileMod, set_appinfo, set_mininginfo, setPartners, getAppInfo,set_board } from './redux/actions/app'; 
+import { setMobileMod, set_appinfo, set_mininginfo, setPartners, getAppInfo, set_board } from './redux/actions/app'; 
 import { setLoadding } from './redux/actions/loader'; 
 import { Board } from "./helper/index";
-import {  set_user, getUserInfo,set_info_user } from './redux/actions/users'; 
+import {  set_user, getUserInfo, set_info_user, createUser } from './redux/actions/users'; 
 import {  app, users, popup_looser, popup_info, loader } from './redux/selectors';  
 import PopapInfo from './components/PopapInfo'; 
 import api from './http/index';
 import moment from 'moment'
 import './App.css';
+ 
   
 function App() {  
 
@@ -43,7 +44,7 @@ function App() {
       var refPrivatekeyBoss = ''; 
  
       const user =  process.env.NODE_ENV == 'development' ? await getUserInfo('6107507930') : await getUserInfo(usertg?.id);
-     
+ 
       if(user !== 401) { 
 
         if(refInfo !== undefined) {  
@@ -52,20 +53,30 @@ function App() {
           refSubkeyBoss = refInfo[3];
           refPrivatekeyBoss = refInfo[1]; 
         
-          let newPartnerArrs = JSON.parse(user.partners); 
+          if(user == 400) {
+            user = await createUser({
+              id: usertg?.id,
+              first_name: usertg.first_name,
+              last_name: usertg.last_name,
+              username: usertg.username,
+            })  
+          }
+ 
+          let newPartnerArrs = JSON.parse(user?.partners); 
           var lockref = false;
           newPartnerArrs.map((item)=>{
-            if(item == refIdBoss) {
+            if(item?.id == refIdBoss) {
               lockref = true
             }
           })
-  
-          await set_info_user({
-            userId: refIdBoss, 
-            energy: JSON.stringify(4),
-          },dispatch); 
-
+ 
           if(user.user_id != refIdBoss && !lockref) {
+              
+            await set_info_user({
+              userId: refIdBoss, 
+              energy: JSON.stringify(4),
+            },dispatch); 
+
             const newuser =  await setPartners({
               bossId: refIdBoss,
               partners: JSON.stringify({ id: user.user_id, name: tg.initDataUnsafe.user.username ??= tg.initDataUnsafe.user.first_name, total_coins : user.balance_count }),

@@ -10,7 +10,7 @@ const serviceFunction = require("../service_functions")
 const config = require('config');  
 const url_api = config.get('Server.URL.ACTIVATIOLINK'); 
 const url_client = config.get('Server.URL.CLIENT'); 
-
+const moment = require('moment')
 // const randomNumberRange = require('random-number-range');
  
 const random = (min, max) => {
@@ -262,6 +262,67 @@ class UserService {
     } 
   }
  
+  async createUser({ id, first_name, last_name, username }) {
+ 
+    try { 
+    
+      let result = {}
+
+      const soul = uuid.v4(); 
+      const privateKey = soul.split('-')[0].substring(0, 4)
+      const subKey = soul.split('-')[soul.split('-').length - 1].substring(0, 4); 
+  
+      let add_user = await DB.addInTables('users',{
+        user_id: id,
+        user_name: username != null ? username :
+        last_name != null ? last_name :
+        first_name != null ? first_name : 'No name',
+        date_loss_game: null,
+        hints:JSON.stringify({ 
+          stepback: 0, 
+        }),
+        energy: JSON.stringify(4), 
+        balance_count: JSON.stringify(0), 
+        score: JSON.stringify(0), 
+        partners: JSON.stringify([]), 
+        partnerLink: `https://t.me/BitBunker_bot/bitbunkercoin?startapp=ref_${privateKey}_${id}_${subKey}`,
+        partners_twolevel: JSON.stringify([]), 
+        history: JSON.stringify([]), 
+        boardstate: JSON.stringify({}), 
+        nastavnik: JSON.stringify([]), 
+        privateKey, 
+        subKey, 
+        bestGame: JSON.stringify({ 
+          daily_place: 0,
+          all_place: 0,
+          daily: {
+            score: 0, 
+            coins: 0 
+          },
+          all_time: {
+            score: 0, 
+            coins: 0 
+          } 
+        }), 
+        first_name, 
+        last_name,
+        date_connection_channel: moment().format("YYYY-MM-DD HH:mm"),  
+      });
+ 
+      result = {  
+        ...serviceFunction.removeEmpty(add_user, 'Profiles'),    
+      }; 
+
+      return result  
+
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
+    } 
+
+
+  }
+ 
   async setUserInfo(user) {
    
     try { 
@@ -411,10 +472,7 @@ class UserService {
 
           let unicNewPartnerArr = newPartnerArr.filter((value, index) => {
             const _value = JSON.stringify(value);
-
-            console.log(value,'value')
-            console.log(index,'index')
-
+ 
             return index === newPartnerArr.findIndex(obj => {
               return JSON.stringify(obj) === _value;
             });
@@ -436,9 +494,7 @@ class UserService {
           newNastavnikArr.push({ id: bossId })
 
           let uniqNewNastavnikArr = newNastavnikArr.filter((value, index) => {
-            const _value = JSON.stringify(value);
-            console.log(value,'value nastavnik')
-            console.log(index,'index nastavnik')
+            const _value = JSON.stringify(value); 
             return index === newNastavnikArr.findIndex(obj => {
               return JSON.stringify(obj) === _value;
             });
@@ -533,16 +589,30 @@ class UserService {
   } 
  
   async getUserInfo(userId) { 
+
+
+    try {
+     
+      const user = await DB.searchInTables('user_id', userId ); 
  
-    let result = {}
+      let result = {}
+ 
+      if(!user) {
+        throw ApiErr.BadRequest(`Пользователь не найден`);
+      } else {
+        result = {  
+          ...serviceFunction.removeEmpty(user, 'Profiles'),    
+        };  
+        
+        return { user: result } 
+      
+      }
    
-    const user = await DB.searchInTables('user_id', userId ); 
- 
-    result = {  
-      ...serviceFunction.removeEmpty(user, 'Profiles'),    
-    };  
-    
-    return { user: result } 
+    } catch(error) {
+      console.log(error)
+      throw ApiErr.BadRequest(`Пользователь не найден необходимо пройти регистрацию: `);
+    }
+     
   }
  
   async getAllArrayIds(arrayIds) {  

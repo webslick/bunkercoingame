@@ -3,6 +3,7 @@ const userController = require('../controllers/user_controller');
 const router = Router() 
   
 router.post('/getUserInfo',userController.getUserInfo);  
+router.post('/createUser',userController.createUser);  
 router.post('/setUserInfo',userController.setUserInfo);  
 router.post('/setPartners',userController.setPartners);  
 router.post('/putMiningInfo',userController.putMiningInfo);  

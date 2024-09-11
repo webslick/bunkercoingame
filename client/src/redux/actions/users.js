@@ -1,6 +1,7 @@
 import axios from 'axios'; 
 import ActionTypes from '../constants';
 import { API_URL } from '../../http'; 
+import api from '../../http'; 
 import moment from 'moment';   
  
  
@@ -104,6 +105,28 @@ export async function getUserInfo (userId) {
   }
 }
  
+export async function createUser (userId) {
+  
+  try {
+    // const requestOptions = {
+    //   method: 'post',
+    //   headers: { 
+    //   'Content-Type': 'application/json',
+    //   }, 
+    //   body: userId
+     
+    // }; 
+    const response = await api.main_api.post('/createUser', userId)
+    // const response = await axios.post(`${API_URL}/createUser`, requestOptions); 
+    const user = response.data; 
+ 
+    return user
+  } catch (error) {
+    console.log(error.response?.data?.message)
+    return error.response?.status;
+  }
+}
+ 
 export async function getAllArrayIds (arrayIds) {
   
   try {
@@ -137,10 +160,7 @@ export async function set_info_user (user) {
       }
      
     }; 
- 
-console.log(user, 'REQ USERINFO')
-
-
+  
     const response = await axios.post(`${API_URL}/setUserInfo`, requestOptions); 
     const userg = response.data;  
     return userg

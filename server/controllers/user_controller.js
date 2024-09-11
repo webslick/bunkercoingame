@@ -176,6 +176,16 @@ class UserController  {
     }
   } 
   
+  async createUser(req, res, next) {
+  
+    try {    
+      const user = await userService.createUser(req.body);
+     return res.json(user);
+    } catch (e) {
+      next(e);
+    }
+  } 
+  
   async setPartners(req, res, next) {
     try {
       const { bossId, partners, partners_twolevel } = req.body   
