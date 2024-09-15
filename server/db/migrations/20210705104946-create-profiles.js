@@ -53,8 +53,11 @@ module.exports = {
       subKey: {
         type: Sequelize.STRING
       },  
+      wait: {
+        type: Sequelize.BOOLEAN
+      },
       bestGame: {
-        type: Sequelize.STRING
+        type:Sequelize.TEXT('long')
       },  
       createdAt: {
         allowNull: false,

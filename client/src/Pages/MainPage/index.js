@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import EnergyInfo from '../../components/EnergyInfo'
 import { Link, useNavigate } from 'react-router-dom';
 import JoinButton from '../../components/JoinButton'
@@ -7,16 +7,14 @@ import LineButton from '../../components/LineButton'
 import LineInfoButton from '../../components/LineInfoButton' 
 import FooterMenu from '../../components/FooterMenu';
 import Slider from '../../components/Sliders' 
-import { change_page,set_wait,set_wait_count } from '../../redux/actions/app'  
-import { app } from '../../redux/selectors'; 
+import { change_page } from '../../redux/actions/app'   
 import { decimal, isEmptyObject } from '../../hooks/helpservice';
-import images from '../../assets/images'
-import moment from 'moment';
+import images from '../../assets/images' 
 import './index.css'; 
 
 function MainPage(props) { 
   const { user, tg } = props;
-  const { telega,teher,love, cool,rocket,arrow,selphi } = images;
+  const { telega,teher,love, rocket,arrow } = images;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();  
@@ -32,7 +30,7 @@ function MainPage(props) {
       <div className='energyTopContainer'>
         <EnergyInfo user={user} activeTimer={Number(user.energy) !== 4} />
         <div className='joinButtonBox'>
-          <JoinButton title="Join" img={ telega } onClick={()=>{tg.openTelegramLink(`https://t.me/bcoin2048_RU_channel`)}} />   
+          <JoinButton title="Join" img={ telega } onClick={()=>{tg.openTelegramLink(`https://t.me/BitBunke`)}} />   
         </div>
       </div>
       <div className='inviteContainer'>
@@ -42,7 +40,7 @@ function MainPage(props) {
           btn={true} 
           coin={teher} 
           onClick={()=>{ 
-            tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}&text=Play 2048 to earn Bcoin for free!💸`)
+            tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}&text=Play 2048 to earn BitBunke for free!💸`)
           }} 
         /> 
       </div>
@@ -56,18 +54,10 @@ function MainPage(props) {
               onClick={async(e) => {  
                 navigate('/historypage')
               }} 
-            /> 
-            {/* <LineInfoButton 
-              title="Play to get ranked"  
-              img={selphi}  
-              size={false} 
-              onClick={(e) => { 
-                navigate('/rankpage')
-              }}  
-            />  */}
+            />  
           </div>
           <div className='mainInfoBlockSliderContainer'> 
-            <Slider disabled={Number(user.energy) == 0} dateLoss={user.date_loss_game} />
+            <Slider wait={Number(user.energy) == 0 ? false : user?.wait} disabled={Number(user.energy) == 0} dateLoss={user.date_loss_game} userId={user?.user_id} />
           </div>  
           <LineButton 
             title=""  
@@ -87,21 +77,9 @@ function MainPage(props) {
             <img className='mainHalwingLinkArrow' src={arrow} />
           </div>  
         </Link>
-      </div>
-      {/* <div className='buddiesContainer'>
-        <LineButton 
-          title="Big buddies Crew"  
-          smile={cool} 
-          btn={false} 
-          coin={teher} 
-          onClick={(e) => { 
-            navigate('/bbcpage')
-          }} 
-        /> 
-      </div>  */}
+      </div> 
       <div className='footerBox'> 
-        <FooterMenu 
-          // page={ page }
+        <FooterMenu  
           onClick={(e) => {  
             dispatch(change_page(e.target.id)) 
           }}  

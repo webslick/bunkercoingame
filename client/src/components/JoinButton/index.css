@@ -2,11 +2,12 @@
   display: flex;
   width: 100px;
   height: 40px;
-  background-color:#2a2f3b;
+  background-color:#2c2e3e;
   border-radius: 25px;
   margin-right: 10px;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
+  color: white;
 }
 
 .joinimg {

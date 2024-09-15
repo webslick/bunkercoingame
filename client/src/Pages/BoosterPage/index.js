@@ -1,14 +1,11 @@
-import React from 'react';
-import EnergyInfo from '../../components/EnergyInfo'
-import JoinButton from '../../components/JoinButton'
-import BoosterButton from '../../components/BoosterButton'
-import LineInfoButton from '../../components/LineInfoButton' 
+import React, { useEffect, useState } from "react";  
+import BoosterButton from '../../components/BoosterButton' 
 import Title from '../../components/Title'
-import Subtitle from '../../components/Subtitle'
-import RewardBox from '../../components/RewardBox'
+import Subtitle from '../../components/Subtitle' 
 import images from '../../assets/images'
 import { useNavigate } from 'react-router-dom';
 import './index.css';
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
 import GetButton from '../../components/GetButton';
 
 function BoosterPage(props) { 
@@ -16,18 +13,10 @@ function BoosterPage(props) {
   const { tg, user } = props;
 
   const navigate = useNavigate();
- 
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
- 
-
+  
   return(
     <div className='boosterScreen'>
+       <BackButton onClick={async() => { navigate('/');}}/>
       <Title title='Boosters'/> 
       <Subtitle subtitle='Booster helps you to earn more Bunkercoins.Watch short video to get 1 random booster 4 free.'/> 
       <div className='boosterButtonContainer'>

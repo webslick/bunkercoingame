@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
-import { useDispatch,useSelector } from 'react-redux';
-import { toImg, slideSecond, stop } from '../utils'; 
-import { visible_footer,set_wait, set_wait_count } from '../../redux/actions/app'
+import { useDispatch } from 'react-redux'; 
+import { visible_footer } from '../../redux/actions/app'
+import { set_info_user, set_user } from '../../redux/actions/users'
 import TimerDaily from '../TimerDaily'
-import moment from 'moment'
-import { app } from '../../redux/selectors'; 
+import moment from 'moment' 
 import './style.css'; 
   
 const slider = {
@@ -24,26 +23,16 @@ const slider = {
  
 };
  
-const Slider = ({ disabled, dateLoss }) => {
+const Slider = ({ disabled, dateLoss, wait, userId }) => {
  
   const [sliderVariant, setSliderVariant] = useState(slider.default);
   const [solving, setSolving] = useState(false); 
   const [origin, setOrigin] = useState(0);
   const [trail, setTrail] = useState(0);
-
-  
+ 
   const navigate = useNavigate();
   const dispatch = useDispatch();
- 
-  const wait = useSelector(app.wait)
-  const wait_count = useSelector(app.wait_count)
   
-  if(wait) { 
-    setTimeout(()=>{ 
-      dispatch(set_wait_count(0))
-    },5000)
-  }
-
   const handleStart = (e) => {
     // stop(e); 
     setOrigin(e.clientX || e.touches[0].clientX);
@@ -125,18 +114,21 @@ const Slider = ({ disabled, dateLoss }) => {
       <div className='slider_container'>
         <div className='slider_track' />
         {
-          wait && <div style={{ background: wait_count > 0 ? '#c9c9c9' : 'linear-gradient(150deg, rgb(248 190 7) 0%, rgb(255 141 50) 41%, rgb(246 197 34) 100%)'}} className='slider_button_wait_container' onClick={()=>{
-               if(wait_count == 0) {
-                 dispatch(set_wait(false));
-                 navigate('/gamepage'); 
-               }
+          wait && <div style={{ background: 'linear-gradient(150deg, rgb(248 190 7) 0%, rgb(255 141 50) 41%, rgb(246 197 34) 100%)'}} className='slider_button_wait_container' onClick={async()=>{
+            let newuser =  await set_info_user({
+              userId,
+              wait: false
+            });
+       
+            dispatch(set_user(newuser)); 
+            navigate('/gamepage');  
           }}>
-            <div className='slider_button_wait_title'>{`Продолжить${wait_count > 0 ?  ` через 5 сек` :''}`}</div> 
+            <div className='slider_button_wait_title'>{`Continue`}</div> 
           </div> 
         }
         <div
         className='slider_number_noactive'
-        style={{ background: disabled ? '#c9c9c9' : 'linear-gradient(150deg, rgb(199 195 181) 0%, rgb(225 172 81 / 44%) 41%, rgb(216 214 208) 100%)'}}
+        style={{ background: 'linear-gradient(150deg, rgb(199 195 181) 0%, rgb(225 172 81 / 44%) 41%, rgb(216 214 208) 100%)'}}
         >2</div>
         <div className='slider_label' style={{ opacity: solving ? 0 : 1 }} >
           {
@@ -159,7 +151,7 @@ const Slider = ({ disabled, dateLoss }) => {
         />
         <div className='slider_container' draggable={false} />
         <div 
-          style={{left: `${trail}px`,background: disabled ? '#c9c9c9' : 'linear-gradient(139deg, #ffea00 -.13%, #f2a600 61.62%, #fe6819 100.83%)'}}
+          style={{left: `${trail}px`,background: 'linear-gradient(139deg, #ffea00 -.13%, #f2a600 61.62%, #fe6819 100.83%)'}}
           className={`slider_control ${sliderVariant.className}`} 
           onMouseDown={handleStart}
           onTouchStart={handleStart}

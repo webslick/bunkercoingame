@@ -1,26 +1,17 @@
-import React from 'react'; 
-import Title from '../../components/Title' 
-import TaskButton from '../../components/TaskButton'
+import React, { useEffect, useState } from "react"; 
+import Title from '../../components/Title'  
 import TaskCartsContainer from '../../components/TaskCartsContainer/index'
 import images from '../../assets/images'
 import { useNavigate } from 'react-router-dom';
-import './index.css';
-import GetButton from '../../components/GetButton';
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
+import './index.css'; 
 
 function EarnPage(props) { 
-  const { back,rocket,teher, cool, helpsmile, help, agry } = images;
+  const { rocket,teher, cool, helpsmile, agry } = images;
   const { tg } = props;
 
   const navigate = useNavigate();
- 
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
-
+  
   let carts = [
     [
       {
@@ -71,6 +62,7 @@ function EarnPage(props) {
 
   return(
     <div className='earnScreen'>
+       <BackButton onClick={async() => { navigate('/');}}/>
       <Title title='Earn'/>   
       {
         carts.map((item,i) => (<TaskCartsContainer key={i} title={titles[i]} carts={item} /> ))

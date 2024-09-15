@@ -1,21 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from "react"; 
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import Title from '../../components/Title'
-import Subtitle from '../../components/Subtitle'
-import RewardBox from '../../components/RewardBox'
+import { useNavigate } from 'react-router-dom';
+import Title from '../../components/Title' 
 import images from '../../assets/images'
 import PlaceButton from '../../components/PlaceButton';
 import SwitcherTime from '../../components/SwitcherTime';
 import PrizeTitle from '../../components/PrizeTitle';
 import { set_all_users, getAllUsers } from '../../redux/actions/users';
 import { users,app } from '../../redux/selectors';
-
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
 import './index.css';
 
 function BestPage(props) { 
   const { tg } = props;
-  const { telega,teher,love, cool,rocket,arrow,selphi,prize } = images;
+  const { teher, prize } = images;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,21 +21,7 @@ function BestPage(props) {
   const all_users = useSelector(users.all_users)
   const user = useSelector(users.user)
   const best_switch = useSelector(app.best_switch);
-
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
-
-  // tg.onEvent('backButtonClicked', function() {
-  //   /* код */
-  //   console.log('@!#@#@#')
-  // });
- 
-
+  
   useEffect(() => {    
     const fetchData = async () => { 
       const allUsers = await getAllUsers();
@@ -73,6 +57,7 @@ function BestPage(props) {
   
   return(  
     <div className='bestScreen'>
+      <BackButton onClick={async() => { navigate('/');}}/>
       <Title title='B-B-Best game!'/>  
       <div className='bestSwitchContainer'>  
         <SwitcherTime best_switch={best_switch} timer />

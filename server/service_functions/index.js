@@ -9,9 +9,7 @@ async function noDubleElements(arr) {
 }, []);
   return arr_3;
 }
-
-function getTime (count, type) { if (type === 'm') { return count * 60000 }; if (type === 'h') { return count * 60000 * 60 } };
-
+ 
 const getObjkey = (obj, objKey, innerKey) => {  // возвращает вложеную модель
  
   let result = false
@@ -32,27 +30,7 @@ const getObjkey = (obj, objKey, innerKey) => {  // возвращает влож
   })   
   return result;
 }
-
-
-const differentsTimeOff = (now,last) => { // разность времён    
-  return moment(last).diff(now);
-}
-
-
-const convertSeconds = (time) => { // Конвертирует секунды 
-  const milliseconds = time%1000;
-  const seconds     = parseInt(time=time/1000)%60;
-  const minutes     = parseInt(time=time/60)%60;
-  const hours       = parseInt(time=time/60)%24;
-  const days        =  parseInt(time=time/24);
-  return {
-    seconds,
-    minutes,
-    hours,
-    days,
-  }
-}
-
+ 
 const removeEmpty = (obj,dto) => { //удаляет все undefined обьекты   
  
 let objTmp = {}
@@ -82,11 +60,8 @@ let objTmp = {}
 };
 
 
-module.exports = {
-  getTime,
+module.exports = { 
   noDubleElements,
   getObjkey,
-  removeEmpty,
-  differentsTimeOff,
-  convertSeconds
+  removeEmpty, 
 } 

@@ -1,30 +1,18 @@
-import React from 'react';
-import Title from '../../components/Title'
-import Subtitle from '../../components/Subtitle'
-import RewardBox from '../../components/RewardBox'
-import images from '../../assets/images'
-import PlaceButton from '../../components/PlaceButton';
+import React, { useEffect, useState } from "react"; 
+import { useNavigate } from "react-router-dom"; 
+import images from '../../assets/images' 
 import SwitcherRank from '../../components/SwitcherRank';
-import LineButton from '../../components/LineButton';
-import { Link, useNavigate } from 'react-router-dom';
+import LineButton from '../../components/LineButton'; 
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
 import {Input} from 'antd';
 import './index.css';
 
 function BbcPage(props) { 
   const { tg } = props;
-  const { telega,teher,love, cool,rocket,arrow,selphi,prize } = images;
+  const { love, selphi } = images;
 
-  const navigate = useNavigate();
+  const navigate = useNavigate() 
  
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
-
-
   const placeUser = [
     {
       username: 'Alex',
@@ -67,6 +55,7 @@ function BbcPage(props) {
 
   return(
     <div className='bbcScreen'>  
+     <BackButton onClick={async() => { navigate('/');}}/>
       <div className='bbcWrapper'>
       <div className='bbcTileContainer'>
         <div className='bbcImgNine'>
@@ -74,7 +63,7 @@ function BbcPage(props) {
         </div> 
       </div>  
       <div className='bbctitle'>{`Join to Big Buddies Crew`}</div>   
-      <div className='bbcsubtitle'>{`With BBC u can get more Bcoins`}</div>  
+      <div className='bbcsubtitle'>{`With BBC u can get more BitBunke`}</div>  
       <div className='bbcButtonContainer'>
         <div className='bbcInputContainer'> 
           <Input style={{borderColor: '#ffd14f'}} placeholder="Link to the community" />

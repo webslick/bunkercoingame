@@ -1,9 +1,4 @@
-const TelegramBot = require('node-telegram-bot-api'); 
-const  Schedule  =  require ( 'node-schedule' ) ;
-const { ToadScheduler, SimpleIntervalJob, Task, AsyncTask } = require('toad-scheduler');
-const scheduler = new ToadScheduler();
-const fs = require('fs');
-const path = require('path');
+const TelegramBot = require('node-telegram-bot-api');  
 const SESSION = require('../db/index');  
 const moment = require('moment');
 const uuid = require('uuid')
@@ -17,11 +12,9 @@ process.env.NTBA_FIX_319 = "1";
 const TGAPI = {
   initialBotListner: botStart
 }
- 
-// const WebAppUrl = 'https://candid-granita-dc7078.netlify.app'
+  
 const WebAppUrl = 'https://t.me/BitBunker_bot/bitbunkercoin'
-
-
+ 
 Object.defineProperty(Array.prototype, 'chunk', {
   value: function(chunkSize) {
     var R = [];
@@ -39,26 +32,7 @@ const isEmptyObject = (obj) => {
   }
   return true;
 }
- 
-const generatePartnerLink = (privateKey, subKey, user_id, sub_id) => {
-  return `${privateKey}_${user_id}_${subKey}_${sub_id}`
-}
- 
-async function getUserResult(model) {
-  let result = {};
-  let userArr = [];
-
-  for (let index = 0; index < model.length; index++) {
-    const element = model[index];
-    result = {    
-      ...await serviceFunction.removeEmpty(element, 'UsersDto'),   
-    };
-    userArr.push(result);
-  }
- 
- return userArr;
-}
-  
+   
 function toEscapeMSg(str) {
   return str
       .replace(/_/gi, "\\_")
@@ -78,12 +52,11 @@ async function botStart (ADMINSETTINGS) {
     }
   } });
   
-  bot.on('message', async (msg, { type }) => {
+  bot.on('message', async (msg) => {
     try { 
 
       const { text, chat: { id, username, last_name, first_name } } = msg;
-console.log(msg)
-
+ 
       const command = text.split(' ');
  
       if (command.length === 1) { // Ввод команды пользователем 
@@ -132,6 +105,7 @@ console.log(msg)
                 nastavnik: JSON.stringify([]), 
                 privateKey, 
                 subKey, 
+                wait: 0,
                 bestGame: JSON.stringify({ 
                   daily_place: 0,
                   all_place: 0,
@@ -149,7 +123,7 @@ console.log(msg)
                 date_connection_channel: moment().format("YYYY-MM-DD HH:mm"),  
               });
  
-              await bot.sendMessage(id, ` Hello, ${String(first_name)}!\n\n Play 2048. Merge tiles. Mine Bcoin. The more tilesyou merge, the more Bcoins you get.\n\n invite Buddies and get 50% from Bcoins they mine and 25% from Bcoins their Buddies mine.\n\n Hurry up the 4rd Halving will be soon`,
+              await bot.sendMessage(id, ` Hello, ${String(first_name)}!\n\n Play 2048. Merge tiles. Mine BitBunke. The more tilesyou merge, the more BitBunke you get.\n\n invite Buddies and get 50% from BitBunke they mine and 25% from BitBunke their Buddies mine.\n\n Hurry up, others have already started earning!`,
               {
                 reply_markup: { 
                   inline_keyboard: [
@@ -171,7 +145,7 @@ console.log(msg)
               console.log('ПОВТОРНО!'); 
 
               if(text === '/start') { 
-                await bot.sendMessage(id, ` Hello, ${String(first_name)}!\n\n Play 2048. Merge tiles. Mine Bcoin. The more tilesyou merge, the more Bcoins you get.\n\n invite Buddies and get 50% from Bcoins they mine and 25% from Bcoins their Buddies mine.\n\n Hurry up the 4rd Halving will be soon`,
+                await bot.sendMessage(id, ` Hello, ${String(first_name)}!\n\n Play 2048. Merge tiles. Mine BitBunke. The more tilesyou merge, the more BitBunke you get.\n\n invite Buddies and get 50% from BitBunke they mine and 25% from BitBunke their Buddies mine.\n\n Hurry up, others have already started earning!`,
                 {
                   reply_markup: { 
                     inline_keyboard: [
@@ -194,8 +168,7 @@ console.log(msg)
 
                 let partnerLink = 'empty'; 
 
-                if(!isEmptyObject(result)) { 
-                  console.log('$#@')
+                if(!isEmptyObject(result)) {  
                   partnerLink  =  toEscapeMSg(result.partnerLink);
                 }
 
@@ -234,7 +207,7 @@ console.log(msg)
                 }
  
                 await bot.sendMessage(id, `
-                  🪙 *Balance: * ${ balance_count + partners_count + partners_twolevel_count } Bcoins\n\n⛏ *Mined:* ${balance_count} Bcoins\n\n👤 *Buddies (50%):* ${partners} B - ${partners_count} Bcoins\n\n👥 *Buddies (25%):* ${partners_twolevel} B - ${partners_twolevel_count} Bcoins\n\n🏆 *Best game:* ${bestGameScore} (${bestGameCoins} Bcoins)\n\n🌐 *Referral link:* ${partnerLink} `,
+                  🪙 *Balance: * ${ balance_count + partners_count + partners_twolevel_count } BitBunke\n\n⛏ *Mined:* ${balance_count} BitBunke\n\n👤 *Buddies (50%):* ${partners} B - ${partners_count} BitBunke\n\n👥 *Buddies (25%):* ${partners_twolevel} B - ${partners_twolevel_count} BitBunke\n\n🏆 *Best game:* ${bestGameScore} (${bestGameCoins} BitBunke)\n\n🌐 *Referral link:* ${partnerLink} `,
                 {
                   parse_mode: 'Markdown'
                 })
@@ -242,7 +215,7 @@ console.log(msg)
 
               if(text === '/faq') {
                 await bot.sendMessage(id, `
-                  *How 2 Bicon?*\n\n*Merge to Earn*\n\nBcoin2048 is a viral game where you mine Bcoin by mergining tiles through the popular 2048 mechanic.\n\n*Buddies*\n\nInvite Buddies and get 50% from Bcoins they mine and 25% from Bcoins their Buddies mine.\n\n*Halving*\n\nAfter mining half of the Bcoins, the number of Bcoins you earn for merginingtiles will be reduced.`,
+                  *How 2 Bicon?*\n\n*Merge to Earn*\n\nBcoin2048 is a viral game where you mine BitBunke by mergining tiles through the popular 2048 mechanic.\n\n*Buddies*\n\nInvite Buddies and get 50% from BitBunke they mine and 25% from BitBunke their Buddies mine.\n\n*Halving*\n\nAfter mining half of the BitBunke, the number of BitBunke you earn for merginingtiles will be reduced.`,
                 {
                   parse_mode: 'Markdown'
                 })
@@ -259,317 +232,23 @@ console.log(msg)
       }
  
       if (command.length === 2) { // переход по ссылке с дополнительным параметром 
-
-        // if(command[1] === 'raffle') { // Розыгрыш
-        //   await checkSubscription(bot, Pages, msg, '@beauty_doctor_nsk',true); 
-        // }
-        console.log(command)
+ 
         if(command[1].split('-')[0] === 'ref') {
           console.log('переход по реферальной ссылке')
-          console.log(command[1])
-
-          // if(!isEmptyObject(cookies)) { 
-          //   if (typeof cookies['partnersLink'] !== "undefined") {
-          //     boss = await DB.searchInTables('user_info',{ idLink: cookies.partnersLink }); 
-          //     if(boss) { 
-          //       bossDto = { 
-          //         ...serviceFunction.removeEmpty(boss, 'Users'),   
-          //         ...serviceFunction.removeEmpty(boss, 'AuthInfos'),      
-          //       };  
-          //       nastavnik = bossDto.login;  
-          //     } 
-          //   }
-          // }
-   
-          // if(!isEmptyObject(cookies)) { 
-          //   if (typeof cookies['partnersLink'] !== "undefined") { 
-          //     if(boss) { 
-          //       partners = JSON.parse(bossDto.partners);
-          //       partners.push({ email: login, money: 0 });  
-          //       let partnersJSON = JSON.stringify(partners); 
-          //       await DB.updateModelTables(boss,{ partners: partnersJSON }); 
-          //     } 
-          //   }
-          // }
-
- 
+          console.log(command[1]) 
         }  
-
-        if ( command[0] === `/win` ) {
-        
-          const adminuser = await SESSION.searchInTables('user_admin',{ id: 1 });
  
-          if(!adminuser) {
-            throw ApiErr.BadRequest(`Пользователь не найден`);
-          } else {
-            let adminId = JSON.parse(ADMINSETTINGS.admin_tg_ids); 
-            
-            for (let index = 0; index < adminId.length; index++) {
-              const element = adminId[index]; 
-              if(element == msg.chat.id) {
-                var arrWinners = command[1].split(',')
-                console.log('ADMIN',arrWinners)
-                if(arrWinners.length != 7) {
-                  await bot.sendMessage(msg.chat.id, `Необходимо передать сразу все 7 номеров победителей через запятую, после команды \"/win\" ( Пример /win 1,23,2,4,54,612,12 ).`,{}) 
-                } else {
-  
-                  var users_arrs = [];
-                  let usersAllmodels = await SESSION.searchInTables('users_all');  
-                  let userAlls = await getUserResult(usersAllmodels);
-        
-                  var elt = [{}];
-              
-                  for (let index = 0; index < userAlls.length; index++) {
-                    elt = userAlls[index]; 
-                    elementModel = usersAllmodels[index];  
-                
-                    for (let ink = 0; ink < arrWinners.length; ink++) {
-                      const elwin = arrWinners[ink]; 
-                      if(JSON.parse(elt.info_user).raffle_number[0] == elwin) { 
-                        users_arrs.push(elementModel) 
-                      }
-                    }  
-                  }  
-  
-                  if(users_arrs.length == 7) {
-                
-                    // console.log(users_arrs)
-
-                    bot.sendMessage('1076770866', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                      reply_markup: { 
-                        inline_keyboard: Pages.winners.buttons,  
-                      },
-                      parse_mode: 'Markdown'
-                    }).then(function(resp) {
-                      console.log('resp',resp)
-                    }).catch(function(error) {
-                      if (error.response && error.response.statusCode === 403) {
-                        console.log('error',error)
-                      }
-                    });
-
-
-
-
-                    bot.start((ctx) => {
-                      ctx.reply('random example')
-                      if (!data.includes(ctx.chat.id)){
-                        data.push(ctx.chat.id);
-                        fs.writeFileSync('./data2.json', JSON.stringify(data))
-                        console.log('save :' + ctx.chat.id)
-                       }
-                    })
-                    
-                    
-                     setInterval(async function(){ 
-                        const date = new Date(); 
-                          if (date.getMinutes() === 52){   
-                            for(let lop of data){
-                               await bot.telegram.sendVideo (lop, {url: "https://example.com/test.mp4"})
-                               .catch((error) => { 
-                              var del = data.indexOf(error.on.payload.chat_id);
-                              data.splice(del,1)
-                              fs.writeFileSync('./data2.json', JSON.stringify(data))
-                              console.log('delete :' + error.on.payload.chat_id)
-                    
-                             });
-                            }
-                          } 
-                      } , 60000);
-
- 
-
-
-
-
-
-
-                    // await bot.sendMessage('1293324730', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //   reply_markup: { 
-                    //     inline_keyboard: Pages.winners.buttons,  
-                    //   },
-                    //   parse_mode: 'Markdown'
-                    // })   
-            
-                    // await bot.sendMessage('873009847', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //   reply_markup: { 
-                    //     inline_keyboard: Pages.winners.buttons,  
-                    //   },
-                    //   parse_mode: 'Markdown'
-                    // })   
-                 
-                    // await bot.sendMessage('1245339258', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //   reply_markup: { 
-                    //     inline_keyboard: Pages.winners.buttons,  
-                    //   },
-                    //   parse_mode: 'Markdown'
-                    // })   
-                 
-                    // !!!!!! await bot.sendMessage('1076770866', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //   reply_markup: { 
-                    //     inline_keyboard: Pages.winners.buttons,  
-                    //   },
-                    //   parse_mode: 'Markdown'
-                    // })   
-        
-                    // await bot.sendMessage('954944096', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //   reply_markup: { 
-                    //     inline_keyboard: Pages.winners.buttons,  
-                    //   },
-                    //   parse_mode: 'Markdown'
-                    // })   
-                 
-                    // await bot.sendMessage('5852722957', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //   reply_markup: { 
-                    //     inline_keyboard: Pages.winners.buttons,  
-                    //   },
-                    //   parse_mode: 'Markdown'
-                    // })   
-  
-                    // await bot.sendMessage('5048509986', `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //   reply_markup: { 
-                    //     inline_keyboard: Pages.winners.buttons,  
-                    //   },
-                    //   parse_mode: 'Markdown'
-                    // })   
-
-                    console.log('СООБЩЕНИЕ ОТПРАВЛЕННО!')
-
-
-
-                    // for (const usr of users_arrs) {   
-                    //   if(usr.user_id != '1293324730') {   
-                    //     await bot.sendMessage(usr.user_id, `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                    //       reply_markup: { 
-                    //         inline_keyboard: Pages.winners.buttons,  
-                    //       },
-                    //       parse_mode: 'Markdown'
-                    //     })   
-                    //   }
-                    // } 
-                  } 
-                } 
-              }
-            } 
-            // await SESSION.updateModelTables(adminuser,{ id: 1, winner_tg_ids: JSON.stringify(arrWinners) })
-          }
- 
-        }
-
-        if ( command[0] === `/looser` &&  command[1] === `send` ) { 
- 
-          const ARRAYinfo = await SESSION.getAdminItems();  
-          // const ARRAYWINNERS = ARRAYinfo.winner_tg_ids;  
-
-
-            let adminId = JSON.parse(ADMINSETTINGS.admin_tg_ids); 
-          
-            for (let index = 0; index < adminId.length; index++) {
-              const element = adminId[index]; 
-  
-              if(element == msg.chat.id) {
-    
-                var looser_arrs = [];
-        
-                let allsUsersModels = await SESSION.searchInTables('users_all');  
-                let allsUsers = await getUserResult(allsUsersModels);
-      
-                var usersElement = [{}];
-       
-             
-                for (let k = 0; k < allsUsers.length; k++) {
-                  usersElement = allsUsers[k]; 
-                  elentModel = allsUsersModels[k];  
-              
-                  // for (let t = 0; t < ARRAYWINNERS.length; t++) {
-                  //   const elwiner = ARRAYWINNERS[t]; 
-                  //   if(JSON.parse(usersElement.info_user).raffle_number[0] == elwiner) { 
-                  //     looser_arrs.push(elentModel) 
-                  //   }
-                  // } 
-            
-                }  
-     
-                // console.log (ARRAYWINNERS,'WINNERS')
-                console.log (allsUsers.length,'allsUsers')
-                console.log (looser_arrs.length,'allsUsers') 
-              
-
-                Schedule.scheduleJob('* * * * *' , async () => {  
-                  var partsArrayUsers = looser_arrs.chunk(30);
- 
-                  if(partsArrayUsers.length > 0) {
-                    for (const partition of partsArrayUsers[0]) {  
-                      let resultpartition =  await getUserResult([partition]); 
-                      // if(chunk.user_name == 'a_golowin') {  
-                        await bot.sendMessage(partition.user_id, `${ADMINSETTINGS.event_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                          reply_markup: { 
-                            inline_keyboard: Pages.event.buttons,  
-                          },
-                          parse_mode: 'Markdown'
-                        })  
-              
-                        await SESSION.updateModelTables(chunk,{info_user: JSON.stringify({ raffle_number: JSON.parse(resultChunk[0].info_user).raffle_number, message_received: true })})
-                      // }
-                    }
-                  }
-                });
-
-                // if(users_arrs.length == 7) {
-                //   for (const usr of users_arrs) {   
-                //     if(usr.user_name == 'a_golowin') {  
-                //     // if(usr.user_id == '882939547') {  
-                //       await bot.sendMessage(usr.user_id, `${ADMINSETTINGS.winner_message.replace (/\/n\/n/gm,`\n\n`)}`,{
-                //         reply_markup: { 
-                //           inline_keyboard: Pages.winners.buttons,  
-                //         },
-                //         parse_mode: 'Markdown'
-                //       })   
-                //     }
-                //   } 
-                // }  
-   
-              }
-            }
-          // }
-
-
-
-
-        }
-
       }
        
       if(msg?.web_app_data?.data) {
         console.log('DATA COMPLITED!!!!')
         try {
             const data = JSON.parse(msg?.web_app_data?.data)
-            console.log(data)
-            // await bot.sendMessage(chatId, 'Спасибо за обратную связь!')
-            // await bot.sendMessage(chatId, 'Ваша страна: ' + data?.country);
-            // await bot.sendMessage(chatId, 'Ваша улица: ' + data?.street);
-
-            // setTimeout(async () => {
-            //     await bot.sendMessage(chatId, 'Всю информацию вы получите в этом чате');
-            // }, 3000)
-
-            // await bot.answerWebAppQuery(queryId,{
-            //   type: 'article',
-            //   id: queryId,
-            //   title: 'Выйгран приз',
-            //   input_message_content: {
-            //     message_text: 'Поздравляем вы выйграли ЛИцо в гавно!'
-            //   }
-              
-            // });
-
-
+            console.log(data)  
         } catch (e) {
             console.log(e);
         }
-      }
-   
-
+      } 
     }
     catch(error) { 
       console.log(error); 

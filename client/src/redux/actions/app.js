@@ -1,7 +1,5 @@
 import ActionTypes from '../constants';
-import api from "../../http";
-import axios from 'axios';  
-import { API_URL } from '../../http';  
+import api from "../../http";  
 
 export function setMobileMod(mode) {
   return {
@@ -74,15 +72,9 @@ export function set_wait_count(wait) {
 } 
  
  
-export async function putHistoryInfo(body,dispatch) { 
-  try { 
-   
-    const response = await api.main_api.post('/putHistoryInfo', body)
- 
-    if(response.status === 200) {   
-      console.log(response.data)
-      // dispatch(set_appinfo(response.data)); 
-    }  
+export async function putHistoryInfo(body) { 
+  try {  
+    const response = await api.main_api.post('/putHistoryInfo', body) 
     return response.data
   } catch (error) {
     console.log(error)
@@ -90,15 +82,9 @@ export async function putHistoryInfo(body,dispatch) {
   }
 }
  
-export async function putBoardState(body,dispatch) { 
-  try { 
-   
-    const response = await api.main_api.post('/putBoardState', body)
- 
-    if(response.status === 200) {   
-      console.log(response.data)
-      // dispatch(set_appinfo(response.data)); 
-    }  
+export async function putBoardState(body) { 
+  try {  
+    const response = await api.main_api.post('/putBoardState', body) 
     return response.data
   } catch (error) {
     console.log(error)
@@ -106,15 +92,9 @@ export async function putBoardState(body,dispatch) {
   }
 }
  
-export async function putTotalCoin(body,dispatch) { 
-  try { 
-   
-    const response = await api.main_api.post('/putTotalCoin', body)
- 
-    if(response.status === 200) {   
-      console.log(response.data)
-      // dispatch(set_appinfo(response.data)); 
-    }  
+export async function putTotalCoin(body) { 
+  try {  
+    const response = await api.main_api.post('/putTotalCoin', body) 
     return response.data
   } catch (error) {
     console.log(error)
@@ -123,13 +103,8 @@ export async function putTotalCoin(body,dispatch) {
 }
  
 export async function setPartners(body) { 
-  try { 
-   
-    const response = await api.main_api.post('/setPartners', body)
- 
-    if(response.status === 200) {   
-      console.log(response.data) 
-    }  
+  try {  
+    const response = await api.main_api.post('/setPartners', body) 
     return response.data
   } catch (error) {
     console.log(error)
@@ -138,10 +113,10 @@ export async function setPartners(body) {
 }
 
  
-export async function getAppInfo (dispatch) {
+export async function getAppInfo () {
 
   try {
-    const response = await axios.get(`${API_URL}/getAppInfo`, { withCredentials:true });
+    const response = await api.main_api.get('/getAppInfo')  
     var app = {}
     if(response.status === 200) {   
       app = response.data;   

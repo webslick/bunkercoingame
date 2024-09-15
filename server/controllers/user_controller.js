@@ -1,63 +1,31 @@
-const userService = require('../services/users-service');
-const mailService = require('../services/mail-service'); 
-const config = require('config');
-const url_client = config.get('Server.URL.CLIENT'); 
-const axios = require('axios');
+const userService = require('../services/users-service'); 
+const config = require('config'); 
 
 class UserController  {
-  
-  async login(req,res,next) { 
-    try {
-      const { login ,password } = req.body;
-      const userData = await userService.login(login, password, res); 
-      res.cookie('refreshToken',userData.user.refreshToken,{maxAge:30*24*60*60*1000,httpOnly: true})
-      return res.json(userData);
-    } catch (e) {
-      next(e);
-    }
-  }
  
-  async sendMoneyMail(req,res,next) {
-    try {
-      const { email , id, sum, numbercard } = req.body;
-      const userData = await mailService.sendMoneyMail(email , id, sum, numbercard);  
-      return res.json(userData);
-    } catch (e) {
-      next(e);
-    }
-  }
- 
-  async getUserInfo(req,res,next) { 
+  async getUserInfo(req,res,next) {  
     try {    
-      const { body } = req.body; 
-      if(body !== undefined) {
-        const userData = await userService.getUserInfo(body.userId); 
-        return res.json(userData.user);
-      }
+      const { userId } = req.body;  
+      const userData = await userService.getUserInfo(userId); 
+      return res.json(userData.user); 
     } catch (e) {
       next(e);
     }
   }
  
   async setUserInfo(req,res,next) { 
-    try {    
-      const { body } = req.body; 
-      if(body !== undefined) {
-        const userData = await userService.setUserInfo(body.user); 
-        return res.json(userData.user);
-      }
+    try {     
+      const userData = await userService.setUserInfo(req.body); 
+      return res.json(userData.user); 
     } catch (e) {
       next(e);
     }
   }
  
   async getAllArrayIds(req,res,next) { 
-    try {      
-      const { body } = req.body; 
-      if(body !== undefined) {
-        const userData = await userService.getAllArrayIds(body); 
-        return res.json(userData.all_users); 
-      } 
+    try {       
+        const userData = await userService.getAllArrayIds(req.body); 
+        return res.json(userData.all_users);  
     } catch (e) {
       next(e);
     }
@@ -178,8 +146,8 @@ class UserController  {
   
   async createUser(req, res, next) {
   
-    try {    
-      const user = await userService.createUser(req.body);
+    try {      
+      const user = await userService.createUser(req.body);  
      return res.json(user);
     } catch (e) {
       next(e);
@@ -187,9 +155,8 @@ class UserController  {
   } 
   
   async setPartners(req, res, next) {
-    try {
-      const { bossId, partners, partners_twolevel } = req.body   
-      const partInfo = await userService.setPartners({ bossId, partners, partners_twolevel });
+    try {  
+      const partInfo = await userService.setPartners(req.body);
      return res.json(partInfo.user);
     } catch (e) {
       next(e);

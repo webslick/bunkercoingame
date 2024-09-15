@@ -4,7 +4,8 @@
   height: 27px;
   justify-content: center;
   align-items: center;
-  background-color: rgb(42 47 60);
+  background-color:#2c2e3e;
+  color: white;
   border-radius: 30px;
   padding: 5px;
   margin: 10px;
@@ -20,9 +21,7 @@
 }
 
 .displayEnergy {
-  display: flex;
-  /* width: ;
-  height: ; */
+  display: flex; 
   justify-content: center;
   align-items: center;
   font-size: 15px;
@@ -30,17 +29,13 @@
 }
 
 .displayEnergy {
-  display: flex;
-  /* width: ;
-  height: ; */
+  display: flex; 
   justify-content: center;
   align-items: center;
 }
 
 .displayEnergy {
-  display: flex;
-  /* width: ;
-  height: ; */
+  display: flex; 
   justify-content: center;
   align-items: center;
 }
@@ -63,9 +58,7 @@
 }
 
 .time {
-  display: flex;
-  /* width: ;
-  height: ; */
+  display: flex; 
   font-size: 11px;
   justify-content: center;
   align-items: center;

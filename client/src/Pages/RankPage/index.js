@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react"; 
 import Title from '../../components/Title'
 import Subtitle from '../../components/Subtitle'
 import RewardBox from '../../components/RewardBox'
@@ -7,6 +7,7 @@ import PlaceButton from '../../components/PlaceButton';
 import SwitcherTime from '../../components/SwitcherTime';
 import PrizeTitle from '../../components/PrizeTitle';
 import { Link, useNavigate } from 'react-router-dom';
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
 import './index.css';
 
 function RankPage(props) { 
@@ -15,15 +16,7 @@ function RankPage(props) {
   const { tg } = props;
 
   const navigate = useNavigate();
- 
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
-
+  
   const placeUser = [
     {
       username: 'Alex',

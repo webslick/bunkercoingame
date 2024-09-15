@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     nastavnik: DataTypes.STRING,  
     privateKey: DataTypes.STRING,  
     subKey: DataTypes.STRING,  
+    wait: DataTypes.BOOLEAN, 
     bestGame: DataTypes.STRING,  
   }, {
     sequelize,

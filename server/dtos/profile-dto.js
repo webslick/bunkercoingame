@@ -14,6 +14,7 @@ module.exports = class ProfileDto {
   boardstate;
   privateKey; 
   subKey;
+  wait;
   nastavnik; 
   bestGame; 
    
@@ -33,6 +34,7 @@ module.exports = class ProfileDto {
     this.boardstate = model?.boardstate;   
     this.privateKey = model?.privateKey;  
     this.subKey = model?.subKey;  
+    this.wait = model?.wait;  
     this.nastavnik = model?.nastavnik;    
     this.bestGame = model?.bestGame;    
   } 

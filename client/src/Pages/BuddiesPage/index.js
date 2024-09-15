@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react"; 
 import Title from '../../components/Title'
 import Subtitle from '../../components/Subtitle'
 import RewardBox from '../../components/RewardBox'
@@ -6,24 +6,17 @@ import images from '../../assets/images'
 import GetButton from '../../components/GetButton';
 import { decimal, isEmptyObject } from '../../hooks/helpservice'
 import { Link, useNavigate } from 'react-router-dom';
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
 import './index.css';
 
 function BuddiesPage(props) { 
 
-  const { telega,teher,love, cool,rocket,arrow,selphi } = images;
+  const { teher } = images;
 
-  const { tg, user, appInfo } = props;
+  const { tg, user } = props;
 
   const navigate = useNavigate();
- 
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
- 
+  
   function reducer(accumulator, currentValue, index) {
     const returns = { name: accumulator.name, total_coins: accumulator.total_coins + currentValue.total_coins }; 
     return returns;
@@ -47,6 +40,7 @@ function BuddiesPage(props) {
   }
   return(
     <div className='buddiesScreen'>
+       <BackButton onClick={async() => { navigate('/');}}/>
       <Title title='Buddy Party!'/> 
       <Subtitle subtitle='Get 50% of all B ur buddies earn, get 25% of all coins the buddies of ur buddies earn'/> 
       <div className='rewardContainer'> 
@@ -77,7 +71,7 @@ function BuddiesPage(props) {
         </div> 
       </div>
       <div className='bonusInviteButtonContainer'>
-        <GetButton title="Invite Buddies"  fill={!false} invite={true} onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}&text=Play 2048 to earn Bcoin for free!💸`);}}/>
+        <GetButton title="Invite Buddies"  fill={!false} invite={true} onClick={()=>{tg.openTelegramLink(`https://t.me/share/url?url=${user.partnerLink}&text=Play 2048 to earn BitBunke for free!💸`);}}/>
       </div> 
     </div>
   );

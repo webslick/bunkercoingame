@@ -1,10 +1,5 @@
-import axios from 'axios'; 
-import ActionTypes from '../constants';
-import { API_URL } from '../../http'; 
-import api from '../../http'; 
-import moment from 'moment';   
- 
- 
+ import ActionTypes from '../constants'; 
+import api from '../../http';  
 
 export function set_user(user) {
   return {
@@ -19,8 +14,7 @@ export function set_all_users(users) {
     payload: users
   }
 }
- 
- 
+  
 export function change_visible_popup(visible) {
   return {
     type: ActionTypes.POPUP_LOGIN_VISIBLE,
@@ -48,56 +42,11 @@ export function set_enter_popup(enter) {
     payload: enter
   }
 }
-  
-export const convertSeconds = (time) => {
-  const milliseconds = time%1000;
-  const seconds     = parseInt(time=time/1000)%60;
-  const minutes     = parseInt(time=time/60)%60;
-  const hours       = parseInt(time=time/60)%24;
-  const days        =  parseInt(time=time/24);
-  return {
-    seconds,
-    minutes,
-    hours,
-    days,
-  }
-}
-
-export const differentsTimeOff = (now,last) => {
-  return convertSeconds(moment(last).diff(now));
-}
-
-export const convertTimeBd = (time) => {
-  return moment(time).subtract(7,'hours').format("YYYY-MM-DD HH:mm");
-}
  
-
-export async function getMe (dispatch) { 
-    try { 
-      const response = await axios.get(`${API_URL}/user/me`, { withCredentials:true });  
-      return response.data
-    } catch (error) {
-      console.log(error.response?.data?.message)
-      return error.response?.status;
-    }  
-} 
- 
-export async function getUserInfo (userId) {
-  
-  try {
-    const requestOptions = {
-      method: 'post',
-      headers: { 
-      'Content-Type': 'application/json',
-      }, 
-      body: {
-        userId
-      }
-     
-    }; 
-    const response = await axios.post(`${API_URL}/getUserInfo`, requestOptions); 
-    const user = response.data; 
- 
+export async function getUserInfo (userId) { 
+  try {  
+    const response = await api.main_api.post('/getUserInfo', { userId })   
+    const user = response.data;  
     return user
   } catch (error) {
     console.log(error.response?.data?.message)
@@ -105,21 +54,11 @@ export async function getUserInfo (userId) {
   }
 }
  
-export async function createUser (userId) {
+export async function createUser (newUser) {
   
-  try {
-    // const requestOptions = {
-    //   method: 'post',
-    //   headers: { 
-    //   'Content-Type': 'application/json',
-    //   }, 
-    //   body: userId
-     
-    // }; 
-    const response = await api.main_api.post('/createUser', userId)
-    // const response = await axios.post(`${API_URL}/createUser`, requestOptions); 
-    const user = response.data; 
- 
+  try { 
+    const response = await api.main_api.post('/createUser', newUser) 
+    const user = response.data;  
     return user
   } catch (error) {
     console.log(error.response?.data?.message)
@@ -129,16 +68,8 @@ export async function createUser (userId) {
  
 export async function getAllArrayIds (arrayIds) {
   
-  try {
-    const requestOptions = {
-      method: 'post',
-      headers: { 
-      'Content-Type': 'application/json',
-      }, 
-      body: arrayIds
-     
-    }; 
-    const response = await axios.post(`${API_URL}/getAllArrayIds`, requestOptions); 
+  try { 
+    const response = await api.main_api.post('/getAllArrayIds', arrayIds)  
     const users = response.data;  
     return users
   } catch (error) {
@@ -147,37 +78,22 @@ export async function getAllArrayIds (arrayIds) {
   }
 }
  
-export async function set_info_user (user) {
-  
-  try {
-    const requestOptions = {
-      method: 'post',
-      headers: { 
-      'Content-Type': 'application/json',
-      }, 
-      body: {
-        user
-      }
-     
-    }; 
-  
-    const response = await axios.post(`${API_URL}/setUserInfo`, requestOptions); 
+export async function set_info_user (user) { 
+  try { 
+    const response = await api.main_api.post('/setUserInfo', user)   
     const userg = response.data;  
-    return userg
-
+    return userg 
   } catch (error) {
     console.log(error.response?.data?.message)
     return error.response?.status;
   }
 }
-
  
-export async function getAllUsers (dispatch) {
+export async function getAllUsers () {
 
   try {
-    const response = await axios.get(`${API_URL}/getAllUsers`, { withCredentials:true }); 
-    const allUsers = response.data; 
- 
+    const response = await api.main_api.get('/getAllUsers')   
+    const allUsers = response.data;  
     return allUsers
   } catch (error) {
     console.log(error.response?.data?.message)

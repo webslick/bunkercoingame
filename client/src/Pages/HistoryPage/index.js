@@ -5,6 +5,7 @@ import moment from 'moment';
 import Title from '../../components/Title';
 import { users } from '../../redux/selectors';
 import TaskCartsContainer from '../../components/TaskCartsContainer/index';
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
 import './index.css';
 
 function HistoryPage(props) {  
@@ -15,16 +16,7 @@ function HistoryPage(props) {
   const user = useSelector(users.user)
   const [isSorted, setIsSorted] = useState(false);
   const [sorted, setSorted] = useState([]);
-
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
-
-
+ 
   useEffect(()=> { 
     let historyArr =  user?.history == undefined ? {} :JSON.parse(user?.history);   
     if(typeof(historyArr) == 'string') { 
@@ -51,7 +43,8 @@ function HistoryPage(props) {
  
   return(
     <div className='historyScreen'>
-      <Title title='History Bcoin'/>  
+       <BackButton onClick={async() => { navigate('/');}}/>
+      <Title title='History BitBunke'/>  
       { 
 
         Object.values(sortedArr).length != 0  ? 

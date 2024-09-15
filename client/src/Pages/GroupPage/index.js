@@ -1,32 +1,22 @@
-import React from 'react';
-import Title from '../../components/Title'
+import React, { useEffect, useState } from "react";  
 import InfoGroupTablo from '../../components/InfoGroupTablo'
 import LineInfoButton from '../../components/LineInfoButton'
 import images from '../../assets/images'
 import PlaceButton from '../../components/PlaceButton';
 import SwitcherTime from '../../components/SwitcherTime';
 import PrizeTitle from '../../components/PrizeTitle';
-import { Link, useNavigate } from 'react-router-dom';
-import {Input} from 'antd';
+import { Link, useNavigate } from 'react-router-dom'; 
+import {BackButton, MainButton, useCloudStorage, useHapticFeedback} from "@vkruglikov/react-telegram-web-app";
 import './index.css';
 
 function GroupPage(props) { 
 
-  const { bronze,teher,love, cool,rocket,arrow,selphi,prize } = images;
+  const { bronze,teher,love, cool, selphi,prize } = images;
 
   const { tg } = props;
 
   const navigate = useNavigate();
  
-  const BackButton = tg.BackButton;
-  BackButton.show();
-
-  BackButton.onClick(function() { 
-    navigate('/');
-    BackButton.hide();
-  });
-
-
   const placeUser = [
     {
       username: 'Alex',
@@ -68,7 +58,8 @@ function GroupPage(props) {
   const userPlace = 100000;
 
   return(
-    <div className='groupScreen'>  
+    <div className='groupScreen'> 
+     <BackButton onClick={async() => { navigate('/');}}/> 
       <div className='groupWrapper'>
       <div className='groupTileContainer'>
         <div className='groupImgNine'>

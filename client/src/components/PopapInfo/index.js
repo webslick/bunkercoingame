@@ -5,6 +5,7 @@ import images from '../../assets/images';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { set_visibleLooser } from '../../redux/actions/app'
+import { set_info_user, set_user } from '../../redux/actions/users'
 import { setLoadding } from '../../redux/actions/loader'
 
 function PopapInfo(props) {
@@ -13,7 +14,7 @@ function PopapInfo(props) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-console .log(tg)
+
   return(
     <div className='popapInfoWrapper' >
       <div className='popapInfoImgContainer' >
@@ -28,9 +29,16 @@ console .log(tg)
       </div>
       <div className='popapInfoButtonContainer' >
         <div className='popapInfoButtonContainerUp'>
-          <InfoButton width={ Number(user.energy) == 0 } fill={ Number(user.energy) == 0 } title={'Ну, я пошёл'} onClick={() => {
+          <InfoButton width={ Number(user.energy) == 0 } fill={ Number(user.energy) == 0 } title={'Ну, я пошёл'} onClick={async() => {
+              let newuser =  await set_info_user({
+                userId: user?.user_id,
+                wait: false,
+                boardstate: JSON.stringify({})
+              });
+              dispatch(set_user(newuser)); 
               dispatch(set_visibleLooser(false));
               navigate('/');
+              tg.BackButton.hide();
             }}
           />
           {
